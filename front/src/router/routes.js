@@ -43,6 +43,13 @@ const routes = [
     name: "403",
     component: () => import("pages/Error403")
   },
+  {
+    path: '/MovieDetails',
+    component: () => import('layouts/MainLayout1.vue'),
+    children: [
+      { path: '/MovieDetails', component: () => import('pages/MovieDetails.vue') }
+    ]
+  },
   
 
   // Always leave this as last one,
