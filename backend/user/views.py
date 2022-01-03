@@ -8,6 +8,96 @@ from django.db import connection
 from random import Random  # 用于生成随机码
 from django.core.mail import send_mail  # 发送邮件模块
 from django.conf import settings    # setting.py添加的的配置信息
+# 头像 历史 favo 评论 图表 
+def profile(request):
+    data = []
+    user_name = request.GET.get('value', None)
+    user_info = models.Username.objects.filter(username=user_name)
+
+    for i in user_info:
+        print(i.username)
+        tmp = {
+            "useravatar": i.head_portrait,
+        }
+        data.append(tmp)
+
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+def history(request):
+    data = []
+    user_name = request.GET.get('value', None)
+    his = models.History.objects.filter(username=user_name)
+
+    for i in his:
+        poster = models.Film.objects.filter(title=i.imdbid)
+        for j in poster:
+            image_url = j.poster
+            if image_url != "N/A":
+                image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+str(j.imdbid)+'.jpg')
+            p_tmp = {
+                "type": "history",
+                "title": j.title,
+                "image": image_url,
+            }
+            data.append(p_tmp)
+        
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+def favorite(request):
+    data = []
+    user_name = request.GET.get('value', None)
+    fav = models.Favorite.objects.filter(username=user_name)
+
+    for m in fav:
+        poster = models.Film.objects.filter(title=m.imdbid)
+        for j in poster:
+            print(j.title)
+            image_url = j.poster
+            if image_url != "N/A":
+                image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+str(j.imdbid)+'.jpg')
+            p_tmp = {
+                "type": "favorites",
+                "title": j.title,
+                "image": image_url,
+            }
+            data.append(p_tmp)
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+def review(request):
+    data = []
+    user_name = request.GET.get('value', None)
+    comment = models.Review.objects.filter(username=user_name)
+
+    for i in comment:
+        tmp = {
+            "type": "review",
+            "movie": i.movie,
+            "review": i.review,
+            "star": i.star/5*10,
+        }
+        data.append(tmp)
+    
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+def user_genre(request):
+    genre_list = {"Drama":0, "Action":0, "Comedy":0, "Romance":0,
+                  "Crime":0, "Thriller":0, "Adventure":0, "Horror":0,
+                   "Documenntary":0, "Fantasy":0,"Biography":0,"Mystery":0,
+                   "Sci-fi":0,"Music":0,"Animatinon":0,"History":0,
+                   "Sport":0,"War":0,"Others":0}
+    user_name = request.GET.get('value', None)
+    data = []
+    fav = models.Favorite.objects.filter(username=user_name)
+    # 找到用户最喜欢的电影的类别，并计数
+    for f in fav:
+        genres = models.Genre.objects.filter(imdbid=f.imdbid)
+        for i in genres:
+            if i.genre in genre_list:
+                genre_list[i.genre] += 1
+            else:
+                genre_list["Others"] += 1
+    data.append(genre_list)    
+    return HttpResponse(json.dumps(data), content_type='application/json')
 
 def user(request): 
     genre_list = {"Drama":0, "Action":0, "Comedy":0, "Romance":0,

@@ -2,6 +2,7 @@ from django.db import connection
 import os
 from django.shortcuts import HttpResponse
 import json
+import math
 
 # Create your views here.
 def to_tuple(result):
@@ -29,7 +30,7 @@ def hot(request):
                         'Australia','Russia','Spain','India','Canada','South Adrica','Mexico')
         page = int(page)
         from_id = (page - 1)*28
-        to_id = page*28-1
+        to_id = page*28
         cursor = connection.cursor()
         # 处理类别选择
         if genre_choice != 'All':
@@ -88,6 +89,12 @@ def hot(request):
             result3 = result2
         # 这一步将得到的数据转换成标准元组
         result3 = to_tuple(result3)
+
+        page_number = len(result3)
+        tmp = {
+            "page_number": math.ceil(page_number/28)
+        }
+        data.append(tmp)
 
         sql = f"select imdbid, Title, Poster from film where imdbid in {result3} order by imdbVotes desc limit {from_id},{to_id}"
         cursor.execute(sql)

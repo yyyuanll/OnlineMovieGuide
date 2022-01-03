@@ -2,6 +2,7 @@ from django.shortcuts import HttpResponse
 import json
 import os
 from django.db import connection
+import math
 
 def to_tuple(result):
     if isinstance(result[0],tuple):
@@ -40,7 +41,7 @@ def allmovie(request):
         rated_list = ('R','PG-13','PG','G','NC-17','UR/NR')
         page = int(page)
         from_id = (page - 1)*28
-        to_id = page*28-1
+        to_id = page*28
         # 获得能操作mysql数据库的光标
         cursor=connection.cursor()
 
@@ -138,17 +139,26 @@ def allmovie(request):
             # 在上一次的查询结果中查询，提高查询效率
             # 查询剔除可选列表中的字段，并纪录结果
             if rated_choice not in rated_list:
-                sql = f"select imdbid, Title, Poster from film where imdbid in {result5} and Rated not in {rated_list}"
+                sql = f"select count(imdbid) from film where imdbid in {result5} and Rated not in {rated_list}"
+                cursor.execute(sql)
+                r = cursor.fetchall()
+                page_number = r[0][0]
+                sql = f"select imdbid, Title, Poster from film where imdbid in {result5} and Rated not in {rated_list} limit {from_id},{to_id}"
                 cursor.execute(sql)
                 result6 = cursor.fetchall()
             else:
                 # 如果用户的选择在我们的可选列表中，直接查询该字段
                 # 在上一次的查询结果中查询，提高查询效率
-                sql = f"select imdbid, Title, Poster from film where imdbid in {result5} and Rated = '{rated_choice}'"
+                sql = f"select count(imdbid) from film where imdbid in {result5} and Rated = {rated_list}"
+                cursor.execute(sql)
+                r = cursor.fetchall()
+                page_number = r[0][0]
+                sql = f"select imdbid, Title, Poster from film where imdbid in {result5} and Rated = '{rated_choice}' limit {from_id},{to_id}"
                 cursor.execute(sql)
                 result6 = cursor.fetchall()
         else:
             # 如果用户选择了全部
+            page_number = len(result5)
             sql = f"select imdbid, Title, Poster from film where imdbid in {result5} limit {from_id},{to_id}"
             cursor.execute(sql)
             result6 = cursor.fetchall()
@@ -157,12 +167,16 @@ def allmovie(request):
         cursor.close()
         connection.close()
 
+        tmp = {
+            "page_number": math.ceil(page_number/28),
+        }
+        data.append(tmp)
+
         for i in result6:
             # 处理封面链接
             image_url = i[2]
             if image_url != "N/A":
                 image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+str(i[0])+'.jpg')
-            
             # 每一个tmp包含了查询结果中的 一个 电影的imdbid、名字和封面链接
             tmp = {
                 "imdbid": i[0],
