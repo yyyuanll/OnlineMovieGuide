@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR lFf">
+  <q-layout view="hHh lpR lFf" >
 
     <q-header elevated class="head1" height-hint="98">
       <q-toolbar>
@@ -21,7 +21,7 @@
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
-    <q-page-container>
+    <q-page-container >
       <router-view />
     </q-page-container>
 
@@ -31,11 +31,22 @@
 <script>
 
 export default {
+    mounted(){
+        document.querySelector("body").style.backgroundColor =
+      "background:rgb(238,241,246)";
+      document.querySelector("body").style.backgroundAttachment= 'fixed';
+      document.querySelector("body").style.backgroundSize= 'cover';
+      document.querySelector("body").style.backgroundPosition= 'center';
+    }
  
 }
 </script>
 
 <style>
+.element.style {
+    min-height: 1366px;
+    background: rgb(238,241,246) !important;
+}
 .head1{
   background:white;
   height: 61px;

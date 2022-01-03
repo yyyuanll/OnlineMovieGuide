@@ -38,7 +38,7 @@
       <div class="grid-content bg-purple" />
       <el-card class="box-card" style="margin-top:20px;padding:0px">
       <img :src="data.img" class="image" style="height:230px;width:160px">
-      <router-link :to="{path:'#/movieDetails',query:{imdbid: data.id, username: this.username}}" class="link">
+      <router-link to="page-detail" class="link">
         <div :id="data.id" style="padding: 0px;text-align: center;margin-top:10px">
           {{data.title}}
         </div>
@@ -65,7 +65,6 @@
 export default {
   data(){
     return{
-      username: this.$route.query.username,
       index: 1,
       pagesize:28,
       all: 20, //总页数
@@ -103,6 +102,7 @@ export default {
       document.querySelector("body").style.backgroundPosition= 'center';
       // this.movielist = this.dataListFn(this.cur.toString());
   },
+
   methods:{
     dataListFn: function(){
       let formData = new FormData();
@@ -168,18 +168,7 @@ export default {
 }
 </script>
 <style>
-.el-card__body {
-    padding: 15px;
-}
 
-.el-card{
-  background-color: transparent;
-}
-
-.link{
-  text-decoration: none;
-  color: #000;
-}
 
 .command{
   margin-left: 90px;
