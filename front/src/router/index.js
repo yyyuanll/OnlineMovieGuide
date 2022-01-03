@@ -36,35 +36,35 @@ function hasPermission(router) {
   return true;
 }
 
-Router.beforeEach(async (to, from, next) => {
-  let token = authService.getToken();
-  if (token) {
-    let userInfo = store.state.user.userInfo;
-    if (!userInfo.username) {
-      try {
-        await store.dispatch("user/getUserInfo");
-        next();
-      } catch (e) {
-        if (whiteList.indexOf(to.path) !== -1) {
-          next();
-        } else {
-          next("/login");
-        }
-      }
-    } else {
-      if (hasPermission(to)) {
-        next();
-      } else {
-        next({ path: "/403", replace: true });
-      }
-    }
-  } else {
-    if (whiteList.indexOf(to.path) !== -1) {
-      next();
-    } else {
-      next("/login");
-    }
-  }
-});
+// Router.beforeEach(async (to, from, next) => {
+//   let token = authService.getToken();
+//   if (token) {
+//     let userInfo = store.state.user.userInfo;
+//     if (!userInfo.username) {
+//       try {
+//         await store.dispatch("user/getUserInfo");
+//         next();
+//       } catch (e) {
+//         if (whiteList.indexOf(to.path) !== -1) {
+//           next();
+//         } else {
+//           next("/login");
+//         }
+//       }
+//     } else {
+//       if (hasPermission(to)) {
+//         next();
+//       } else {
+//         next({ path: "/403", replace: true });
+//       }
+//     }
+//   } else {
+//     if (whiteList.indexOf(to.path) !== -1) {
+//       next();
+//     } else {
+//       next("/login");
+//     }
+//   }
+// });
 
 export default Router;

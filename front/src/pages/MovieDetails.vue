@@ -42,11 +42,11 @@
                     <a v-bind:href="movieDetailes[4].actor_link4">{{movieDetailes[4].actor4}}</a>
                 </div>
                 <div class="recommend">
-                    <el-card><img v-bind:src="movieDetailes[6].img" v-bind:alt="movieDetailes[6].title"><router-link :to="{path:'/movieDetails',query:{imdbid: movieDetailes[6].imdbid, username: this.username}}" class="link">{{movieDetailes[6].title}}</router-link></el-card>
-                    <el-card><img v-bind:src="movieDetailes[7].img" v-bind:alt="movieDetailes[7].title"><router-link :to="{path:'/movieDetails',query:{imdbid: movieDetailes[7].imdbid, username: this.username}}" class="link">{{movieDetailes[7].title}}</router-link></el-card>
-                    <el-card><img v-bind:src="movieDetailes[8].img" v-bind:alt="movieDetailes[8].title"><router-link :to="{path:'/movieDetails',query:{imdbid: movieDetailes[8].imdbid, username: this.username}}" class="link">{{movieDetailes[8].title}}</router-link></el-card>
-                    <el-card><img v-bind:src="movieDetailes[9].img" v-bind:alt="movieDetailes[9].title"><router-link :to="{path:'/movieDetails',query:{imdbid: movieDetailes[9].imdbid, username: this.username}}" class="link">{{movieDetailes[9].title}}</router-link></el-card>
-                    <el-card><img v-bind:src="movieDetailes[10].img" v-bind:alt="movieDetailes[10].title"><router-link :to="{path:'/movieDetails',query:{imdbid: movieDetailes[10].imdbid, username: this.username}}" class="link">{{movieDetailes[10].title}}</router-link></el-card>
+                    <el-card><img v-bind:src="movieDetailes[6].img" v-bind:alt="movieDetailes[6].title"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[6].imdbid, username: this.username}}" class="link">{{movieDetailes[6].title}}</router-link></el-card>
+                    <el-card><img v-bind:src="movieDetailes[7].img" v-bind:alt="movieDetailes[7].title"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[7].imdbid, username: this.username}}" class="link">{{movieDetailes[7].title}}</router-link></el-card>
+                    <el-card><img v-bind:src="movieDetailes[8].img" v-bind:alt="movieDetailes[8].title"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[8].imdbid, username: this.username}}" class="link">{{movieDetailes[8].title}}</router-link></el-card>
+                    <el-card><img v-bind:src="movieDetailes[9].img" v-bind:alt="movieDetailes[9].title"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[9].imdbid, username: this.username}}" class="link">{{movieDetailes[9].title}}</router-link></el-card>
+                    <el-card><img v-bind:src="movieDetailes[10].img" v-bind:alt="movieDetailes[10].title"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[10].imdbid, username: this.username}}" class="link">{{movieDetailes[10].title}}</router-link></el-card>
                 </div>
             </div>
             <div class="right">
@@ -286,7 +286,7 @@ import { dom } from 'quasar';
             },
             getImdbID:function(){
                 var routerImdbID = this.$route.query.imdbid
-                var routerUserName = this.$router.query.username
+                var routerUserName = this.$route.query.username
                 console.log(routerImdbID, routerUserName)
                 this.imdbid = routerImdbID
                 this.username = routerUserName
