@@ -1,8 +1,8 @@
 <template>
-  <div class="command">
-    <div class="command_">
-      <div class="cf">Genre</div>
-      <el-select v-model="command1" @change="dataListFn()" placeholder="genre..." class="cs">
+  <div class="hot">
+    <div class="hot_">
+      <div class="hf">Genre</div>
+      <el-select v-model="hot1" @change="dataListFn()" placeholder="genre..." class="hs">
         <el-option
           v-for="item in options1"
           :key="item.value"
@@ -11,9 +11,9 @@
         </el-option>
       </el-select>
     </div>
-    <div class="command_">
-      <div class="cf">Country</div>
-      <el-select v-model="command2" @change="dataListFn()" placeholder="contry..." class="cs">
+    <div class="hot_">
+      <div class="hf">Country</div>
+      <el-select v-model="hot2" @change="dataListFn()" placeholder="contry..." class="hs">
         <el-option
           v-for="item in options2"
           :key="item.value"
@@ -22,9 +22,9 @@
         </el-option>
       </el-select>
     </div>
-    <div class="command_">
-      <div class="cf">IMDBRating</div>
-      <el-select v-model="command3" @change="dataListFn()" placeholder="imdbrating..." class="cs">
+    <div class="hot_">
+      <div class="hf">IMDBRating</div>
+      <el-select v-model="hot3" @change="dataListFn()" placeholder="imdbrating..." class="hs">
         <el-option
           v-for="item in options3"
           :key="item.value"
@@ -69,10 +69,10 @@ export default {
       pagesize:28,
       all: 20, //总页数
       cur: 1, //当前页码
-      movielist:[],  
-      command1:'All',
-      command2:'All',
-      command3:'All',
+      movielist:[],
+      hot1:'All',
+      hot2:'All',
+      hot3:'All',
       options1:[
         {value: 'All'},
         {value: 'Drama'}, {value: 'Comedy'}, {value: 'Action'}, {value: 'Romance'}, {value: 'Crime'},
@@ -91,7 +91,7 @@ export default {
         {value: 'All'},
         {value: '0.0--1.0'}, {value: '1.0--2.0'}, {value: '2.0--3.0'}, {value: '3.0--4.0'}, {value: '4.0--5.0'},
         {value: '5.0--6.0'}, {value: '6.0--7.0'}, {value: '7.0--8.0'}, {value: '8.0--9.0'}, {value: '9.0--10.0'},
-      ],
+      ],  
     }
   },
   mounted () {
@@ -100,15 +100,15 @@ export default {
       document.querySelector("body").style.backgroundAttachment= 'fixed';
       document.querySelector("body").style.backgroundSize= 'cover';
       document.querySelector("body").style.backgroundPosition= 'center';
-      // this.movielist = this.dataListFn(this.cur.toString());
   },
   methods:{
+    //请求数据
     dataListFn: function(){
       let formData = new FormData();
       formData['index'] = this.cur;
-      formData['command1'] = this.command1;
-      formData['command2'] = this.command2;
-      formData['command3'] = this.command3;
+      formData['hot1'] = this.hot1;
+      formData['hot2'] = this.hot2;
+      formData['hot3'] = this.hot3;
       console.log(formData);
       let data = [];
 
@@ -180,7 +180,7 @@ export default {
   color: #000;
 }
 
-.command{
+.hot{
   margin-left: 90px;
   display: table;
   width: 90%;
@@ -195,7 +195,6 @@ export default {
   margin-left: 50px;
   vertical-align:middle;
 }
-
 ul,li{
   margin: 0px;
   padding: 0px;
@@ -204,6 +203,7 @@ ul,li{
 li{
   list-style: none
 }
+
 .page-bar li:first-child>a {
   margin-left: 0px
 }
@@ -242,18 +242,19 @@ li{
   margin: 0px 4px;
   font-size: 12px;
 }
-.cf{
+
+.hf{
   margin-top:60px;
   font-size: 15px;
   float: left;
 }
 
-.cs{
+.hs{
   margin-top: 45px;
   margin-left: 20px;
 }
 
-.command_{
+.hot_{
   margin-left: 90px;
   display: inline-block;
   width: 350px;

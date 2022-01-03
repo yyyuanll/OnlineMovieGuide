@@ -1,214 +1,78 @@
 <template>
   <div class="oscar">
     <div class="of" style="float:left">Select the year</div>
-    <el-select v-model="value" placeholder="2020..." class="os">
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.value"
-        :value="item.value">
-      </el-option>
-    </el-select>
-    <div class="of">The Best Actor</div>
-    <el-table
-      :data="tableData1"
-      style="width: 90%">
-      <el-table-column
-        prop="year"
-        label="Year"
-        width="80">
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        label="Name"
-        width="80">
-      </el-table-column>
-      <el-table-column
-        prop="img_actor"
-        label="Img_actor"
-        width="150">
-      </el-table-column>
-      <el-table-column
-        prop="introduction"
-        label="Introduction"
-        width="500">
-      </el-table-column>
-      <el-table-column
-        prop="representitive"
-        label="Representitive"
-        width="200">
-      </el-table-column>
-      <el-table-column
-        prop="movie_name"
-        label="Movie_name"
-        width="120">
-      </el-table-column>
-      <el-table-column
-        prop="character_name"
-        label="Character_name"
-        width="150">
-      </el-table-column>
-    </el-table>
-    <div class="of">The Best Actress</div>
-    <el-table
-      :data="tableData2"
-      style="width: 90%">
-      <el-table-column
-        prop="year"
-        label="Year"
-        width="80">
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        label="Name"
-        width="80">
-      </el-table-column>
-      <el-table-column
-        prop="img_actor"
-        label="Img_actor"
-        width="150">
-      </el-table-column>
-      <el-table-column
-        prop="introduction"
-        label="Introduction"
-        width="500">
-      </el-table-column>
-      <el-table-column
-        prop="representitive"
-        label="Representitive"
-        width="200">
-      </el-table-column>
-      <el-table-column
-        prop="movie_name"
-        label="Movie_name"
-        width="120">
-      </el-table-column>
-      <el-table-column
-        prop="character_name"
-        label="Character_name"
-        width="150">
-      </el-table-column>
-    </el-table>
-    <div class="of">The Best Supporting Actor</div>
-    <el-table
-      :data="tableData3"
-      style="width: 90%">
-      <el-table-column
-        prop="year"
-        label="Year"
-        width="80">
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        label="Name"
-        width="80">
-      </el-table-column>
-      <el-table-column
-        prop="img_actor"
-        label="Img_actor"
-        width="150">
-      </el-table-column>
-      <el-table-column
-        prop="introduction"
-        label="Introduction"
-        width="500">
-      </el-table-column>
-      <el-table-column
-        prop="representitive"
-        label="Representitive"
-        width="200">
-      </el-table-column>
-      <el-table-column
-        prop="movie_name"
-        label="Movie_name"
-        width="120">
-      </el-table-column>
-      <el-table-column
-        prop="character_name"
-        label="Character_name"
-        width="150">
-      </el-table-column>
-    </el-table>
-    <div class="of">The Best Supporting Actress</div>
-    <el-table
-      :data="tableData4"
-      style="width: 90%">
-      <el-table-column
-        prop="year"
-        label="Year"
-        width="80">
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        label="Name"
-        width="80">
-      </el-table-column>
-      <el-table-column
-        prop="img_actor"
-        label="Img_actor"
-        width="150">
-      </el-table-column>
-      <el-table-column
-        prop="introduction"
-        label="Introduction"
-        width="500">
-      </el-table-column>
-      <el-table-column
-        prop="representitive"
-        label="Representitive"
-        width="200">
-      </el-table-column>
-      <el-table-column
-        prop="movie_name"
-        label="Movie_name"
-        width="120">
-      </el-table-column>
-      <el-table-column
-        prop="character_name"
-        label="Character_name"
-        width="150">
-      </el-table-column>
-    </el-table>
-    <div class="of">The Best Picture</div>
-    <el-table
-      :data="tableData5"
-      style="width: 90%">
-      <el-table-column
-        prop="year"
-        label="Year"
-        width="80">
-      </el-table-column>
-      <el-table-column
-        prop="title"
-        label="Title"
-        width="80">
-      </el-table-column>
-      <el-table-column
-        prop="img_movie"
-        label="Img_movie"
-        width="150">
-      </el-table-column>
-      <el-table-column
-        prop="introduction"
-        label="Introduction"
-        width="500">
-      </el-table-column>
-      <el-table-column
-        prop="director"
-        label="Director"
-        width="150">
-      </el-table-column>
-      <el-table-column
-        prop="actors"
-        label="Actors"
-        width="150">
-      </el-table-column>
-      <el-table-column
-        prop="genre"
-        label="Genre"
-        width="150">
-      </el-table-column>
-    </el-table>
+    <el-form>
+        <el-select v-model="value" @change="upload(value)" placeholder="2020..." class="os">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.value"
+            :value="item.value">
+          </el-option>
+        </el-select>
+    </el-form>
+    <div class="of">
+      <div style="font-weight:bold; font-size:30px">Actor</div>
+      <table class="el-table el-table--fit el-table--border table-detail" style="width:90%">
+        <thead>
+          <tr>
+            <td>award</td>
+            <td>name</td>
+            <td>image</td>
+            <td>introduction</td>
+            <td>representitive</td>
+            <td>movie_name</td>
+            <td>character_name</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(data) in tabledata" :key="data.label" :value="data.value">
+            <div v-if="data.type !== 'BestPicture'">
+              <td>{{data.award}}</td>
+              <td>{{data.name}}</td>
+              <td>
+                <img :src="data.url">
+              </td>
+              <td>{{data.introduction}}</td>
+              <td>{{data.representitive}}</td>
+              <td>{{data.movie_name}}</td>
+              <td>{{data.character_name}}</td>
+              </div>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="of">
+      <div style="font-weight:bold; font-size:30px">Movie</div>
+      <table class="el-table el-table--fit el-table--border table-detail" style="width:90%">
+        <thead>
+          <tr>
+            <td>award</td>
+            <td>name</td>
+            <td>image</td>
+            <td>introduction</td>
+            <td>director</td>
+            <td>actors</td>
+            <td>genre</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="data in tabledata" :key="data.label" :value="data.value">
+            <div v-if="data.type == 'BestPicture'">
+              <td>{{data.award}}</td>
+              <td>{{data.title}}</td>
+              <td>
+                <img :src="data.url">
+              </td>
+              <td>{{data.introduction}}</td>
+              <td>{{data.director}}</td>
+              <td>{{data.actors}}</td>
+              <td>{{data.genre}}</td>
+              </div>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -235,53 +99,39 @@ export default {
           {value: '1930'}, {value: '1929'},
           ],
         value: '2021',
-        tableData1: [{
-            year: '2021',
-            name: 'Anthony Hopkins',
-            img_actor: '',
-            introduction: 'Anthony Hopkins was born on December 31, 1937, in Margam, Wales, to Muriel Anne (Yeats) and Richard Arthur Hopkins, a baker. His parents were both of half Welsh and half English descent. Influenced by Richard Burton, he decided to study at College of Music and Drama and graduated in 1957. In 1965, ...',
-            representitive: 'The Silence of the Lambs',
-            movie_name: 'The Father',
-            character_name: 'Anthony'
-          }],
-          tableData2: [{
-            year: '2021',
-            name: 'Anthony Hopkins',
-            img_actor: '',
-            introduction: 'Anthony Hopkins was born on December 31, 1937, in Margam, Wales, to Muriel Anne (Yeats) and Richard Arthur Hopkins, a baker. His parents were both of half Welsh and half English descent. Influenced by Richard Burton, he decided to study at College of Music and Drama and graduated in 1957. In 1965, ...',
-            representitive: 'The Silence of the Lambs',
-            movie_name: 'The Father',
-            character_name: 'Anthony'
-          }],
-          tableData3: [{
-            year: '2021',
-            name: 'Anthony Hopkins',
-            img_actor: '',
-            introduction: 'Anthony Hopkins was born on December 31, 1937, in Margam, Wales, to Muriel Anne (Yeats) and Richard Arthur Hopkins, a baker. His parents were both of half Welsh and half English descent. Influenced by Richard Burton, he decided to study at College of Music and Drama and graduated in 1957. In 1965, ...',
-            representitive: 'The Silence of the Lambs',
-            movie_name: 'The Father',
-            character_name: 'Anthony'
-          }],
-          tableData4: [{
-            year: '2021',
-            name: 'Anthony Hopkins',
-            img_actor: '',
-            introduction: 'Anthony Hopkins was born on December 31, 1937, in Margam, Wales, to Muriel Anne (Yeats) and Richard Arthur Hopkins, a baker. His parents were both of half Welsh and half English descent. Influenced by Richard Burton, he decided to study at College of Music and Drama and graduated in 1957. In 1965, ...',
-            representitive: 'The Silence of the Lambs',
-            movie_name: 'The Father',
-            character_name: 'Anthony'
-          }],
-          tableData5: [{
-            year: '2021',
-            title: 'Nomadland',
-            img_movie: '',
-            introduction: 'A woman in her sixties, after losing everything in the Great Recession, embarks on a journey through the American West, living as a van-dwelling modern-day nomad.',
-            director: 'director',
-            actors: 'Frances McDormand,David Strathairn,Linda May,Gay DeForest',
-            genre: 'Drama'
-          }]
+        tabledata:[],
       }
-    }
+    },
+    methods:{
+         async upload(value){
+          let formData = new FormData();
+          formData["year"] = this.value;
+          console.log(this.value);
+          console.log(formData);
+          let data = [];
+
+          await this.$axios.post("http://127.0.0.1:8000/oscar/",formDatas)
+          .then(function(response){
+            console.log(response);
+            console.log(response.data)
+            data = response.data;
+            this.$refs.upload.clearFiles();
+          }).catch((erroe) => {
+              console.log(error)
+          })
+          this.tabledata = data;
+          console.log(this.tabledata)
+          return this.tabledata
+        }
+    },
+    mounted () {
+    document.querySelector("body").style.backgroundImage =
+      "url('https://s2.loli.net/2021/12/17/1atOwnYbEMJGPsc.jpg') ";
+      document.querySelector("body").style.backgroundAttachment= 'fixed';
+      document.querySelector("body").style.backgroundSize= 'cover';
+      document.querySelector("body").style.backgroundPosition= 'center';
+      this.tabledata = this.upload(this.value)
+  },
 }
 </script>
 
@@ -296,5 +146,9 @@ export default {
 }
 .oscar{
   margin-left: 90px;
+}
+.osbutton{
+  margin-left: 40px;
+  border-radius: 6px;
 }
 </style>

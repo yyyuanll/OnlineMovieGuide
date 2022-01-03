@@ -25,6 +25,20 @@ const routes = [
     ]
   },
   {
+    path: '/page2',
+    component: () => import('layouts/MainLayout1.vue'),
+    children: [
+      { path: '/page2', component: () => import('pages/Page2.vue') }
+    ]
+  },
+  {
+    path: '/page3',
+    component: () => import('layouts/MainLayout1.vue'),
+    children: [
+      { path: '/page3', component: () => import('pages/Page3.vue') }
+    ]
+  },
+  {
     path: '/page4',
     component: () => import('layouts/MainLayout1.vue'),
     children: [
