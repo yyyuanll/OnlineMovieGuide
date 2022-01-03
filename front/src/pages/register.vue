@@ -174,9 +174,7 @@ export default {
       if (!namePass && !emailPass) {
         Axios
           .post("http://127.0.0.1:8000/user/sendEmailCode/", {
-            params:{
-              mail: this.email
-            }
+            mail: this.email
           })
         let count = 60
         self.statusMsg = `critification sent,${count--}seconds remain`
@@ -207,13 +205,11 @@ export default {
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
           Axios
-            .post("http://127.0.0.1:8000/register/", {
-              params:{
-                code: this.code,
-                username: this.name,
-                password: this.pwd,
-                mail: this.email
-              }
+            .post("http://127.0.0.1:8000/user/register/", {
+              code: this.code,
+              username: this.name,
+              password: this.pwd,
+              mail: this.email
             })
             .catch(function(error){
               console.log(error);

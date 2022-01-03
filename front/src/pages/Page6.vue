@@ -19,6 +19,10 @@
        </el-card>
     <el-menu
       class="el-menu-vertical-demo"
+<<<<<<< HEAD
+=======
+      
+>>>>>>> 5d54ab6497ff7393f1afc33f5483c797d60befe8
       default-active="0"
       router=true
       style="width:240px;margin-left:5px;border-radius:16px;height:240px">
@@ -80,6 +84,7 @@
 <script>
 import Axios from 'axios';
 //import { response } from 'express';
+import Axios from 'axios';
   export default 
   {
     data() {

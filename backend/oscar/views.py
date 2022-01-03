@@ -4,8 +4,8 @@ import json
 
 def oscar(request): 
     data = []
-    if request.method == "POST":
-        c_year = request.POST.get('year', None)
+    if request.method == "GET":
+        c_year = request.GET.get('year', None)
         c_year = int(c_year)
         data = []
         best_actor = models.BestActor.objects.filter(year=c_year)

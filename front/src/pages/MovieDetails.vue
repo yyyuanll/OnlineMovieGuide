@@ -162,12 +162,12 @@
         margin: 10px 0;
     }
     .comment p{
-        height: 24.5px;
+        height: 76.5px;
     }
     .recommend{
         width: 100%;
         background-color: #f2f2f2;
-        height: 100px;
+        height: 260px;
         float: left;
     }
     .commentForm .el-card__body{
@@ -181,6 +181,10 @@
     .recommend .el-card__body{
         width: 100% !important;
         height: 100%;
+    }
+    .recommend img{
+        width: 100%;
+        height: auto;
     }
 </style>
 
@@ -267,22 +271,28 @@ import { dom } from 'quasar';
             }
         },
         created(){
-            this.getImdbID();
-            Axios
-                .get("http://127.0.0.1:8000/movie_detail/", {
-                    params:{
-                        imdbid: this.imdbid,
-                        username: this.username
-                    }
-                })
-                .then(response => (this.movieDetailes = response.data))
-                .catch(function(error){
-                    console.log(error);
-                });
+            this.Refresh()
+        },
+        watch:{
+            '$route': 'Refresh'
         },
         methods: {
+            Refresh:function(){
+                this.getImdbID();
+                Axios
+                    .get("http://127.0.0.1:8000/movie_detail/", {
+                        params:{
+                            imdbid: this.imdbid,
+                            username: this.username
+                        }
+                    })
+                    .then(response => (this.movieDetailes = response.data))
+                    .catch(function(error){
+                        console.log(error);
+                    });
+            },
             onSubmitComment() {
-                console.log('submit!');
+                this.UploadComment()
             },
             getImdbID:function(){
                 var routerImdbID = this.$route.query.imdbid
@@ -293,12 +303,10 @@ import { dom } from 'quasar';
             },
             UploadComment(){
                 Axios
-                    .post("http://127.0.0.1:8000/add_comment/", {
-                        params:{
-                            imdbid: this.imdbid,
-                            username: this.username,
-                            review: this.form.comment
-                        }
+                    .post("http://127.0.0.1:8000/user/add_comment/", {
+                        imdbid: this.imdbid,
+                        username: this.username,
+                        review: this.form.comment
                     })
                     .catch(function(error){
                         console.log(error);
@@ -306,12 +314,10 @@ import { dom } from 'quasar';
             },
             UploadRating(){
                 Axios
-                    .post("http://127.0.0.1:8000/add_star/", {
-                        params:{
-                            imdbid: this.imdbid,
-                            username: this.username,
-                            star: this.userRating
-                        }
+                    .post("http://127.0.0.1:8000/user/add_star/", {
+                        imdbid: this.imdbid,
+                        username: this.username,
+                        star: this.userRating
                     })
                     .catch(function(error){
                         console.log(error);

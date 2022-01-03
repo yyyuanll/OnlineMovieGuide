@@ -16,12 +16,12 @@ def to_tuple(result):
 
 def new(request):
     data = []
-    if request.method == 'POST':
+    if request.method == 'GET':
         # 纪录数据
-        page = request.POST.get('index', None)
-        genre_choice = request.POST.get('Genre', None)
-        country_choice = request.POST.get('Country', None)
-        rating = request.POST.get('IMDBRating', None)
+        page = request.GET.get('index', None)
+        genre_choice = request.GET.get('Genre', None)
+        country_choice = request.GET.get('Country', None)
+        rating = request.GET.get('IMDBRating', None)
 
         genre_list = ('Drama','Action','Comedy','Romance','Crime', 'Thriller', 'Adventure', 'Horror',
                    'Documenntary', 'Fantasy','Biography','Mystery','Sci-fi','Music','Animatinon','History',
@@ -94,7 +94,7 @@ def new(request):
         tmp = {
             "page_number": math.ceil(page_number/28),
         }
-        data.append(tmp)
+        #data.append(tmp)
 
         sql = f"select imdbid, Title, Poster from film where imdbid in {result3} order by _year desc limit {from_id},{to_id}"
         cursor.execute(sql)
@@ -104,6 +104,8 @@ def new(request):
             image_url = i[2]
             if image_url != "N/A":
                 image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+str(i[0])+'.jpg')
+            else:
+                image_url = 'http://127.0.0.1:8000/images/none.jpg'
             # 每一个tmp包含了查询结果中的 一个 电影的imdbid、名字和封面链接
             tmp = {
                 "imdbid": i[0],

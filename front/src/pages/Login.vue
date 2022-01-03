@@ -209,10 +209,8 @@ export default {
 
       Axios
         .post("http://127.0.0.1:8000/user/login/", {
-          params:{
-            username: this.username,
-            password: this.password,
-          }
+          username: this.username,
+          password: this.password,
         })
         .catch(function(error){
           console.log(error);
