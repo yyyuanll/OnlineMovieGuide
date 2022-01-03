@@ -5,7 +5,7 @@
         <el-avatar icon="el-icon-user-solid" shape="circle"></el-avatar>
         <span class="login">
           <em class="bold">Already have an account?</em>
-          <a href="/login">
+          <a href="#/login">
             <el-button type="primary" size="small">login</el-button>
           </a>
         </span>
@@ -85,6 +85,7 @@
 </template>
 
 <script>
+import Axios from 'axios'
 
 export default {
   data() {
@@ -171,6 +172,12 @@ export default {
       })
       // 模拟验证码发送
       if (!namePass && !emailPass) {
+        Axios
+          .post("127.0.0.1:8000/user/sendEmailCode/", {
+            params:{
+              mail: this.email
+            }
+          })
         let count = 60
         self.statusMsg = `critification sent,${count--}seconds remain`
         self.timerid = setInterval(function() {
@@ -199,6 +206,19 @@ export default {
     register: function() {
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
+          Axios
+            .post("127.0.0.1:8000/register/", {
+              params:{
+                code: this.code,
+                username: this.name,
+                password: this.pwd,
+                mail: this.email
+              }
+            })
+            .then(response => (this.movieDetailes = response))
+            .catch(function(error){
+              console.log(error);
+            });
           setTimeout(
             this.$router.push('/login'), 2000
           )

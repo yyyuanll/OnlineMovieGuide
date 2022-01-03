@@ -38,7 +38,7 @@
       <div class="grid-content bg-purple" />
       <el-card class="box-card" style="margin-top:20px;padding:0px">
       <img :src="data.img" class="image" style="height:230px;width:160px">
-      <router-link to="page-detail" class="link">
+      <router-link :to="{path:'#/movieDetails',query:{imdbid: data.id, username: this.username}}" class="link">
         <div :id="data.id" style="padding: 0px;text-align: center;margin-top:10px">
           {{data.title}}
         </div>
@@ -65,6 +65,7 @@
 export default {
   data(){
     return{
+      username: null,
       index: 1,
       pagesize:28,
       all: 20, //总页数

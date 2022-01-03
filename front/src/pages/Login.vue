@@ -5,7 +5,7 @@
     <div class="row justify-center login">
       <div class="right">
         <div class="title text-h6 text-center">
-          <q-item-label>login</q-item-label>
+          <q-item-label><a href="#/page1">login</a></q-item-label>
         </div>
         <div class="mobile row justify-center">
           <q-input

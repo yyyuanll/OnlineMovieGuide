@@ -20,8 +20,9 @@
                 <div class="userRating">
                     <span class="demonstration">User Score</span>
                     <el-rate
-                        v-model="value2"
-                        :colors="colors">
+                        v-model="userRating"
+                        :colors="colors"
+                        @change="UploadRating()">
                     </el-rate>
                 </div>
                 <div class="genre">
@@ -183,8 +184,7 @@ import { dom } from 'quasar';
             return {
                 imdbid: 'tt0080684',
                 username: 'Lucas Kim',
-                value1: null,
-                value2: null,
+                userRating: null,
                 colors: ['#99A9BF', '#F7BA2A', '#FF9900'],  // 等同于 { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
                 form: {
                         comment: '',
@@ -283,10 +283,25 @@ import { dom } from 'quasar';
             },
             UploadComment(){
                 Axios
-                    .post("127.0.0.1:8000/movie_detail/", {
+                    .post("127.0.0.1:8000/add_comment/", {
                         params:{
                             imdbid: this.imdbid,
                             username: this.username,
+                            review: this.form.comment
+                        }
+                    })
+                    .then(response => (this.movieDetailes = response))
+                    .catch(function(error){
+                        console.log(error);
+                    });
+            },
+            UploadRating(){
+                Axios
+                    .post("127.0.0.1:8000/add_star/", {
+                        params:{
+                            imdbid: this.imdbid,
+                            username: this.username,
+                            star: this.userRating
                         }
                     })
                     .then(response => (this.movieDetailes = response))
