@@ -4,7 +4,7 @@
     <div class="ALL">
     <div class="all">
       <div class="af">Genre</div>
-      <el-select v-model="value1" @change="dataListFn()" placeholder="genre..." class="as">
+      <el-select v-model="Genre" @change="upload()" placeholder="genre..." class="as">
         <el-option
           v-for="item in options1"
           :key="item.value"
@@ -15,7 +15,7 @@
     </div>
     <div class="all">
       <div class="af">Country</div>
-      <el-select v-model="value2" @change="dataListFn()" placeholder="contry..." class="as">
+      <el-select v-model="Country" @change="upload()" placeholder="contry..." class="as">
         <el-option
           v-for="item in options2"
           :key="item.value"
@@ -26,7 +26,7 @@
     </div>
     <div class="all">
       <div class="af">Language</div>
-      <el-select v-model="value3" @change="dataListFn()" placeholder="language..." class="as">
+      <el-select v-model="Language" @change="upload()" placeholder="language..." class="as">
         <el-option
           v-for="item in options3"
           :key="item.value"
@@ -39,7 +39,7 @@
     <div class="ALL">
     <div class="all">
       <div class="af">IMDBRating</div>
-      <el-select v-model="value4" @change="dataListFn()" placeholder="imdbrating..." class="as">
+      <el-select v-model="IMDBRating" @change="upload()" placeholder="imdbrating..." class="as">
         <el-option
           v-for="item in options4"
           :key="item.value"
@@ -50,7 +50,7 @@
     </div>
     <div class="all">
       <div class="af">Released</div>
-      <el-select v-model="value5" @change="dataListFn()" placeholder="released..." class="as">
+      <el-select v-model="Released" @change="upload()" placeholder="released..." class="as">
         <el-option
           v-for="item in options5"
           :key="item.value"
@@ -61,7 +61,7 @@
     </div>
     <div class="all">
       <div class="af">Rated</div>
-      <el-select v-model="value6" @change="dataListFn()" placeholder="rated..." class="as">
+      <el-select v-model="Rated" @change="upload()" placeholder="rated..." class="as">
         <el-option
           v-for="item in options6"
           :key="item.value"
@@ -72,12 +72,12 @@
     </div>
     </div>
     <div class="movie">
-      <el-col v-for="(data) in movielist" :key="data.label" :value="data.value" :span="5.5" style="background:none">
+      <el-col v-for="(data) in movielist.slice(1)" :key="data.label" :value="data.value" :span="5.5" style="background:none">
         <div class="grid-content bg-purple" />
         <el-card class="box-card" style="margin-top:20px;padding:0px">
           <img :src="data.img" class="image" style="height:230px;width:160px">
-          <router-link :to="{path:'#/movieDetails',query:{imdbid: data.id, username: this.username}}" class="link">
-            <div :id="data.id" style="padding: 0px;text-align: center;margin-top:10px">  
+          <router-link :to="{name:'MovieDetails',query:{imdbid: data.imdbid}}" class="link">
+            <div :id="data.id" class="at">  
               {{data.title}}
             </div>
           </router-link>
@@ -139,12 +139,12 @@ export default {
         {value: 'R'}, {value: 'PG-13'}, {value: 'PG'}, {value: 'G'}, {value: 'NC-17'},{value: 'UR/NR'},
         {value: 'Others'}
       ],
-      value1:'All',
-      value2:'All',
-      value3:'All',
-      value4:'All',
-      value5:'All',
-      value6:'All',
+      Genre:'All',
+      Country:'All',
+      Language:'All',
+      IMDBRating:'All',
+      Released:'All',
+      Rated:'All',
       index:1,
       pagesize:28,
       all:20,
@@ -158,33 +158,42 @@ export default {
       document.querySelector("body").style.backgroundAttachment= 'fixed';
       document.querySelector("body").style.backgroundSize= 'cover';
       document.querySelector("body").style.backgroundPosition= 'center';
-      //this.movielist = this.dataListFn(this.cur.toString());
+      this.movielist = this.upload();
   },
   methods:{
-    dataListFn: function(){
-      let formData = new FormData();
-      formData['index'] = this.cur;
-      formData["value1"] = this.value1;
-      formData["value2"] = this.value2;
-      formData["value3"] = this.value3;
-      formData["value4"] = this.value4;
-      formData["value5"] = this.value5;
-      formData["value6"] = this.value6;
-      console.log(formData);
-      let data = [];
-
-      this.$axios.post("url",formData)
-      .then(function(response){
-        console.log(response);
-        console.log(response.data);
-        data = response.data;
-      }).catch((erroe) => {
-              console.log(error)
-      })
-      this.movielist = data;
-      this.all = data.all;
-      return this.movielist
-    },
+    async upload(){ 
+        let data = [];
+        console.log(this.cur);
+        console.log(this.Genre);
+        console.log(this.Country);
+        console.log(this.Language);
+        console.log(this.IMDBRating);
+        console.log(this.Released);
+        console.log(this.Rated);
+       
+        await this.$axios.get("http://127.0.0.1:8000/movies/",{
+          params:{
+            index:this.cur,
+            Genre:this.Genre,
+            Country:this.Country,
+            Language:this.Language,
+            IMDBRating:this.IMDBRating,
+            Released:this.Released,
+            Rated:this.Rated,
+          }
+        })
+        .then(function(response){
+          data = response.data;
+          console.log(data);
+        }).catch((error) => {
+            console.log(error);
+        })
+        console.log(data);
+        this.all = data[0].page_number;
+        console.log(this.all);
+        this.movielist = data;
+        return this.movielist;
+      },
 
     //分页
     btnClick: function(data){//页码点击事件
@@ -192,11 +201,11 @@ export default {
         this.cur = data
       }
       //根据点击页数请求数据
-      this.dataListFn();
+      this.upload();
     },
 
     pageClick: function(){ //根据点击页数请求数据
-      this.dataListFn();
+      this.upload();
     }
   },
 
@@ -230,6 +239,14 @@ export default {
 </script>
 
 <style>
+.el-card__body {
+    padding: 15px;
+}
+
+.el-card{
+  background-color: transparent;
+}
+
 .af{
   margin-top:60px;
   font-size: 15px;
@@ -240,6 +257,11 @@ export default {
   margin-left: 90px;
   display: inline-block;
   width: 350px;
+}
+
+.link{
+  text-decoration: none;
+  color: #000;
 }
 
 .ALL{
@@ -305,6 +327,16 @@ li{
   color: #d44950;
   margin: 0px 4px;
   font-size: 12px;
+}
+
+.at{
+  padding: 0px;
+  text-align: center;
+  margin-top:10px;
+  overflow:hidden;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+  width:150px;
 }
 
 </style>

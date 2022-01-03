@@ -2,7 +2,7 @@
   <div class="command">
     <div class="command_">
       <div class="cf">Genre</div>
-      <el-select v-model="command1" @change="dataListFn()" placeholder="genre..." class="cs">
+      <el-select v-model="Genre" @change="upload()" placeholder="genre..." class="cs">
         <el-option
           v-for="item in options1"
           :key="item.value"
@@ -13,7 +13,7 @@
     </div>
     <div class="command_">
       <div class="cf">Country</div>
-      <el-select v-model="command2" @change="dataListFn()" placeholder="contry..." class="cs">
+      <el-select v-model="Country" @change="upload()" placeholder="contry..." class="cs">
         <el-option
           v-for="item in options2"
           :key="item.value"
@@ -24,7 +24,7 @@
     </div>
     <div class="command_">
       <div class="cf">IMDBRating</div>
-      <el-select v-model="command3" @change="dataListFn()" placeholder="imdbrating..." class="cs">
+      <el-select v-model="IMDBRating" @change="upload()" placeholder="imdbrating..." class="cs">
         <el-option
           v-for="item in options3"
           :key="item.value"
@@ -34,12 +34,12 @@
       </el-select>
     </div>
     <div class="page-info">
-      <el-col v-for="(data) in movielist" :key="data.label" :value="data.value" :span="5.5" style="background:none">
+      <el-col v-for="(data) in movielist.slice(1)" :key="data.label" :value="data.value" :span="5.5" style="background:none">
       <div class="grid-content bg-purple" />
       <el-card class="box-card" style="margin-top:20px;padding:0px">
       <img :src="data.img" class="image" style="height:230px;width:160px">
-      <router-link to="page-detail" class="link">
-        <div :id="data.id" style="padding: 0px;text-align: center;margin-top:10px">
+      <router-link :to="{name:'MovieDetails',query:{imdbid: data.imdbid}}" class="link">
+        <div :id="data.id" class="ct">
           {{data.title}}
         </div>
       </router-link>
@@ -70,9 +70,9 @@ export default {
       all: 20, //总页数
       cur: 1, //当前页码
       movielist:[],  
-      command1:'All',
-      command2:'All',
-      command3:'All',
+      Genre:'All',
+      Country:'All',
+      IMDBRating:'All',
       options1:[
         {value: 'All'},
         {value: 'Drama'}, {value: 'Comedy'}, {value: 'Action'}, {value: 'Romance'}, {value: 'Crime'},
@@ -100,31 +100,36 @@ export default {
       document.querySelector("body").style.backgroundAttachment= 'fixed';
       document.querySelector("body").style.backgroundSize= 'cover';
       document.querySelector("body").style.backgroundPosition= 'center';
-      // this.movielist = this.dataListFn(this.cur.toString());
+      this.movielist = this.upload();
   },
 
   methods:{
-    dataListFn: function(){
-      let formData = new FormData();
-      formData['index'] = this.cur;
-      formData['command1'] = this.command1;
-      formData['command2'] = this.command2;
-      formData['command3'] = this.command3;
-      console.log(formData);
-      let data = [];
-
-      this.$axios.post("url",formData)
-      .then(function(response){
-        console.log(response);
-        console.log(response.data);
-        data = response.data;
-      }).catch((erroe) => {
-              console.log(error)
-      })
-      this.movielist = data;
-      this.all = data.all;
-      return this.movielist
-    },
+    async upload(){ 
+        let data = [];
+        console.log(this.cur);
+        console.log(this.Genre);
+        console.log(this.Country);
+        console.log(this.IMDBRating);
+       
+        await this.$axios.get("http://127.0.0.1:8000/command/",{
+          params:{
+            index:this.cur,
+            Genre:this.Genre,
+            Country:this.Country,
+            IMDBRating:this.IMDBRating
+          }
+        })
+        .then(function(response){
+          data = response.data;
+          console.log(data);
+        }).catch((error) => {
+            console.log(error);
+        })
+        console.log(data);
+        this.all = data[0].page_number;
+        this.movielist = data;
+        return this.movielist;
+      },
 
     //分页
     btnClick: function(data){//页码点击事件
@@ -132,11 +137,11 @@ export default {
         this.cur = data
       }
       //根据点击页数请求数据
-      this.dataListFn();
+      this.upload();
     },
 
     pageClick: function(){ //根据点击页数请求数据
-      this.dataListFn();
+      this.upload();
     }
   },
   computed: { //分页
@@ -168,7 +173,18 @@ export default {
 }
 </script>
 <style>
+.el-card__body {
+    padding: 15px;
+}
 
+.el-card{
+  background-color: transparent;
+}
+
+.link{
+  text-decoration: none;
+  color: #000;
+}
 
 .command{
   margin-left: 90px;
@@ -247,5 +263,15 @@ li{
   margin-left: 90px;
   display: inline-block;
   width: 350px;
+}
+
+.ct{
+  padding: 0px;
+  text-align: center;
+  margin-top:10px;
+  overflow:hidden;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+  width:150px;
 }
 </style>

@@ -204,68 +204,68 @@ import { dom } from 'quasar';
                         comment: '',
                     },
                 movieDetailes:[
-                    {
-                        "title": "Star Wars: Episode V - The Empire Strikes Back",
-                        "image": "http://127.0.0.1:8000/images/tt0080684.jpg",
-                        "imdbrating": 8.8,
-                        "imdbid": "tt0080684",
-                        "metascore": 79,
-                        "day": 20,
-                        "month": 6,
-                        "year": 1980,
-                        "runtime": "124 min",
-                        "rated": "PG",
-                        "award": "Won 1 Oscar. Another 15 wins & 18 nominations.",
-                        "director": "Irvin Kershner",
-                        "writer": "Leigh Brackett (screenplay), Lawrence Kasdan (screenplay), George Lucas (story)"
-                    },
-                    {
-                        "genre1": "Action",
-                        "genre2": "Adventure",
-                        "genre3": "Fantasy"
-                    },
-                    {
-                        "language1": "English"
-                    },
-                    {
-                        "country1": "USA"
-                    },
-                    {
-                        "actor1": "Mark Hamill",
-                        "actor_link1": "https://en.wikipedia.org/wiki/Mark_Hamill",
-                        "actor2": "Harrison Ford",
-                        "actor_link2": "https://en.wikipedia.org/wiki/Harrison_Ford",
-                        "actor3": "Carrie Fisher",
-                        "actor_link3": "https://en.wikipedia.org/wiki/Carrie_Fisher",
-                        "actor4": "Billy Dee Williams",
-                        "actor_link4": "https://en.wikipedia.org/wiki/Billy_Dee_Williams"
-                    },
-                    {},
-                    {
-                        "imdbid": "tt0082288",
-                        "title": "Dragonslayer",
-                        "img": "http://127.0.0.1:8000/images/tt0082288.jpg"
-                    },
-                    {
-                        "imdbid": "tt0084749",
-                        "title": "The Sword and the Sorcerer",
-                        "img": "http://127.0.0.1:8000/images/tt0084749.jpg"
-                    },
-                    {
-                        "imdbid": "tt0083630",
-                        "title": "The Beastmaster",
-                        "img": "http://127.0.0.1:8000/images/tt0083630.jpg"
-                    },
-                    {
-                        "imdbid": "tt0085811",
-                        "title": "Krull",
-                        "img": "http://127.0.0.1:8000/images/tt0085811.jpg"
-                    },
-                    {
-                        "imdbid": "tt0087078",
-                        "title": "Conan the Destroyer",
-                        "img": "http://127.0.0.1:8000/images/tt0087078.jpg"
-                    }
+                    // {
+                    //     "title": "Star Wars: Episode V - The Empire Strikes Back",
+                    //     "image": "http://127.0.0.1:8000/images/tt0080684.jpg",
+                    //     "imdbrating": 8.8,
+                    //     "imdbid": "tt0080684",
+                    //     "metascore": 79,
+                    //     "day": 20,
+                    //     "month": 6,
+                    //     "year": 1980,
+                    //     "runtime": "124 min",
+                    //     "rated": "PG",
+                    //     "award": "Won 1 Oscar. Another 15 wins & 18 nominations.",
+                    //     "director": "Irvin Kershner",
+                    //     "writer": "Leigh Brackett (screenplay), Lawrence Kasdan (screenplay), George Lucas (story)"
+                    // },
+                    // {
+                    //     "genre1": "Action",
+                    //     "genre2": "Adventure",
+                    //     "genre3": "Fantasy"
+                    // },
+                    // {
+                    //     "language1": "English"
+                    // },
+                    // {
+                    //     "country1": "USA"
+                    // },
+                    // {
+                    //     "actor1": "Mark Hamill",
+                    //     "actor_link1": "https://en.wikipedia.org/wiki/Mark_Hamill",
+                    //     "actor2": "Harrison Ford",
+                    //     "actor_link2": "https://en.wikipedia.org/wiki/Harrison_Ford",
+                    //     "actor3": "Carrie Fisher",
+                    //     "actor_link3": "https://en.wikipedia.org/wiki/Carrie_Fisher",
+                    //     "actor4": "Billy Dee Williams",
+                    //     "actor_link4": "https://en.wikipedia.org/wiki/Billy_Dee_Williams"
+                    // },
+                    // {},
+                    // {
+                    //     "imdbid": "tt0082288",
+                    //     "title": "Dragonslayer",
+                    //     "img": "http://127.0.0.1:8000/images/tt0082288.jpg"
+                    // },
+                    // {
+                    //     "imdbid": "tt0084749",
+                    //     "title": "The Sword and the Sorcerer",
+                    //     "img": "http://127.0.0.1:8000/images/tt0084749.jpg"
+                    // },
+                    // {
+                    //     "imdbid": "tt0083630",
+                    //     "title": "The Beastmaster",
+                    //     "img": "http://127.0.0.1:8000/images/tt0083630.jpg"
+                    // },
+                    // {
+                    //     "imdbid": "tt0085811",
+                    //     "title": "Krull",
+                    //     "img": "http://127.0.0.1:8000/images/tt0085811.jpg"
+                    // },
+                    // {
+                    //     "imdbid": "tt0087078",
+                    //     "title": "Conan the Destroyer",
+                    //     "img": "http://127.0.0.1:8000/images/tt0087078.jpg"
+                    // }
                 ]
                 
             }

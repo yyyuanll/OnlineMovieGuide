@@ -16,15 +16,15 @@ def to_tuple(result):
 def allmovie(request): 
         data = []
         # 如果前端发起了post请求
-        if request.method == 'POST':
+        if request.method == 'GET':
             # 纪录数据
-            page = request.POST.get('index', None)
-            genre_choice = request.POST.get('Genre', None)
-            country_choice = request.POST.get('Country', None)
-            language_choice = request.POST.get('Language', None)
-            rating = request.POST.get('IMDBRating', None)
-            released_choice = request.POST.get('Raleased', None)
-            rated_choice = request.POST.get('Rated', None)
+            page = request.GET.get('index', None)
+            genre_choice = request.GET.get('Genre', None)
+            country_choice = request.GET.get('Country', None)
+            language_choice = request.GET.get('Language', None)
+            rating = request.GET.get('IMDBRating', None)
+            released_choice = request.GET.get('Released', None)
+            rated_choice = request.GET.get('Rated', None)
         else:
             # 如果不是，返回一个空json
             return HttpResponse(json.dumps(data), content_type='application/json')

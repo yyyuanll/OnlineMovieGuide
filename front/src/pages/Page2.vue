@@ -3,7 +3,7 @@
   <div class="hot">
     <div class="hot_">
       <div class="hf">Genre</div>
-      <el-select v-model="hot1" @change="dataListFn()" placeholder="genre..." class="hs">
+      <el-select v-model="Genre" @change="upload()" placeholder="genre..." class="hs">
         <el-option
           v-for="item in options1"
           :key="item.value"
@@ -14,7 +14,7 @@
     </div>
     <div class="hot_">
       <div class="hf">Country</div>
-      <el-select v-model="hot2" @change="dataListFn()" placeholder="contry..." class="hs">
+      <el-select v-model="Country" @change="upload()" placeholder="contry..." class="hs">
         <el-option
           v-for="item in options2"
           :key="item.value"
@@ -25,7 +25,7 @@
     </div>
     <div class="hot_">
       <div class="hf">IMDBRating</div>
-      <el-select v-model="hot3" @change="dataListFn()" placeholder="imdbrating..." class="hs">
+      <el-select v-model="IMDBRating" @change="upload()" placeholder="imdbrating..." class="hs">
         <el-option
           v-for="item in options3"
           :key="item.value"
@@ -35,12 +35,12 @@
       </el-select>
     </div>
     <div class="page-info">
-      <el-col v-for="(data) in movielist" :key="data.label" :value="data.value" :span="5.5" style="background:none">
+      <el-col v-for="(data) in movielist.slice(1)" :key="data.label" :value="data.value" :span="5.5" style="background:none">
       <div class="grid-content bg-purple" />
       <el-card class="box-card" style="margin-top:20px;padding:0px">
       <img :src="data.img" class="image" style="height:230px;width:160px">
-      <router-link :to="{path:'#/movieDetails',query:{imdbid: data.id, username: this.username}}" class="link">
-        <div :id="data.id" style="padding: 0px;text-align: center;margin-top:10px">
+      <router-link :to="{name:'MovieDetails',query:{imdbid: data.imdbid}}" class="link">
+        <div :id="data.id" class="ht">
           {{data.title}}
         </div>
       </router-link>
@@ -72,9 +72,9 @@ export default {
       all: 20, //总页数
       cur: 1, //当前页码
       movielist:[],
-      hot1:'All',
-      hot2:'All',
-      hot3:'All',
+      Genre:'All',
+      Country:'All',
+      IMDBRating:'All',
       options1:[
         {value: 'All'},
         {value: 'Drama'}, {value: 'Comedy'}, {value: 'Action'}, {value: 'Romance'}, {value: 'Crime'},
@@ -102,30 +102,36 @@ export default {
       document.querySelector("body").style.backgroundAttachment= 'fixed';
       document.querySelector("body").style.backgroundSize= 'cover';
       document.querySelector("body").style.backgroundPosition= 'center';
+      this.movielist = this.upload();
   },
   methods:{
     //请求数据
-    dataListFn: function(){
-      let formData = new FormData();
-      formData['index'] = this.cur;
-      formData['hot1'] = this.hot1;
-      formData['hot2'] = this.hot2;
-      formData['hot3'] = this.hot3;
-      console.log(formData);
-      let data = [];
-
-      this.$axios.post("url",formData)
-      .then(function(response){
-        console.log(response);
-        console.log(response.data);
-        data = response.data;
-      }).catch((erroe) => {
-              console.log(error)
-      })
-      this.movielist = data;
-      this.all = data.all;
-      return this.movielist
-    },
+    async upload(){ 
+        let data = [];
+        console.log(this.cur);
+        console.log(this.Genre);
+        console.log(this.Country);
+        console.log(this.IMDBRating);
+       
+        await this.$axios.get("http://127.0.0.1:8000/hot/",{
+          params:{
+            index:this.cur,
+            Genre:this.Genre,
+            Country:this.Country,
+            IMDBRating:this.IMDBRating
+          }
+        })
+        .then(function(response){
+          data = response.data;
+          console.log(data);
+        }).catch((error) => {
+            console.log(error);
+        })
+        console.log(data);
+        this.all = data[0].page_number;
+        this.movielist = data;
+        return this.movielist;
+      },
 
     //分页
     btnClick: function(data){//页码点击事件
@@ -133,11 +139,11 @@ export default {
         this.cur = data
       }
       //根据点击页数请求数据
-      this.dataListFn();
+      this.upload();
     },
 
     pageClick: function(){ //根据点击页数请求数据
-      this.dataListFn();
+      this.upload();
     }
   },
   computed: { //分页
@@ -262,4 +268,13 @@ li{
   width: 350px;
 }
 
+.ht{
+  padding: 0px;
+  text-align: center;
+  margin-top:10px;
+  overflow:hidden;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+  width:150px;
+}
 </style>

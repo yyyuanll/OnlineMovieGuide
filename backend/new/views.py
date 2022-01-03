@@ -94,7 +94,7 @@ def new(request):
         tmp = {
             "page_number": math.ceil(page_number/28),
         }
-        #data.append(tmp)
+        data.append(tmp)
 
         sql = f"select imdbid, Title, Poster from film where imdbid in {result3} order by _year desc limit {from_id},{to_id}"
         cursor.execute(sql)

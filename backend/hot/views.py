@@ -16,12 +16,12 @@ def to_tuple(result):
 
 def hot(request):
     data = []
-    if request.method == 'POST':
+    if request.method == 'GET':
         # 纪录数据
-        page = request.POST.get('index', None)
-        genre_choice = request.POST.get('Genre', None)
-        country_choice = request.POST.get('Country', None)
-        rating = request.POST.get('IMDBRating', None)
+        page = request.GET.get('index', None)
+        genre_choice = request.GET.get('Genre', None)
+        country_choice = request.GET.get('Country', None)
+        rating = request.GET.get('IMDBRating', None)
 
         genre_list = ('Drama','Action','Comedy','Romance','Crime', 'Thriller', 'Adventure', 'Horror',
                    'Documenntary', 'Fantasy','Biography','Mystery','Sci-fi','Music','Animatinon','History',

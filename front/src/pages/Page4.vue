@@ -14,7 +14,7 @@
     </el-form>
     <div class="of">
       <div style="font-weight:bold; font-size:30px">Actor</div>
-      <table class="el-table el-table--fit el-table--border table-detail" style="width:90%">
+      <table class="el-table el-table--fit el-table--border table-detail" :cell-style="{ textAlign: 'center' }" style="width:90%">
         <thead>
           <tr>
             <td>award</td>
@@ -48,7 +48,7 @@
       <table class="el-table el-table--fit el-table--border table-detail" style="width:90%">
         <thead>
           <tr>
-            <td>award</td>
+            <td class="ot">award</td>
             <td>name</td>
             <td>image</td>
             <td>introduction</td>
@@ -154,5 +154,13 @@ export default {
 .osbutton{
   margin-left: 40px;
   border-radius: 6px;
+}
+
+.ot{
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 </style>

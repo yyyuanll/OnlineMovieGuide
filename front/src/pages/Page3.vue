@@ -34,7 +34,7 @@
       </el-select>
     </div>
     <div class="page-info">
-      <el-col v-for="data in moviesdata" :key="data.imdbid" :value="data.imdbid" :span="5.5" style="background:none">
+      <el-col v-for="data in moviesdata.slice(1)" :key="data.imdbid" :value="data.imdbid" :span="5.5" style="background:none">
         <div class="grid-content bg-purple" />
           <el-card class="box-card" style="margin-top:20px;padding:0px">
             <img :src="data.img" class="image" style="height:230px;width:160px">
@@ -130,8 +130,9 @@ export default {
             console.log(error);
         })
         console.log(data);
+        this.all = data[0].page_number;
         this.moviesdata = data;
-        return this.movies;
+        return this.moviedata;
       },
 
     //分页
