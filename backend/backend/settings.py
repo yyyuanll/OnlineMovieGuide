@@ -28,6 +28,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# 发送邮箱验证码
+EMAIL_HOST = "smtp.163.com"     # 服务器
+EMAIL_PORT = 25                 # 一般情况下都为25
+EMAIL_HOST_USER = "onlinemovieguide@163.com"     # 账号
+EMAIL_HOST_PASSWORD = "JUBMSUDZGUVSHKYF"          # 密码 (注意：这里的密码指的是授权码)
+EMAIL_USE_TLS = False       # 一般都为False
+EMAIL_FROM = "onlinemovieguide@163.com"      # 邮箱来自
 
 # Application definition
 
@@ -43,6 +50,9 @@ INSTALLED_APPS = [
     'oscar',
     'user',
     'movie_detail',
+    'hot',
+    'new',
+    'command',
 ]
 
 MIDDLEWARE = [

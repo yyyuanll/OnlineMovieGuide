@@ -59,13 +59,22 @@ def oscar(request):
             }
             data.append(tmp)
         for i in best_picture:
+            genre_result = ''
+            if i.genre1 is not None:
+                genre_result += i.genre1
+            if i.genre2 is not None:
+                genre_result += ','
+                genre_result += i.genre2
+            if i.genre3 is not None:
+                genre_result += ','
+                genre_result += i.genre3
             tmp = {
                 "award": "BestPicture",
                 "title": i.name,
                 "introduction": i.introduction,
                 "director": i.director,
                 "actors": i.star1+','+i.star2+','+i.star3+','+i.star4,
-                "genre": i.genre1+','+i.genre2+','+i.genre3,
+                "genre": genre_result,
                 "url": i.cover,
             }
             data.append(tmp)

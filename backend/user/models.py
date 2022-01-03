@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 class Country(models.Model):
     field_id = models.IntegerField(db_column='_id', primary_key=True)  # Field renamed because it started with '_'.
@@ -91,3 +92,18 @@ class Username(models.Model):
     class Meta:
         managed = False
         db_table = 'username'
+
+# 邮箱验证
+class EmailVerifyRecord(models.Model):
+    # 验证码
+    code = models.CharField(max_length=20, verbose_name="验证码")
+    email = models.EmailField(max_length=50, verbose_name="邮箱")
+    
+    send_time = models.DateTimeField(verbose_name="发送时间", default=datetime.datetime.now())
+
+    class Meta:
+        verbose_name = u"2. 邮箱验证码"
+        verbose_name_plural = verbose_name
+
+    def __unicode__(self):
+        return '{0}({1})'.format(self.code, self.email)

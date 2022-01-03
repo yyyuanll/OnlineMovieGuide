@@ -3,12 +3,14 @@ import json
 import os
 from django.db import connection
 
-
 def to_tuple(result):
-    t = []
-    for i in result:
-        t.append(i[0])
-    return tuple(t)
+    if isinstance(result[0],tuple):
+        t = []
+        for i in result:
+            t.append(i[0])
+        return tuple(t)
+    else:
+        return result
 
 def allmovie(request): 
         data = []
@@ -146,6 +148,10 @@ def allmovie(request):
             sql = f"select imdbid, Title, Poster from film where imdbid in {result5}"
             cursor.execute(sql)
             result6 = cursor.fetchall()
+
+        connection.commit()
+        cursor.close()
+        connection.close()
 
         for i in result6:
             # 处理封面链接

@@ -1,13 +1,13 @@
-from django.shortcuts import render,HttpResponse
-from matplotlib.pyplot import title
+from django.shortcuts import HttpResponse
 from . import models 
 import json
 import os
-from django.core import serializers
+from django.db import connection
 
 def detail(request): 
     _id = request.GET.get('imdbid')
-    #_id = 'tt0080684'
+    with open('Recommend_dictionary.json', 'r', encoding='utf-8') as f:
+        movie_dics = json.load(f)
     filmobject = models.Film.objects.filter(imdbid=_id)
     data = []
 
@@ -62,7 +62,6 @@ def detail(request):
         data.append(tmp)
         
         # 获取电影所有的演员
-
         actors = models.Actor.objects.filter(imdbid=_id)
         tmp = {}
         i = 1
@@ -89,7 +88,26 @@ def detail(request):
         data.append(tmp)
 
     # NOTE:推荐电影待完成
-        
+    recommend_list = tuple(movie_dics[_id])
+    print(recommend_list)
+    cursor = connection.cursor()
+    sql = f"select imdbid, Title, Poster from film where imdbid in {recommend_list}"
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    for i in result:
+        # 处理封面链接
+        image_url = i[2]
+        if image_url != "N/A":
+            image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+str(i[0])+'.jpg')
+        # 每一个tmp包含了查询结果中的 一个 电影的imdbid、名字和封面链接
+        tmp = {
+            "imdbid": i[0],
+            "title": i[1],
+            "img": image_url,
+            }
+        data.append(tmp)
+
+    connection.commit()
+    cursor.close()
+    connection.close()
     return HttpResponse(json.dumps(data), content_type='application/json')
-    return HttpResponse(data)
-    print(data)

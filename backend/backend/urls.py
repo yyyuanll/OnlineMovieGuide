@@ -26,4 +26,7 @@ urlpatterns = [
     path('oscar/',include('oscar.urls')),
     path('user/',include('user.urls')),
     path('movie_detail/',include('movie_detail.urls')),
+    path('hot/',include('hot.urls')),
+    path('new/',include('new.urls')),
+    path('command/',include('command.urls')),
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

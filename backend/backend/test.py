@@ -1,9 +1,8 @@
-
+import json
 from unittest import result
 import pymysql
-
+import os
 from sshtunnel import SSHTunnelForwarder
-import sys
 
 ssh_host = "sandbox.bundit-lae.me"  # 堡垒机ip地址或主机名
 ssh_port = 22  # 堡垒机连接mysql服务器的端口号，一般都是22，必须是数字
@@ -28,19 +27,30 @@ with SSHTunnelForwarder(
                            db=mysql_db)
  
     cursor = conn.cursor()
-    '''
-    s = '2'
-    sql = f"select imdbid, Title, Poster from film where _year < 2010"
+    data = []
+    _id = 'tt0080455'
+    with open('Recommend_dictionary.json', 'r', encoding='utf-8') as f:
+        movie_dics = json.load(f)
+
+    recommend_list = tuple(movie_dics[_id])
+    print(recommend_list)
+    sql = f"select imdbid, Title, Poster from film where imdbid in {recommend_list}"
     cursor.execute(sql)
     result = cursor.fetchall()
-    '''
+    for i in result:
+        # 处理封面链接
+        image_url = i[2]
+        if image_url != "N/A":
+            image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+str(i[0])+'.jpg')
+        # 每一个tmp包含了查询结果中的 一个 电影的imdbid、名字和封面链接
+        tmp = {
+            "imdbid": i[0],
+            "title": i[1],
+            "img": image_url,
+            }
+        data.append(tmp)
+    print(data)
 
-    genre_choice = 'Action'
-    sql = f"select imdbid from genre where genre = '{genre_choice}'"
-    cursor.execute(sql)
-    result1 = cursor.fetchall()
-    print(result1)
-    
     conn.commit()
     cursor.close()
     conn.close()
