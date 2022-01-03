@@ -4,16 +4,16 @@
       <header>
         <el-avatar icon="el-icon-user-solid" shape="circle"></el-avatar>
         <span class="login">
-          <em class="bold">已有账号？</em>
+          <em class="bold">Already have an account?</em>
           <a href="/login">
-            <el-button type="primary" size="small">登录</el-button>
+            <el-button type="primary" size="small">login</el-button>
           </a>
         </span>
       </header>
     </article>
     <el-steps :active="active" finish-status="success">
-      <el-step title="步骤 1"></el-step>
-      <el-step title="步骤 2"></el-step>
+      <el-step title="Step 1"></el-step>
+      <el-step title="Step 2"></el-step>
     </el-steps>
 
     <section>
@@ -36,25 +36,25 @@
             </el-input>
           </el-form-item>
           <el-form-item prop="agreed">
-            <el-checkbox v-model="ruleForm.agreed">同意注册协议</el-checkbox>
+            <el-checkbox v-model="ruleForm.agreed">Agree</el-checkbox>
           </el-form-item>
         </div>
         <div v-if="active==1">
-          <el-form-item label="用户名" prop="name">
+          <el-form-item label="username" prop="name">
             <el-input v-model="ruleForm.name" />
           </el-form-item>
-          <el-form-item label="邮箱" prop="email">
+          <el-form-item label="email" prop="email">
             <el-input v-model="ruleForm.email" />
-            <el-button size="mini" round @click="sendMsg">发送验证码</el-button>
+            <el-button size="mini" round @click="sendMsg">send certification</el-button>
             <span class="status">{{ statusMsg }}</span>
           </el-form-item>
-          <el-form-item label="验证码" prop="code">
+          <el-form-item label="vertification" prop="code">
             <el-input v-model="ruleForm.code" maxlength="4" />
           </el-form-item>
-          <el-form-item label="密码" prop="pwd">
+          <el-form-item label="password" prop="pwd">
             <el-input v-model="ruleForm.pwd" type="password" />
           </el-form-item>
-          <el-form-item label="确认密码" prop="cpwd">
+          <el-form-item label="password certification" prop="cpwd">
             <el-input v-model="ruleForm.cpwd" type="password" />
           </el-form-item>
 
@@ -67,18 +67,18 @@
         type="primary"
         icon="el-icon-arrow-left"
         @click="prev"
-      >上一步</el-button>
+      >last step</el-button>
       <el-button
         v-if="active<step-1"
         type="primary"
         icon="el-icon-arrow-right"
         @click="next"
-      >下一步</el-button>
+      >next step</el-button>
       <el-button
         v-if="active==step-1"
         type="primary"
         @click="register"
-      >同意以下协议并注册</el-button>
+      >agree and register</el-button>
       <div class="error">{{ error }}</div>
     </div>
   </div>
@@ -94,7 +94,7 @@ export default {
       statusMsg: '',
       error: '',
       ruleForm: {
-        textarea: '请仔细阅读以下协议',
+        textarea: 'please read the protical',
         agreed: false,
         name: '',
         code: '',
@@ -107,7 +107,7 @@ export default {
           validator: (rule, value, callback) => {
             console.log('value:' + value)
             if (value !== true) {
-              callback(new Error('请确认同意注册协议'))
+              callback(new Error('please agree'))
             } else {
               callback()
             }
@@ -117,30 +117,30 @@ export default {
         name: [{
           required: true,
           type: 'string',
-          message: '请输入用户名',
+          message: 'enter username',
           trigger: 'blur'
         }],
         email: [{
           required: true,
           type: 'email',
-          message: '请输入邮箱',
+          message: 'enter email',
           trigger: 'blur'
         }],
         pwd: [{
           required: true,
-          message: '创建密码',
+          message: 'create password',
           trigger: 'blur'
         }],
         cpwd: [{
           required: true,
-          message: '确认密码',
+          message: 'certify password',
           trigger: 'blur'
         }, {
           validator: (rule, value, callback) => {
             if (value === '') {
-              callback(new Error('请再次输入密码'))
+              callback(new Error('please enter your password again'))
             } else if (value !== this.ruleForm.pwd) {
-              callback(new Error('两次输入密码不一致'))
+              callback(new Error('the two passwords don\'t match'))
             } else {
               callback()
             }
@@ -172,9 +172,9 @@ export default {
       // 模拟验证码发送
       if (!namePass && !emailPass) {
         let count = 60
-        self.statusMsg = `验证码已发送,剩余${count--}秒`
+        self.statusMsg = `critification sent,${count--}seconds remain`
         self.timerid = setInterval(function() {
-          self.statusMsg = `验证码已发送,剩余${count--}秒`
+          self.statusMsg = `critification sent,${count--}seconds remain`
           if (count === 0) {
             clearInterval(self.timerid)
           }

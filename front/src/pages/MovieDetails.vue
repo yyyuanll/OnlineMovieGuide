@@ -170,9 +170,14 @@
 </style>
 
 <script>
+import Axios from 'axios';
+import { axiosInstance } from 'src/boot/axios';
+import func from 'vue-editor-bridge';
     export default {
         data() {
             return {
+                imdbid: 'tt0080684',
+                username: 'Lucas Kim',
                 value1: null,
                 value2: null,
                 colors: ['#99A9BF', '#F7BA2A', '#FF9900'],  // 等同于 { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
@@ -182,8 +187,9 @@
                 movieDetailes:[
                     {
                         "title": "Star Wars: Episode V - The Empire Strikes Back",
-                        "image": "img/poster_example.jpg",//"http://127.0.0.1:8000/images/tt0080684.jpg",
+                        "image": "http://127.0.0.1:8000/images/tt0080684.jpg",
                         "imdbrating": 8.8,
+                        "imdbid": "tt0080684",
                         "metascore": 79,
                         "day": 20,
                         "month": 6,
@@ -215,14 +221,60 @@
                         "actor4": "Billy Dee Williams",
                         "actor_link4": "https://en.wikipedia.org/wiki/Billy_Dee_Williams"
                     },
-                    {}
-                ],
+                    {},
+                    {
+                        "imdbid": "tt0082288",
+                        "title": "Dragonslayer",
+                        "img": "http://127.0.0.1:8000/images/tt0082288.jpg"
+                    },
+                    {
+                        "imdbid": "tt0084749",
+                        "title": "The Sword and the Sorcerer",
+                        "img": "http://127.0.0.1:8000/images/tt0084749.jpg"
+                    },
+                    {
+                        "imdbid": "tt0083630",
+                        "title": "The Beastmaster",
+                        "img": "http://127.0.0.1:8000/images/tt0083630.jpg"
+                    },
+                    {
+                        "imdbid": "tt0085811",
+                        "title": "Krull",
+                        "img": "http://127.0.0.1:8000/images/tt0085811.jpg"
+                    },
+                    {
+                        "imdbid": "tt0087078",
+                        "title": "Conan the Destroyer",
+                        "img": "http://127.0.0.1:8000/images/tt0087078.jpg"
+                    }
+                ]
                 
             }
+        },
+        created(){
+            // this.getImdbID();
+            Axios
+                .get("127.0.0.1:8000/movie_detail/", {
+                    params:{
+                        imdbid: this.imdbid,
+                        username: this.username
+                    }
+                })
+                .then(response => (this.movieDetailes = response))
+                .catch(function(error){
+                    console.log(error);
+                });
         },
         methods: {
             onSubmitComment() {
                 console.log('submit!');
+            },
+            getImdbID:function(){
+                var routerImdbID = this.$route.query.imdbid
+                var routerUserName = this.$router.query.username
+                console.log(routerImdbID, routerUserName)
+                this.imdbid = routerImdbID
+                this.username = routerUserName
             }
         }
     }

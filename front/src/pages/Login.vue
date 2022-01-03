@@ -5,29 +5,29 @@
     <div class="row justify-center login">
       <div class="right">
         <div class="title text-h6 text-center">
-          <q-item-label>登录</q-item-label>
+          <q-item-label>login</q-item-label>
         </div>
         <div class="mobile row justify-center">
           <q-input
-            placeholder="请输入用户名"
+            placeholder="Please enter your username"
             v-model="username"
             style="width: 336px;"
           >
             <template v-slot:prepend>
-              <q-item-label>用户名</q-item-label>
+              <q-item-label>username</q-item-label>
             </template>
           </q-input>
         </div>
         <div class="yzm row justify-center">
           <q-input
-            placeholder="请输入密码"
+            placeholder="Please enter your password"
             v-model="password"
             style="width: 336px;"
             :type="isPwd ? 'password' : 'text'"
             v-on:keyup.enter="submit"
           >
             <template v-slot:prepend>
-              <q-item-label>密码</q-item-label>
+              <q-item-label>password</q-item-label>
             </template>
             <template v-slot:append>
               <q-icon
@@ -43,7 +43,7 @@
             unelevated
             class="login-btn"
             color="primary"
-            label="登 录"
+            label="login"
             :disable="!username || !password"
             @click="submit"
           />
@@ -197,12 +197,12 @@ export default {
 
     submit() {
       if (!this.username) {
-        this.$q.notify("用户名不能为空！");
+        this.$q.notify("username can't be blank");
         return;
       }
 
       if (!this.password) {
-        this.$q.notify("密码不能为空！");
+        this.$q.notify("password can't be blank");
         return;
       }
 
