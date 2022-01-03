@@ -14,11 +14,15 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
-    "axios": "^0.18.1",
+    "axios": "^0.24.0",
     "core-js": "^3.6.5",
+    "echarts": "^5.2.2",
     "element-ui": "^2.15.6",
+    "nprogress": "^0.2.0",
     "quasar": "^1.0.0",
-    "vue-i18n": "^8.0.0"
+    "vue-echarts": "^6.0.0",
+    "vue-i18n": "^8.0.0",
+    "vue-progress-path": "0.0.2"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",

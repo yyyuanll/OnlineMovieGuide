@@ -47,6 +47,7 @@ module.exports = function (/* ctx */) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
+      // publicPath:' ./ ',
 
       // transpile: false,
 
@@ -93,7 +94,11 @@ module.exports = function (/* ctx */) {
       iconSet: 'material-icons', // Quasar icon set
       lang: 'zh-hans', // Quasar language pack
       config: {},
-
+      components: ['QInnerLoading',
+  
+      //... 如果使用自定义旋转器，
+      //无论如何请将其添加
+      'QSpinnerGears'],
       // Possible values for "importStrategy":
       // * 'auto' - (DEFAULT) Auto-import needed Quasar components & directives
       // * 'all'  - Manually specify what to import

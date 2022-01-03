@@ -1,3 +1,4 @@
+
 <template>
   <div class="hot">
     <div class="hot_">
@@ -260,4 +261,5 @@ li{
   display: inline-block;
   width: 350px;
 }
+
 </style>

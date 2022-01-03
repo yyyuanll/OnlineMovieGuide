@@ -42,7 +42,11 @@
                     <a v-bind:href="movieDetailes[4].actor_link4">{{movieDetailes[4].actor4}}</a>
                 </div>
                 <div class="recommend">
-                    recommend
+                    <el-card><img v-bind:src="movieDetailes[6].img" v-bind:alt="movieDetailes[6].title"><router-link :to="{path:'/movieDetails',query:{imdbid: movieDetailes[6].imdbid, username: this.username}}" class="link">{{movieDetailes[6].title}}</router-link></el-card>
+                    <el-card><img v-bind:src="movieDetailes[7].img" v-bind:alt="movieDetailes[7].title"><router-link :to="{path:'/movieDetails',query:{imdbid: movieDetailes[7].imdbid, username: this.username}}" class="link">{{movieDetailes[7].title}}</router-link></el-card>
+                    <el-card><img v-bind:src="movieDetailes[8].img" v-bind:alt="movieDetailes[8].title"><router-link :to="{path:'/movieDetails',query:{imdbid: movieDetailes[8].imdbid, username: this.username}}" class="link">{{movieDetailes[8].title}}</router-link></el-card>
+                    <el-card><img v-bind:src="movieDetailes[9].img" v-bind:alt="movieDetailes[9].title"><router-link :to="{path:'/movieDetails',query:{imdbid: movieDetailes[9].imdbid, username: this.username}}" class="link">{{movieDetailes[9].title}}</router-link></el-card>
+                    <el-card><img v-bind:src="movieDetailes[10].img" v-bind:alt="movieDetailes[10].title"><router-link :to="{path:'/movieDetails',query:{imdbid: movieDetailes[10].imdbid, username: this.username}}" class="link">{{movieDetailes[10].title}}</router-link></el-card>
                 </div>
             </div>
             <div class="right">
@@ -63,9 +67,6 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="recommend">
-            Recommand
-        </div> -->
     </div>
 </template>
 
@@ -172,6 +173,15 @@
     .commentForm .el-card__body{
         height: 180px;
     }
+    .recommend .el-card{
+        width: 20% !important;
+        height: 100%;
+        float: left;
+    }
+    .recommend .el-card__body{
+        width: 100% !important;
+        height: 100%;
+    }
 </style>
 
 <script>
@@ -259,13 +269,13 @@ import { dom } from 'quasar';
         created(){
             this.getImdbID();
             Axios
-                .get("127.0.0.1:8000/movie_detail/", {
+                .get("http://127.0.0.1:8000/movie_detail/", {
                     params:{
                         imdbid: this.imdbid,
                         username: this.username
                     }
                 })
-                .then(response => (this.movieDetailes = response))
+                .then(response => (this.movieDetailes = response.data))
                 .catch(function(error){
                     console.log(error);
                 });
@@ -283,28 +293,26 @@ import { dom } from 'quasar';
             },
             UploadComment(){
                 Axios
-                    .post("127.0.0.1:8000/add_comment/", {
+                    .post("http://127.0.0.1:8000/add_comment/", {
                         params:{
                             imdbid: this.imdbid,
                             username: this.username,
                             review: this.form.comment
                         }
                     })
-                    .then(response => (this.movieDetailes = response))
                     .catch(function(error){
                         console.log(error);
                     });
             },
             UploadRating(){
                 Axios
-                    .post("127.0.0.1:8000/add_star/", {
+                    .post("http://127.0.0.1:8000/add_star/", {
                         params:{
                             imdbid: this.imdbid,
                             username: this.username,
                             star: this.userRating
                         }
                     })
-                    .then(response => (this.movieDetailes = response))
                     .catch(function(error){
                         console.log(error);
                     });

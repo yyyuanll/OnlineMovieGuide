@@ -1,3 +1,4 @@
+
 <template>
   <div class="new">
     <div class="new_">
@@ -261,4 +262,5 @@ li{
   display: inline-block;
   width: 350px;
 }
+
 </style>
