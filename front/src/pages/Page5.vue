@@ -102,7 +102,7 @@
 export default {
   data(){
     return{
-      username: null,
+      username: this.$route.query.username,
       options1:[
         {value: 'All'},
         {value: 'Drama'}, {value: 'Comedy'}, {value: 'Action'}, {value: 'Romance'}, {value: 'Crime'},

@@ -65,7 +65,7 @@
 export default {
   data(){
     return{
-      username: null,
+      username: this.$route.query.username,
       index: 1,
       pagesize:28,
       all: 20, //总页数

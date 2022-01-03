@@ -257,7 +257,7 @@ import { dom } from 'quasar';
             }
         },
         created(){
-            // this.getImdbID();
+            this.getImdbID();
             Axios
                 .get("127.0.0.1:8000/movie_detail/", {
                     params:{
