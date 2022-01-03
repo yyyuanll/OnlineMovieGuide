@@ -11,7 +11,7 @@ from django.conf import settings    # setting.py添加的的配置信息
 # 头像 历史 favo 评论 图表 
 def profile(request):
     data = []
-    user_name = request.GET.get('value', None)
+    user_name = request.GET.get('username', None)
     user_info = models.Username.objects.filter(username=user_name)
     print(user_name)
 
@@ -26,39 +26,58 @@ def profile(request):
 
 def history(request):
     data = []
+<<<<<<< HEAD
+    user_name = request.GET.get('username', None)
+    his = models.History.objects.filter(username=user_name)
+    print('his', user_name)
+    for i in his:
+        poster = models.Film.objects.filter(imdbid=i.imdbid)
+=======
     user_name = request.GET.get('value', None)
     print(user_name)
     his = models.History.objects.filter(username=user_name)
-
     for i in his:
-        poster = models.Film.objects.filter(title=i.imdbid)
+        poster = models.Film.objects.filter(imdbid =i.imdbid)
+        print(len(poster))
+>>>>>>> 5d54ab6497ff7393f1afc33f5483c797d60befe8
         for j in poster:
             image_url = j.poster
+            print(j.poster)
             if image_url != "N/A":
                 image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+str(j.imdbid)+'.jpg')
+            else:
+                image_url = 'http://127.0.0.1:8000/images/none.jpg'
             p_tmp = {
-                "type": "history",
                 "title": j.title,
                 "image": image_url,
             }
+            print(p_tmp)
             data.append(p_tmp)
+<<<<<<< HEAD
+=======
     print(data)
+>>>>>>> 5d54ab6497ff7393f1afc33f5483c797d60befe8
 
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 def favorite(request):
     data = []
+<<<<<<< HEAD
+    user_name = request.GET.get('username', None)
+=======
     user_name = request.GET.get('value', None)
     print(user_name)
+>>>>>>> 5d54ab6497ff7393f1afc33f5483c797d60befe8
     fav = models.Favorite.objects.filter(username=user_name)
 
     for m in fav:
-        poster = models.Film.objects.filter(title=m.imdbid)
+        poster = models.Film.objects.filter(imdbid=m.imdbid)
         for j in poster:
-            print(j.title)
             image_url = j.poster
             if image_url != "N/A":
                 image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+str(j.imdbid)+'.jpg')
+            else:
+                image_url = 'http://127.0.0.1:8000/images/none.jpg'
             p_tmp = {
                 "type": "favorites",
                 "title": j.title,
@@ -91,19 +110,36 @@ def user_genre(request):
                    "Documenntary":0, "Fantasy":0,"Biography":0,"Mystery":0,
                    "Sci-fi":0,"Music":0,"Animatinon":0,"History":0,
                    "Sport":0,"War":0,"Others":0}
+<<<<<<< HEAD
+    user_name = request.GET.get('username', None)
+    print('test', user_name)
+=======
     user_name = request.GET.get('value', None)
     print(user_name)
+>>>>>>> 5d54ab6497ff7393f1afc33f5483c797d60befe8
     data = []
     fav = models.Favorite.objects.filter(username=user_name)
     # 找到用户最喜欢的电影的类别，并计数
     for f in fav:
+        print(f.imdbid)
         genres = models.Genre.objects.filter(imdbid=f.imdbid)
         for i in genres:
+            print(i.genre)
             if i.genre in genre_list:
                 genre_list[i.genre] += 1
             else:
                 genre_list["Others"] += 1
+<<<<<<< HEAD
+
+    for i in genre_list:
+        tmp = {
+            'value': genre_list[i],
+            'name': i,
+        }
+        data.append(tmp)
+=======
     data.append(genre_list)
+>>>>>>> 5d54ab6497ff7393f1afc33f5483c797d60befe8
     print(data)
     return HttpResponse(json.dumps(data), content_type='application/json')
 
@@ -144,6 +180,8 @@ def user(request):
             image_url = j.poster
             if image_url != "N/A":
                 image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+str(j.imdbid)+'.jpg')
+            else:
+                image_url = 'http://127.0.0.1:8000/images/none.jpg'
             p_tmp = {
                 "type": "history",
                 "title": j.title,
@@ -158,6 +196,8 @@ def user(request):
             image_url = j.poster
             if image_url != "N/A":
                 image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+str(j.imdbid)+'.jpg')
+            else:
+                image_url = 'http://127.0.0.1:8000/images/none.jpg'
             p_tmp = {
                 "type": "favorites",
                 "title": j.title,
@@ -362,6 +402,8 @@ def login(request):
     if request.method == "POST":
         user = request.POST.get('username', None)
         psword = request.POST.get('password', None)
+        print("user",user)
+        print("password",psword)
 
         try:
             cursor=connection.cursor()
@@ -398,6 +440,7 @@ def sendEmailCode(request):
     data = []
     if request.method == "POST":
         email = request.POST.get('mail', None)
+        print(email)
         if send_code_email(email):
             tmp = {
                 'status': 200,

@@ -104,6 +104,8 @@ def new(request):
             image_url = i[2]
             if image_url != "N/A":
                 image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+str(i[0])+'.jpg')
+            else:
+                image_url = 'http://127.0.0.1:8000/images/none.jpg'
             # 每一个tmp包含了查询结果中的 一个 电影的imdbid、名字和封面链接
             tmp = {
                 "imdbid": i[0],
