@@ -13,6 +13,7 @@ def profile(request):
     data = []
     user_name = request.GET.get('value', None)
     user_info = models.Username.objects.filter(username=user_name)
+    print(user_name)
 
     for i in user_info:
         print(i.username)
@@ -20,12 +21,13 @@ def profile(request):
             "useravatar": i.head_portrait,
         }
         data.append(tmp)
-
+    print(data)
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 def history(request):
     data = []
     user_name = request.GET.get('value', None)
+    print(user_name)
     his = models.History.objects.filter(username=user_name)
 
     for i in his:
@@ -40,12 +42,14 @@ def history(request):
                 "image": image_url,
             }
             data.append(p_tmp)
-        
+    print(data)
+
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 def favorite(request):
     data = []
     user_name = request.GET.get('value', None)
+    print(user_name)
     fav = models.Favorite.objects.filter(username=user_name)
 
     for m in fav:
@@ -61,11 +65,13 @@ def favorite(request):
                 "image": image_url,
             }
             data.append(p_tmp)
+    print(data)
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 def review(request):
     data = []
     user_name = request.GET.get('value', None)
+    print(user_name)
     comment = models.Review.objects.filter(username=user_name)
 
     for i in comment:
@@ -76,7 +82,7 @@ def review(request):
             "star": i.star/5*10,
         }
         data.append(tmp)
-    
+    print(data)
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 def user_genre(request):
@@ -86,6 +92,7 @@ def user_genre(request):
                    "Sci-fi":0,"Music":0,"Animatinon":0,"History":0,
                    "Sport":0,"War":0,"Others":0}
     user_name = request.GET.get('value', None)
+    print(user_name)
     data = []
     fav = models.Favorite.objects.filter(username=user_name)
     # 找到用户最喜欢的电影的类别，并计数
@@ -96,7 +103,8 @@ def user_genre(request):
                 genre_list[i.genre] += 1
             else:
                 genre_list["Others"] += 1
-    data.append(genre_list)    
+    data.append(genre_list)
+    print(data)
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 def user(request): 
