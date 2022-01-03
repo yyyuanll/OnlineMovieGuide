@@ -1,5 +1,6 @@
 import json
 from unittest import result
+from numpy import delete
 import pymysql
 import os
 from sshtunnel import SSHTunnelForwarder
@@ -14,7 +15,15 @@ mysql_user = "u2019111089"  # 这是你mysql数据库上的用户名
 mysql_password = "PIN-PROTECT-111-CAPABLE"  # 这是你mysql数据库的密码
 mysql_db = "u2019111089"  # mysql服务器上的数据库名
  
- 
+def to_tuple(result):
+    if isinstance(result[0],tuple):
+        t = []
+        for i in result:
+            t.append(i[0])
+        return tuple(t)
+    else:
+        return result
+
 with SSHTunnelForwarder(
         (ssh_host, ssh_port),
         ssh_username=ssh_user,
@@ -27,11 +36,23 @@ with SSHTunnelForwarder(
                            db=mysql_db)
  
     cursor = conn.cursor()
+
+    deleted = []
+    root_path = r'C:/Users/14472/Desktop/collection/Database/final project/OnlineMovieGuide/backend/images'
+    with open('Recommend_dictionary.json', 'r', encoding='utf-8') as f:
+        movie_dics = json.load(f)
+
+    for root,dirs,files in os.walk(root_path):
+        for key in movie_dics:
+            s = key+'.jpg'
+            if s not in files:
+                deleted.append(key)
+                sql = f"UPDATE film SET Poster = 'N/A' WHERE imdbid = '{key}'"
+                cursor.execute(sql)
+
+    print(deleted)
     
-    sql = f"select username from username"
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    print(result)
     conn.commit()
     cursor.close()
     conn.close()
+    

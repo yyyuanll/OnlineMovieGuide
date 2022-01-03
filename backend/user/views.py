@@ -27,18 +27,22 @@ def history(request):
     data = []
     user_name = request.GET.get('value', None)
     his = models.History.objects.filter(username=user_name)
-
     for i in his:
-        poster = models.Film.objects.filter(title=i.imdbid)
+        poster = models.Film.objects.filter(imdbid =i.imdbid)
+        print(len(poster))
         for j in poster:
             image_url = j.poster
+            print(j.poster)
             if image_url != "N/A":
                 image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+str(j.imdbid)+'.jpg')
+            else:
+                image_url = 'http://127.0.0.1:8000/images/none.jpg'
             p_tmp = {
                 "type": "history",
                 "title": j.title,
                 "image": image_url,
             }
+            print(p_tmp)
             data.append(p_tmp)
         
     return HttpResponse(json.dumps(data), content_type='application/json')
@@ -49,12 +53,14 @@ def favorite(request):
     fav = models.Favorite.objects.filter(username=user_name)
 
     for m in fav:
-        poster = models.Film.objects.filter(title=m.imdbid)
+        poster = models.Film.objects.filter(imdbid=m.imdbid)
         for j in poster:
             print(j.title)
             image_url = j.poster
             if image_url != "N/A":
                 image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+str(j.imdbid)+'.jpg')
+            else:
+                image_url = 'http://127.0.0.1:8000/images/none.jpg'
             p_tmp = {
                 "type": "favorites",
                 "title": j.title,
@@ -136,6 +142,8 @@ def user(request):
             image_url = j.poster
             if image_url != "N/A":
                 image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+str(j.imdbid)+'.jpg')
+            else:
+                image_url = 'http://127.0.0.1:8000/images/none.jpg'
             p_tmp = {
                 "type": "history",
                 "title": j.title,
@@ -150,6 +158,8 @@ def user(request):
             image_url = j.poster
             if image_url != "N/A":
                 image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+str(j.imdbid)+'.jpg')
+            else:
+                image_url = 'http://127.0.0.1:8000/images/none.jpg'
             p_tmp = {
                 "type": "favorites",
                 "title": j.title,
@@ -354,6 +364,8 @@ def login(request):
     if request.method == "POST":
         user = request.POST.get('username', None)
         psword = request.POST.get('password', None)
+        print("user",user)
+        print("password",psword)
 
         try:
             cursor=connection.cursor()
@@ -390,6 +402,7 @@ def sendEmailCode(request):
     data = []
     if request.method == "POST":
         email = request.POST.get('mail', None)
+        print(email)
         if send_code_email(email):
             tmp = {
                 'status': 200,
