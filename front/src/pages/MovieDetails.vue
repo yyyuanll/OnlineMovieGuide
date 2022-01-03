@@ -3,47 +3,64 @@
         <div class="Details">
             <div class="left">
                 <div class="title">
-                电影名
+                {{movieDetailes[0].title}}
                 </div>
                 <div class="poster">
-                    <img src="../images/poster_example.jpg" alt="">
+                    <img v-bind:src="movieDetailes[0].image" alt="">
                 </div>
                 <div class="yearAndElse">
-                    年份-评级-时长
+                    {{movieDetailes[0].year}}-{{movieDetailes[0].month}}-{{movieDetailes[0].day}}&nbsp;&nbsp;&nbsp;&nbsp;{{movieDetailes[0].rated}}&nbsp;&nbsp;&nbsp;&nbsp;{{movieDetailes[0].runtime}}
                 </div>
                 <div class="IMDbRating">
-                    IMDb评分
+                    IMDb Score : {{movieDetailes[0].imdbrating}}
                 </div>
                 <div class="metascore">
-                    Metascore
+                    Metascore : {{movieDetailes[0].metascore}}
                 </div>
                 <div class="userRating">
-                    用户评分
+                    <span class="demonstration">User Score</span>
+                    <el-rate
+                        v-model="value2"
+                        :colors="colors">
+                    </el-rate>
                 </div>
                 <div class="genre">
-                    类型
+                    Genre : {{movieDetailes[1].genre1}} {{movieDetailes[1].genre2}} {{movieDetailes[1].genre3}}
                 </div>
                 <div class="director">
-                    导演
+                    Director : {{movieDetailes[0].director}}
                 </div>
                 <div class="writer">
-                    编剧
+                    Writer : {{movieDetailes[0].writer}}
                 </div>
                 <div class="actor">
-                    演员
+                    Actor : 
+                    <a v-bind:href="movieDetailes[4].actor_link1">{{movieDetailes[4].actor1}}</a> 、
+                    <a v-bind:href="movieDetailes[4].actor_link2">{{movieDetailes[4].actor2}}</a> 、
+                    <a v-bind:href="movieDetailes[4].actor_link3">{{movieDetailes[4].actor3}}</a> 、
+                    <a v-bind:href="movieDetailes[4].actor_link4">{{movieDetailes[4].actor4}}</a>
                 </div>
             </div>
             <div class="right">
                 <div class="comment">
-                    <li><p>这电影真棒</p></li>
-                    <li><p>垃圾电影</p></li>
-                    <li><p>看的我睡着了</p></li>
-                    <li><p>你们都没有童年吗</p></li>
+                    <el-card><p>MasterPiece</p></el-card>
+                    <el-card><p>Noob</p></el-card>
+                    <el-card><p>Tiring</p></el-card>
+                    <el-card class="commentForm">
+                        <el-form ref="form" :model="form">
+                            <el-form-item>
+                                <el-input type="textarea" v-model="form.comment" placeholder="Enter your comment here!"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="onSubmitComment" size="small">Upload Comment</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </el-card>
                 </div>
             </div>
         </div>
         <div class="recommend">
-            推荐电影
+            Recommand
         </div>
     </div>
 </template>
@@ -75,6 +92,8 @@
         line-height: 100px;
         float: left;
         margin: 0;
+        font-size: 30px;
+        font-weight: bold;
     }
     .Details .poster{
         background-color: #fff;
@@ -89,18 +108,23 @@
     .Details .yearAndElse{
         background-color: #fff;
         width: 80%;
-        height: 20px;
+        height: 10px;
         float: left;
         text-align: center;
-        line-height: 20px;
+        line-height: 10px;
+        font-size: 10px;
+        font-style: italic;
     }
     .Details .IMDbRating, .metascore, .userRating{
         width: 26.66%;
-        height: 100px;
+        height: 110px;
         float: left;
         text-align: center;
-        line-height: 100px;
+        line-height: 110px;
         background-color: #fff;
+    }
+    .Details .userRating{
+        line-height: 60px;
     }
     .Details .genre{
         background-color: #fff;
@@ -128,8 +152,11 @@
         background-color: #fff;
         height: 440px;
     }
-    .comment li{
-        height: 110px;
+    .comment div{
+        border: 0;
+    }
+    .comment p{
+        height: 40px;
     }
     .recommend{
         width: 90%;
@@ -137,4 +164,66 @@
         background-color: #f2f2f2;
         height: 100px;
     }
+    .commentForm .el-card__body{
+        height: 150px;
+    }
 </style>
+
+<script>
+    export default {
+        data() {
+            return {
+                value1: null,
+                value2: null,
+                colors: ['#99A9BF', '#F7BA2A', '#FF9900'],  // 等同于 { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
+                form: {
+                        comment: '',
+                    },
+                movieDetailes:[
+                    {
+                        "title": "Star Wars: Episode V - The Empire Strikes Back",
+                        "image": "img/poster_example.jpg",//"http://127.0.0.1:8000/images/tt0080684.jpg",
+                        "imdbrating": 8.8,
+                        "metascore": 79,
+                        "day": 20,
+                        "month": 6,
+                        "year": 1980,
+                        "runtime": "124 min",
+                        "rated": "PG",
+                        "award": "Won 1 Oscar. Another 15 wins & 18 nominations.",
+                        "director": "Irvin Kershner",
+                        "writer": "Leigh Brackett (screenplay), Lawrence Kasdan (screenplay), George Lucas (story)"
+                    },
+                    {
+                        "genre1": "Action",
+                        "genre2": "Adventure",
+                        "genre3": "Fantasy"
+                    },
+                    {
+                        "language1": "English"
+                    },
+                    {
+                        "country1": "USA"
+                    },
+                    {
+                        "actor1": "Mark Hamill",
+                        "actor_link1": "https://en.wikipedia.org/wiki/Mark_Hamill",
+                        "actor2": "Harrison Ford",
+                        "actor_link2": "https://en.wikipedia.org/wiki/Harrison_Ford",
+                        "actor3": "Carrie Fisher",
+                        "actor_link3": "https://en.wikipedia.org/wiki/Carrie_Fisher",
+                        "actor4": "Billy Dee Williams",
+                        "actor_link4": "https://en.wikipedia.org/wiki/Billy_Dee_Williams"
+                    },
+                    {}
+                ],
+                
+            }
+        },
+        methods: {
+            onSubmitComment() {
+                console.log('submit!');
+            }
+        }
+    }
+</script>
