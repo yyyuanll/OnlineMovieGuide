@@ -1,11 +1,11 @@
 <template>
-    <el-container style="">
-    <el-main style="">
-   <div class="page-info">
+<el-container style="">
+    <el-main style="background:none">
+    <div class="page-info">
       <el-col v-for="(data) in movielist" :key="data.label" :value="data.value" :span="5.5" style="background:none">
       <div class="grid-content bg-purple" />
       <el-card class="box-card" style="margin:10px;padding:0pxbackground:#ffffff">
-      <img :src="data.img" class="image" style="height:230px;width:160px">
+      <img :src="data.image" class="image" style="height:230px;width:160px">
       <router-link to="page-detail" class="link">
         <div :id="data.id" style="padding: 0px;text-align: center;margin-top:10px">
           {{data.title}}
@@ -15,50 +15,59 @@
       </el-col>
     </div>
     </el-main>
-  </el-container>
+</el-container>
 </template>
 
 <script>
   export default {
     data() {
       return {
-       movielist:[
-        {"img":'https://s2.loli.net/2021/12/11/FiKM5GTe9hXJ1tS.jpg', "title":"The Lion King"},
-        {"img":'https://s2.loli.net/2021/12/11/kP2xYZbRUo9aJNm.jpg', "title":"Legend"},
-        {"img":'https://s2.loli.net/2021/12/11/gTc6LajV82pEsy3.jpg', "title":"Enemy"},
-        {"img":'https://s2.loli.net/2021/12/11/5yLZpcbwrfC8F6U.jpg', "title":"MELEFLOVE"},
-        {"img":'https://s2.loli.net/2021/12/11/FiKM5GTe9hXJ1tS.jpg', "title":"The Lion King"},
-        {"img":'https://s2.loli.net/2021/12/11/kP2xYZbRUo9aJNm.jpg', "title":"Legend"},
-        {"img":'https://s2.loli.net/2021/12/11/gTc6LajV82pEsy3.jpg', "title":"Enemy"},
-        {"img":'https://s2.loli.net/2021/12/11/5yLZpcbwrfC8F6U.jpg', "title":"MELEFLOVE"},
-        {"img":'https://s2.loli.net/2021/12/11/FiKM5GTe9hXJ1tS.jpg', "title":"The Lion King"},
-        {"img":'https://s2.loli.net/2021/12/11/kP2xYZbRUo9aJNm.jpg', "title":"Legend"},
-        {"img":'https://s2.loli.net/2021/12/11/gTc6LajV82pEsy3.jpg', "title":"Enemy"},
-        {"img":'https://s2.loli.net/2021/12/11/5yLZpcbwrfC8F6U.jpg', "title":"MELEFLOVE"},
-        {"img":'https://s2.loli.net/2021/12/11/FiKM5GTe9hXJ1tS.jpg', "title":"The Lion King"},
-        {"img":'https://s2.loli.net/2021/12/11/kP2xYZbRUo9aJNm.jpg', "title":"Legend"},
-        {"img":'https://s2.loli.net/2021/12/11/gTc6LajV82pEsy3.jpg', "title":"Enemy"},
-        {"img":'https://s2.loli.net/2021/12/11/5yLZpcbwrfC8F6U.jpg', "title":"MELEFLOVE"},
-        {"img":'https://s2.loli.net/2021/12/11/FiKM5GTe9hXJ1tS.jpg', "title":"The Lion King"},
-        {"img":'https://s2.loli.net/2021/12/11/kP2xYZbRUo9aJNm.jpg', "title":"Legend"},
-        {"img":'https://s2.loli.net/2021/12/11/gTc6LajV82pEsy3.jpg', "title":"Enemy"},
-        {"img":'https://s2.loli.net/2021/12/11/5yLZpcbwrfC8F6U.jpg', "title":"MELEFLOVE"},
-        {"img":'https://s2.loli.net/2021/12/11/FiKM5GTe9hXJ1tS.jpg', "title":"The Lion King"},
-        {"img":'https://s2.loli.net/2021/12/11/kP2xYZbRUo9aJNm.jpg', "title":"Legend"},
-        {"img":'https://s2.loli.net/2021/12/11/gTc6LajV82pEsy3.jpg', "title":"Enemy"},
-        {"img":'https://s2.loli.net/2021/12/11/5yLZpcbwrfC8F6U.jpg', "title":"MELEFLOVE"}
+       username:"Lucas Kim",
+        movielist:[
+        {"img":'', "title":""},
+        
       ],
-      movietype:'all',
+       
       }
     },
+
+watch: {
+  // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
+  '$route': 'getUsername'
+},
     mounted () {
     document.querySelector("body").style.backgroundImage =
       "url('https://s2.loli.net/2021/12/17/1atOwnYbEMJGPsc.jpg') ";
       document.querySelector("body").style.backgroundAttachment= 'fixed';
       document.querySelector("body").style.backgroundSize= 'cover';
       document.querySelector("body").style.backgroundPosition= 'center';
-      // this.movielist = this.dataListFn(this.cur.toString());
+      this.movielist = this.favorite();
   },
+   methods: {
+       async favorite(){ 
+        let data = [];
+        console.log(this.username);
+       
+        await this.$axios.get("http://127.0.0.1:8000/user/favorite/",{
+          params:{
+           username:this.username
+          }
+        })
+        .then(function(response){
+          data = response.data;
+          console.log(data);
+        }).catch((error) => {
+            console.log(error);
+        })
+        console.log(data);
+        this.movielist = data;
+        //console.log(this.useravatar);
+        return this.movielist;
+      },
+            getUsername:function(){
+                var routerUserName = this.$router.query.username
+                this.username = routerUserName
+            },}
   };
 </script>
 <style >

@@ -10,9 +10,54 @@
   export default {
     data() {
       return {
+          chart:[
+        { value: 335, name: 'Drama' },
+        { value: 310, name: 'Action' },
+        { value: 274, name: 'Comedy' },
+        { value: 235, name: 'Romance' },
+        { value: 400, name: 'Ctime' },
+        { value: 350, name: 'Triller' },
+        { value: 450, name: 'Adventure' },
+        { value: 155, name: 'Horror' },
+        { value: 266, name: 'Documentary' },
+        { value: 511, name: 'Fantasy' },
+        { value: 299, name: 'Biography' },
+        { value: 377, name: 'Mystery' },
+        { value: 456, name: 'Sci-fi' },
+        { value: 199, name: 'Music' },
+        { value: 245, name: 'Animation' },
+        { value: 345, name: 'History' },
+        { value: 321, name: 'Sport' },
+        { value: 231, name: 'War' },
+        { value: 253, name: 'Others' }
+      ],
+      username:"Lucas Kim"
       }
     },
+    methods:{
+       async uchart(){ 
+        let data = [];
+        console.log(this.username);
+       
+        await this.$axios.get("http://127.0.0.1:8000/user/user_genre/",{
+          params:{
+           username:this.username
+          }
+        })
+        .then(function(response){
+          data = response.data;
+          console.log(data);
+        }).catch((error) => {
+            console.log(error);
+        })
+        console.log(data);
+        this.chart = data;
+        console.log(this.chart);
+        return this.chart;
+      },
+    },
     mounted(){
+      this.chart=this.uchart()
       var echarts = require('echarts')
       var myChart = echarts.init(document.getElementById('main1'))
     // 指定图表的配置项和数据
@@ -43,27 +88,7 @@
       type: 'pie',
       radius: '55%',
       center: ['50%', '50%'],
-      data: [
-        { value: 335, name: 'Drama' },
-        { value: 310, name: 'Action' },
-        { value: 274, name: 'Comedy' },
-        { value: 235, name: 'Romance' },
-        { value: 400, name: 'Ctime' },
-        { value: 350, name: 'Triller' },
-        { value: 450, name: 'Adventure' },
-        { value: 155, name: 'Horror' },
-        { value: 266, name: 'Documentary' },
-        { value: 511, name: 'Fantasy' },
-        { value: 299, name: 'Biography' },
-        { value: 377, name: 'Mystery' },
-        { value: 456, name: 'Sci-fi' },
-        { value: 199, name: 'Music' },
-        { value: 245, name: 'Animation' },
-        { value: 345, name: 'History' },
-        { value: 321, name: 'Sport' },
-        { value: 231, name: 'War' },
-        { value: 253, name: 'Others' }
-      ].sort(function (a, b) {
+      data:this.uchart().sort(function (a, b) {
         return a.value - b.value;
       }),
       roseType: 'radius',
