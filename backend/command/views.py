@@ -17,7 +17,7 @@ def command(request):
     data = []
     if request.method == 'POST':
         # 纪录数据
-        page = request.POST.get('page', None)
+        page = request.POST.get('index', None)
         genre_choice = request.POST.get('Genre', None)
         country_choice = request.POST.get('Country', None)
         rating = request.POST.get('IMDBRating', None)

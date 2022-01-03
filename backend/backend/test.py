@@ -27,30 +27,11 @@ with SSHTunnelForwarder(
                            db=mysql_db)
  
     cursor = conn.cursor()
-    data = []
-    _id = 'tt0080455'
-    with open('Recommend_dictionary.json', 'r', encoding='utf-8') as f:
-        movie_dics = json.load(f)
-
-    recommend_list = tuple(movie_dics[_id])
-    print(recommend_list)
-    sql = f"select imdbid, Title, Poster from film where imdbid in {recommend_list}"
+    
+    sql = f"select username from username"
     cursor.execute(sql)
     result = cursor.fetchall()
-    for i in result:
-        # 处理封面链接
-        image_url = i[2]
-        if image_url != "N/A":
-            image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+str(i[0])+'.jpg')
-        # 每一个tmp包含了查询结果中的 一个 电影的imdbid、名字和封面链接
-        tmp = {
-            "imdbid": i[0],
-            "title": i[1],
-            "img": image_url,
-            }
-        data.append(tmp)
-    print(data)
-
+    print(result)
     conn.commit()
     cursor.close()
     conn.close()

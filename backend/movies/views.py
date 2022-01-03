@@ -17,6 +17,7 @@ def allmovie(request):
         # 如果前端发起了post请求
         if request.method == 'POST':
             # 纪录数据
+            page = request.POST.get('index', None)
             genre_choice = request.POST.get('Genre', None)
             country_choice = request.POST.get('Country', None)
             language_choice = request.POST.get('Language', None)
@@ -37,6 +38,9 @@ def allmovie(request):
                         'Mandarin','Arabic','Portuguese','Cantonese','Korean','Lation','Hebrew','Urdu',
                         'Greek','Chinese')
         rated_list = ('R','PG-13','PG','G','NC-17','UR/NR')
+        page = int(page)
+        from_id = (page - 1)*28
+        to_id = page*28-1
         # 获得能操作mysql数据库的光标
         cursor=connection.cursor()
 
@@ -145,7 +149,7 @@ def allmovie(request):
                 result6 = cursor.fetchall()
         else:
             # 如果用户选择了全部
-            sql = f"select imdbid, Title, Poster from film where imdbid in {result5}"
+            sql = f"select imdbid, Title, Poster from film where imdbid in {result5} limit {from_id},{to_id}"
             cursor.execute(sql)
             result6 = cursor.fetchall()
 
