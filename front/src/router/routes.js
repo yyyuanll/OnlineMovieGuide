@@ -52,7 +52,7 @@ const routes = [
     path: '/MovieDetails',
     component: () => import('layouts/MainLayout1.vue'),
     children: [
-      { path: '/MovieDetails', component: () => import('pages/MovieDetails.vue') }
+      { path: '/MovieDetails', name: 'MovieDetails', component: () => import('pages/MovieDetails.vue') }
     ]
   },
   

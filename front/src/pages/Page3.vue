@@ -1,9 +1,8 @@
-
 <template>
   <div class="new">
     <div class="new_">
       <div class="nf">Genre</div>
-      <el-select v-model="new1" @change="dataListFn()" placeholder="genre..." class="ns">
+      <el-select v-model="Genre" @change="upload()" placeholder="genre..." class="ns">
         <el-option
           v-for="item in options1"
           :key="item.value"
@@ -14,7 +13,7 @@
     </div>
     <div class="new_">
       <div class="nf">Country</div>
-      <el-select v-model="new2" @change="dataListFn()" placeholder="contry..." class="ns">
+      <el-select v-model="Country" @change="upload()" placeholder="contry..." class="ns">
         <el-option
           v-for="item in options2"
           :key="item.value"
@@ -25,7 +24,7 @@
     </div>
     <div class="new_">
       <div class="nf">IMDBRating</div>
-      <el-select v-model="new3" @change="dataListFn()" placeholder="imdbrating..." class="ns">
+      <el-select v-model="IMDBRating" @change="upload()" placeholder="imdbrating..." class="ns">
         <el-option
           v-for="item in options3"
           :key="item.value"
@@ -35,16 +34,16 @@
       </el-select>
     </div>
     <div class="page-info">
-      <el-col v-for="(data) in movielist" :key="data.label" :value="data.value" :span="5.5" style="background:none">
-      <div class="grid-content bg-purple" />
-      <el-card class="box-card" style="margin-top:20px;padding:0px">
-      <img :src="data.img" class="image" style="height:230px;width:160px">
-      <router-link :to="{path:'#/movieDetails',query:{imdbid: data.id, username: this.username}}" class="link">
-        <div :id="data.id" style="padding: 0px;text-align: center;margin-top:10px">
-          {{data.title}}
-        </div>
-      </router-link>
-      </el-card>
+      <el-col v-for="data in moviesdata" :key="data.imdbid" :value="data.imdbid" :span="5.5" style="background:none">
+        <div class="grid-content bg-purple" />
+          <el-card class="box-card" style="margin-top:20px;padding:0px">
+            <img :src="data.img" class="image" style="height:230px;width:160px">
+            <router-link :to="{name:'MovieDetails',query:{imdbid: data.imdbid}}" class="link">
+              <div :id="data.imdbid" class="nt">
+                {{data.title}}
+              </div>
+            </router-link>
+          </el-card>
       </el-col>
     </div>
     <div class="page-bar">
@@ -63,18 +62,21 @@
 </template>
 
 <script>
+import Axios from 'axios';
+import { axiosInstance } from 'src/boot/axios';
+
 export default {
   data(){
     return{
+      moviesdata:[],
       username: this.$route.query.username,
       index: 1,
       pagesize:28,
       all: 20, //总页数
       cur: 1, //当前页码
-      movielist:[],
-      new1:'All',
-      new2:'All',
-      new3:'All',
+      Genre:'All',
+      Country:'All',
+      IMDBRating:'All',
       options1:[
         {value: 'All'},
         {value: 'Drama'}, {value: 'Comedy'}, {value: 'Action'}, {value: 'Romance'}, {value: 'Crime'},
@@ -93,7 +95,7 @@ export default {
         {value: 'All'},
         {value: '0.0--1.0'}, {value: '1.0--2.0'}, {value: '2.0--3.0'}, {value: '3.0--4.0'}, {value: '4.0--5.0'},
         {value: '5.0--6.0'}, {value: '6.0--7.0'}, {value: '7.0--8.0'}, {value: '8.0--9.0'}, {value: '9.0--10.0'},
-      ],  
+      ],
     }
   },
   mounted () {
@@ -102,30 +104,35 @@ export default {
       document.querySelector("body").style.backgroundAttachment= 'fixed';
       document.querySelector("body").style.backgroundSize= 'cover';
       document.querySelector("body").style.backgroundPosition= 'center';
+      this.moviesdata = this.upload();
   },
   methods:{
     //请求数据
-    dataListFn: function(){
-      let formData = new FormData();
-      formData['index'] = this.cur;
-      formData['new1'] = this.new1;
-      formData['new2'] = this.new2;
-      formData['new3'] = this.new3;
-      console.log(formData);
-      let data = [];
-
-      this.$axios.post("url",formData)
-      .then(function(response){
-        console.log(response);
-        console.log(response.data);
-        data = response.data;
-      }).catch((erroe) => {
-              console.log(error)
-      })
-      this.movielist = data;
-      this.all = data.all;
-      return this.movielist
-    },
+      async upload(){ 
+        let data = [];
+        console.log(this.cur);
+        console.log(this.Genre);
+        console.log(this.Country);
+        console.log(this.IMDBRating);
+       
+        await this.$axios.get("http://127.0.0.1:8000/new/",{
+          params:{
+            index:this.cur,
+            Genre:this.Genre,
+            Country:this.Country,
+            IMDBRating:this.IMDBRating
+          }
+        })
+        .then(function(response){
+          data = response.data;
+          console.log(data);
+        }).catch((error) => {
+            console.log(error);
+        })
+        console.log(data);
+        this.moviesdata = data;
+        return this.movies;
+      },
 
     //分页
     btnClick: function(data){//页码点击事件
@@ -133,11 +140,11 @@ export default {
         this.cur = data
       }
       //根据点击页数请求数据
-      this.dataListFn();
+      this.upload();
     },
 
     pageClick: function(){ //根据点击页数请求数据
-      this.dataListFn();
+      this.upload();
     }
   },
   computed: { //分页
@@ -263,4 +270,13 @@ li{
   width: 350px;
 }
 
+.nt{
+  padding: 0px;
+  text-align: center;
+  margin-top:10px;
+  overflow:hidden;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+  width:150px;
+}
 </style>

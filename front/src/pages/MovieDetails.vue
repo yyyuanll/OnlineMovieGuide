@@ -42,11 +42,11 @@
                     <a v-bind:href="movieDetailes[4].actor_link4">{{movieDetailes[4].actor4}}</a>
                 </div>
                 <div class="recommend">
-                    <el-card><img v-bind:src="movieDetailes[6].img" v-bind:alt="movieDetailes[6].title"><router-link :to="{path:'/movieDetails',query:{imdbid: movieDetailes[6].imdbid, username: this.username}}" class="link">{{movieDetailes[6].title}}</router-link></el-card>
-                    <el-card><img v-bind:src="movieDetailes[7].img" v-bind:alt="movieDetailes[7].title"><router-link :to="{path:'/movieDetails',query:{imdbid: movieDetailes[7].imdbid, username: this.username}}" class="link">{{movieDetailes[7].title}}</router-link></el-card>
-                    <el-card><img v-bind:src="movieDetailes[8].img" v-bind:alt="movieDetailes[8].title"><router-link :to="{path:'/movieDetails',query:{imdbid: movieDetailes[8].imdbid, username: this.username}}" class="link">{{movieDetailes[8].title}}</router-link></el-card>
-                    <el-card><img v-bind:src="movieDetailes[9].img" v-bind:alt="movieDetailes[9].title"><router-link :to="{path:'/movieDetails',query:{imdbid: movieDetailes[9].imdbid, username: this.username}}" class="link">{{movieDetailes[9].title}}</router-link></el-card>
-                    <el-card><img v-bind:src="movieDetailes[10].img" v-bind:alt="movieDetailes[10].title"><router-link :to="{path:'/movieDetails',query:{imdbid: movieDetailes[10].imdbid, username: this.username}}" class="link">{{movieDetailes[10].title}}</router-link></el-card>
+                    <el-card><img v-bind:src="movieDetailes[6].img" v-bind:alt="movieDetailes[6].title"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[6].imdbid, username: this.username}}" class="link">{{movieDetailes[6].title}}</router-link></el-card>
+                    <el-card><img v-bind:src="movieDetailes[7].img" v-bind:alt="movieDetailes[7].title"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[7].imdbid, username: this.username}}" class="link">{{movieDetailes[7].title}}</router-link></el-card>
+                    <el-card><img v-bind:src="movieDetailes[8].img" v-bind:alt="movieDetailes[8].title"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[8].imdbid, username: this.username}}" class="link">{{movieDetailes[8].title}}</router-link></el-card>
+                    <el-card><img v-bind:src="movieDetailes[9].img" v-bind:alt="movieDetailes[9].title"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[9].imdbid, username: this.username}}" class="link">{{movieDetailes[9].title}}</router-link></el-card>
+                    <el-card><img v-bind:src="movieDetailes[10].img" v-bind:alt="movieDetailes[10].title"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[10].imdbid, username: this.username}}" class="link">{{movieDetailes[10].title}}</router-link></el-card>
                 </div>
             </div>
             <div class="right">
@@ -162,12 +162,12 @@
         margin: 10px 0;
     }
     .comment p{
-        height: 24.5px;
+        height: 76.5px;
     }
     .recommend{
         width: 100%;
         background-color: #f2f2f2;
-        height: 100px;
+        height: 260px;
         float: left;
     }
     .commentForm .el-card__body{
@@ -181,6 +181,10 @@
     .recommend .el-card__body{
         width: 100% !important;
         height: 100%;
+    }
+    .recommend img{
+        width: 100%;
+        height: auto;
     }
 </style>
 
@@ -267,38 +271,42 @@ import { dom } from 'quasar';
             }
         },
         created(){
-            this.getImdbID();
-            Axios
-                .get("http://127.0.0.1:8000/movie_detail/", {
-                    params:{
-                        imdbid: this.imdbid,
-                        username: this.username
-                    }
-                })
-                .then(response => (this.movieDetailes = response.data))
-                .catch(function(error){
-                    console.log(error);
-                });
+            this.Refresh()
+        },
+        watch:{
+            '$route': 'Refresh'
         },
         methods: {
+            Refresh:function(){
+                this.getImdbID();
+                Axios
+                    .get("http://127.0.0.1:8000/movie_detail/", {
+                        params:{
+                            imdbid: this.imdbid,
+                            username: this.username
+                        }
+                    })
+                    .then(response => (this.movieDetailes = response.data))
+                    .catch(function(error){
+                        console.log(error);
+                    });
+            },
             onSubmitComment() {
-                console.log('submit!');
+                this.UploadComment()
             },
             getImdbID:function(){
                 var routerImdbID = this.$route.query.imdbid
-                var routerUserName = this.$router.query.username
+                var routerUserName = this.$route.query.username
                 console.log(routerImdbID, routerUserName)
                 this.imdbid = routerImdbID
                 this.username = routerUserName
             },
             UploadComment(){
                 Axios
-                    .post("http://127.0.0.1:8000/add_comment/", {
-                        params:{
-                            imdbid: this.imdbid,
-                            username: this.username,
-                            review: this.form.comment
-                        }
+                    .post("http://127.0.0.1:8000/user/add_comment/", {
+                        imdbid: this.imdbid,
+                        username: this.username,
+                        review: this.form.comment
                     })
                     .catch(function(error){
                         console.log(error);
@@ -306,12 +314,10 @@ import { dom } from 'quasar';
             },
             UploadRating(){
                 Axios
-                    .post("http://127.0.0.1:8000/add_star/", {
-                        params:{
-                            imdbid: this.imdbid,
-                            username: this.username,
-                            star: this.userRating
-                        }
+                    .post("http://127.0.0.1:8000/user/add_star/", {
+                        imdbid: this.imdbid,
+                        username: this.username,
+                        star: this.userRating
                     })
                     .catch(function(error){
                         console.log(error);

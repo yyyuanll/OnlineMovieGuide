@@ -19,8 +19,7 @@
        </el-card>
     <el-menu
       class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose"
+      
       default-active="0"
       router=true
       style="width:240px;margin-left:5px;border-radius:16px;height:240px">
@@ -81,6 +80,7 @@
 
 <script>
 //import { response } from 'express';
+import Axios from 'axios';
   export default 
   {
     data() {
@@ -88,19 +88,25 @@
       return {
           index:"",
           find:true,
-          username:"Louis Robertson",
+          username: 'Lucas Kim',
           useravatar: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
       }
     },
 created(){
-            this.getUsername();
+            //this.getUsername();
+            console.log(this.username)
+            var username = this.username
             Axios
-                .get("http://127.0.0.1:8000/user/", {
+                .get("http://127.0.0.1:8000/user/profile/", {
                     params:{
                         username: this.username
-                    }
+                        
+                    },
+
                 })
-                .then(response => (this.useravatar = response.data.useravatar))
+                .then(response => (this.useravatar = response.data))
+                console.log(this.useravatar)
+                console.log(response.data)
                 .catch(function(error){
                     console.log(error);
                 });

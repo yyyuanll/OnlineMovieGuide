@@ -3,7 +3,7 @@
   <div class="oscar">
     <div class="of" style="float:left">Select the year</div>
     <el-form>
-        <el-select v-model="value" @change="upload(value)" placeholder="2020..." class="os">
+        <el-select v-model="value" @change="upload()" placeholder="2020..." class="os">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -78,6 +78,9 @@
 </template>
 
 <script>
+import Axios from 'axios';
+import { axiosInstance } from 'src/boot/axios';
+
 export default {
    data() {
       return {
@@ -105,20 +108,19 @@ export default {
       }
     },
     methods:{
-         async upload(value){
-          let formData = new FormData();
-          formData["year"] = this.value;
+         async upload(){
           console.log(this.value);
-          console.log(formData);
           let data = [];
 
-          await this.$axios.post("http://127.0.0.1:8000/oscar/",formDatas)
+          await this.$axios.get("http://127.0.0.1:8000/oscar/",{
+            params:{
+              year:this.value,
+            }
+          })
           .then(function(response){
-            console.log(response);
             console.log(response.data)
             data = response.data;
-            this.$refs.upload.clearFiles();
-          }).catch((erroe) => {
+          }).catch((error) => {
               console.log(error)
           })
           this.tabledata = data;
