@@ -40,6 +40,9 @@
                     <a v-bind:href="movieDetailes[4].actor_link3">{{movieDetailes[4].actor3}}</a> 、
                     <a v-bind:href="movieDetailes[4].actor_link4">{{movieDetailes[4].actor4}}</a>
                 </div>
+                <div class="recommend">
+                    recommend
+                </div>
             </div>
             <div class="right">
                 <div class="comment">
@@ -59,9 +62,9 @@
                 </div>
             </div>
         </div>
-        <div class="recommend">
+        <!-- <div class="recommend">
             Recommand
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -73,16 +76,16 @@
         float: right;
     }
     .Details{
-        width: 90%;
+        width: 75%;
         height: 440px;
         margin: 0 auto;
         background-color: #fff;
     }
     .Details .left{
-        width: 50%;
+        width: 75%;
     }
     .Details .right{
-        width: 50%;
+        width: 25%;
     }
     .Details .title{
         background-color: #fff;
@@ -154,25 +157,27 @@
     }
     .comment div{
         border: 0;
+        margin: 10px 0;
     }
     .comment p{
-        height: 40px;
+        height: 24.5px;
     }
     .recommend{
-        width: 90%;
-        margin: 0 auto;
+        width: 100%;
         background-color: #f2f2f2;
         height: 100px;
+        float: left;
     }
     .commentForm .el-card__body{
-        height: 150px;
+        height: 180px;
     }
 </style>
 
 <script>
 import Axios from 'axios';
 import { axiosInstance } from 'src/boot/axios';
-import func from 'vue-editor-bridge';
+import { dom } from 'quasar';
+// import func from 'vue-editor-bridge';
     export default {
         data() {
             return {
@@ -275,6 +280,19 @@ import func from 'vue-editor-bridge';
                 console.log(routerImdbID, routerUserName)
                 this.imdbid = routerImdbID
                 this.username = routerUserName
+            },
+            UploadComment(){
+                Axios
+                    .post("127.0.0.1:8000/movie_detail/", {
+                        params:{
+                            imdbid: this.imdbid,
+                            username: this.username,
+                        }
+                    })
+                    .then(response => (this.movieDetailes = response))
+                    .catch(function(error){
+                        console.log(error);
+                    });
             }
         }
     }
