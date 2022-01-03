@@ -166,6 +166,7 @@
 </style>
 
 <script>
+import Axios from 'axios';
 import { userService } from "../service";
 
 export default {
@@ -206,10 +207,15 @@ export default {
         return;
       }
 
-      this.$store
-        .dispatch("user/login", {
-          username: this.username,
-          password: this.password,
+      Axios
+        .post("http://127.0.0.1:8000/user/login/", {
+          params:{
+            username: this.username,
+            password: this.password,
+          }
+        })
+        .catch(function(error){
+          console.log(error);
         })
         .then(async (data) => {
           console.log(data);

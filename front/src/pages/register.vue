@@ -173,7 +173,7 @@ export default {
       // 模拟验证码发送
       if (!namePass && !emailPass) {
         Axios
-          .post("127.0.0.1:8000/user/sendEmailCode/", {
+          .post("http://127.0.0.1:8000/user/sendEmailCode/", {
             params:{
               mail: this.email
             }
@@ -207,7 +207,7 @@ export default {
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
           Axios
-            .post("127.0.0.1:8000/register/", {
+            .post("http://127.0.0.1:8000/register/", {
               params:{
                 code: this.code,
                 username: this.name,
@@ -215,7 +215,6 @@ export default {
                 mail: this.email
               }
             })
-            .then(response => (this.movieDetailes = response))
             .catch(function(error){
               console.log(error);
             });
