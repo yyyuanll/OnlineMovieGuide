@@ -207,27 +207,24 @@ export default {
         return;
       }
 
+      let data = new FormData();
+      data.append('username', this.username);
+      data.append('password', this.password);
+
       Axios
-        .post("http://127.0.0.1:8000/user/login/", {
-          username: this.username,
-          password: this.password,
-        })
+        .post("http://127.0.0.1:8000/user/login/", data)
         .catch(function(error){
           console.log(error);
         })
         .then(async (data) => {
           console.log(data);
-          this.$router.push("/");
+          this.$router.push("/page1?username="+this.username);
           // const authorities = data.authorities || [];
           // if (authorities.findIndex(t => t.authority === "ROLE_SUPER_ADMIN") >= 0) {
           //   this.$router.push("/");
           // } else {
           //   this.$q.notify("无SUPER_ADMIN权限！");
           // }
-        })
-        .catch(e => {
-          console.error(e);
-          //this.$q.notify(e);
         });
     }
   }

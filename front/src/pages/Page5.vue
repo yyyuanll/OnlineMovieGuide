@@ -76,7 +76,7 @@
         <div class="grid-content bg-purple" />
         <el-card class="box-card" style="margin-top:20px;padding:0px">
           <img :src="data.img" class="image" style="height:230px;width:160px">
-          <router-link :to="{name:'MovieDetails',query:{imdbid: data.imdbid}}" class="link">
+          <router-link :to="{name:'MovieDetails',query:{imdbid: data.imdbid, username: username}}" class="link">
             <div :id="data.id" class="at">  
               {{data.title}}
             </div>
@@ -103,7 +103,7 @@
 export default {
   data(){
     return{
-      username: this.$route.query.username,
+      username: null,
       options1:[
         {value: 'All'},
         {value: 'Drama'}, {value: 'Comedy'}, {value: 'Action'}, {value: 'Romance'}, {value: 'Crime'},
@@ -159,6 +159,7 @@ export default {
       document.querySelector("body").style.backgroundSize= 'cover';
       document.querySelector("body").style.backgroundPosition= 'center';
       this.movielist = this.upload();
+      this.username = this.$route.query.username;
   },
   methods:{
     async upload(){ 

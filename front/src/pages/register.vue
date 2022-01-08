@@ -172,10 +172,10 @@ export default {
       })
       // 模拟验证码发送
       if (!namePass && !emailPass) {
+        let mail_data = new FormData();
+        mail_data.append('mail', this.ruleForm.email);
         Axios
-          .post("http://127.0.0.1:8000/user/sendEmailCode/", {
-            mail: this.email
-          })
+          .post("http://127.0.0.1:8000/user/sendEmailCode/", mail_data)
         let count = 60
         self.statusMsg = `critification sent,${count--}seconds remain`
         self.timerid = setInterval(function() {
@@ -204,13 +204,13 @@ export default {
     register: function() {
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
+          let register_data = new FormData;
+          register_data.append('code', this.ruleForm.code);
+          register_data.append('username', this.ruleForm.username);
+          register_data.append('password', this.ruleForm.pwd);
+          register_data.append('mail', this.ruleForm.email);
           Axios
-            .post("http://127.0.0.1:8000/user/register/", {
-              code: this.code,
-              username: this.name,
-              password: this.pwd,
-              mail: this.email
-            })
+            .post("http://127.0.0.1:8000/user/register/", register_data)
             .catch(function(error){
               console.log(error);
             });

@@ -39,7 +39,7 @@
       <div class="grid-content bg-purple" />
       <el-card class="box-card" style="margin-top:20px;padding:0px">
       <img :src="data.img" class="image" style="height:230px;width:160px">
-      <router-link :to="{name:'MovieDetails',query:{imdbid: data.imdbid}}" class="link">
+      <router-link :to="{name:'MovieDetails',query:{imdbid: data.imdbid, username: username}}" class="link">
         <div :id="data.id" class="ht">
           {{data.title}}
         </div>
@@ -66,7 +66,7 @@
 export default {
   data(){
     return{
-      username: this.$route.query.username,
+      username: null,
       index: 1,
       pagesize:28,
       all: 20, //总页数
@@ -103,6 +103,7 @@ export default {
       document.querySelector("body").style.backgroundSize= 'cover';
       document.querySelector("body").style.backgroundPosition= 'center';
       this.movielist = this.upload();
+      this.username = this.$route.query.username;
   },
   methods:{
     //请求数据
