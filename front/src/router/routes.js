@@ -26,6 +26,7 @@ const routes = [
       { path: '/page3', component: () => import('pages/Page3.vue') },
       { path: '/page4', component: () => import('pages/Page4.vue')},
       { path: '/page5', component: () => import('pages/Page5.vue') },
+      { path: '/search', component: () => import('pages/search.vue') },
       { path: '/page6',
         component: () => import('pages/Page6.vue'), 
         redirect:'/page6/chart',
