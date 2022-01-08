@@ -43,13 +43,28 @@
           <el-form-item label="username" prop="name">
             <el-input v-model="ruleForm.name" />
           </el-form-item>
+          <el-form-item label="avatar" prop="avatar">
+            <el-upload
+              class="avatar-uploader"
+              action="aaa"
+              ::limit="1"
+              :show-file-list="false"
+              
+              :on-change="handlePictureCardPreview"
+              :before-upload="beforeupload"
+              accept="image/png,image/gif,image/jpg,image/jpeg">
+              <img v-if="imageUrl" :src="imageUrl" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              <!-- <div v-show="!dialogImageUrl" slot="tip" class="el-upload__text upload__tip">上传照片</div> -->
+            </el-upload>
+          </el-form-item>
           <el-form-item label="email" prop="email">
             <el-input v-model="ruleForm.email" />
             <el-button size="mini" round @click="sendMsg">send certification</el-button>
             <span class="status">{{ statusMsg }}</span>
           </el-form-item>
           <el-form-item label="vertification" prop="code">
-            <el-input v-model="ruleForm.code" maxlength="4" />
+            <el-input v-model="ruleForm.code" maxlength="6" />
           </el-form-item>
           <el-form-item label="password" prop="pwd">
             <el-input v-model="ruleForm.pwd" type="password" />
@@ -94,6 +109,8 @@ export default {
       active: 0,
       statusMsg: '',
       error: '',
+      formdata: new FormData(),
+      imageUrl: "",
       ruleForm: {
         textarea: 'please read the protical',
         agreed: false,
@@ -101,7 +118,8 @@ export default {
         code: '',
         pwd: '',
         cpwd: '',
-        email: ''
+        email: '',
+        avatar: {}
       },
       rules: {
         agreed: [{
@@ -204,22 +222,50 @@ export default {
     register: function() {
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
-          let register_data = new FormData;
-          register_data.append('code', this.ruleForm.code);
-          register_data.append('username', this.ruleForm.username);
-          register_data.append('password', this.ruleForm.pwd);
-          register_data.append('mail', this.ruleForm.email);
+          this.formdata.append('code', this.ruleForm.code);
+          this.formdata.append('username', this.ruleForm.name);
+          this.formdata.append('password', this.ruleForm.pwd);
+          this.formdata.append('mail', this.ruleForm.email);
           Axios
-            .post("http://127.0.0.1:8000/user/register/", register_data)
+            .post("http://127.0.0.1:8000/user/register/", this.formdata)
+            .then(response=>{
+              if(response.data[0].status == 200){
+                this.$router.push('/login'), 2000
+              }
+              else{
+                this.$q.notify(response.data[0].error);
+              }
+            })
             .catch(function(error){
               console.log(error);
             });
-          setTimeout(
-            this.$router.push('/login'), 2000
-          )
         }
       })
-    }
+    },
+    handlePictureCardPreview (event) {
+      var URL = null;
+      if (window.createObjectURL != undefined) {
+        // basic
+        URL = window.createObjectURL(event.raw);
+      } else if (window.URL != undefined) {
+        // mozilla(firefox)
+        URL = window.URL.createObjectURL(event.raw);
+      } else if (window.webkitURL != undefined) {
+        // webkit or chrome
+        URL = window.webkitURL.createObjectURL(event.raw);
+      }
+      this.imageUrl = URL;
+    },
+    beforeupload (file) {
+      if(this.formdata.has('file')){
+        this.formdata.delete('file');
+      }
+      this.formdata.append('file', file)
+      return false
+    },
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+    },
   }
 }
 </script>
@@ -280,6 +326,30 @@ export default {
 
   .footer{
     text-align: center;
+  }
+
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
   }
 }
 </style>

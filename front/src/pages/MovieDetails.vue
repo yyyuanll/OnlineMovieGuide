@@ -3,7 +3,7 @@
         <div class="Details">
             <div class="left">
                 <div class="title">
-                {{movieDetailes[0].title}}
+                {{movieDetailes[0].title}}<i :class='userLike' style="color: yellow" @click="UploadUserLike()"></i>
                 </div>
                 <div class="poster">
                     <img v-bind:src="movieDetailes[0].image" alt="">
@@ -76,6 +76,8 @@
     }
     .right{
         float: right;
+        height: 800px;
+        overflow-y: scroll;
     }
     .Details{
         width: 75%;
@@ -161,18 +163,17 @@
         border: 0;
         margin: 10px 0;
     }
-    .comment p{
-        height: 85px;
-        overflow-y: auto;
-    }
     .recommend{
         width: 100%;
         background-color: #f2f2f2;
         height: 280px;
         float: left;
     }
-    .commentForm .el-card__body{
-        height: 180px;
+    .comment .el-card__body{
+        height: auto;
+    }
+    .comment .el-card{
+        height: auto;
     }
     .recommend .el-card{
         width: 20% !important;
@@ -186,6 +187,14 @@
     .recommend img{
         /* width: 100%;
         height: auto; */
+    }
+    .link{
+        text-decoration: none;
+        color: #000;
+    }
+    a{
+        text-decoration: none;
+        font-style: italic;
     }
 </style>
 
@@ -201,6 +210,7 @@ import { dom } from 'quasar';
                 username: 'Lucas Kim',
                 userRating: null,
                 colors: ['#99A9BF', '#F7BA2A', '#FF9900'],  // 等同于 { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
+                userLike: 'el-icon-star-off',
                 form: {
                         comment: '',
                     },
@@ -231,6 +241,8 @@ import { dom } from 'quasar';
         methods: {
             Refresh:function(){
                 this.getImdbID();
+                this.userRating = null;
+                this.userLike = 'el-icon-star-off'
                 Axios
                     .get("http://127.0.0.1:8000/movie_detail/", {
                         params:{
@@ -274,6 +286,38 @@ import { dom } from 'quasar';
                     .catch(function(error){
                         console.log(error);
                     });
+            },
+            UploadUserLike(){
+                if(this.userLike == 'el-icon-star-on'){
+                    let data = new FormData();
+                    data.append('imdbid', this.imdbid);
+                    data.append('username', this.username);
+                    Axios
+                        .post("http://127.0.0.1:8000/user/remove_fav/")
+                        .then(response=>{
+                            if(response.data[0].status == 200){
+                                this.userLike = 'el-icon-star-off'
+                            }
+                        })
+                        .catch(function(error){
+                            console.log(error);
+                        });
+                }
+                else{
+                    let data = new FormData();
+                    data.append('imdbid', this.imdbid);
+                    data.append('username', this.username);
+                    Axios
+                        .post("http://127.0.0.1:8000/user/add_fav/")
+                        .then(response=>{
+                            if(response.data[0].status == 200){
+                                this.userLike = 'el-icon-star-on'
+                            }
+                        })
+                        .catch(function(error){
+                            console.log(error);
+                        });
+                }
             }
         }
     }

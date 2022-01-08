@@ -213,18 +213,22 @@ export default {
 
       Axios
         .post("http://127.0.0.1:8000/user/login/", data)
-        .catch(function(error){
-          console.log(error);
-        })
-        .then(async (data) => {
-          console.log(data);
-          this.$router.push("/page1?username="+this.username);
+        .then(response => {
+          if(response.data[0].status == 200){
+            this.$router.push("/page1?username="+this.username);
+          }
+          else{
+            this.$q.notify(response.data[0].error);
+          }
           // const authorities = data.authorities || [];
           // if (authorities.findIndex(t => t.authority === "ROLE_SUPER_ADMIN") >= 0) {
           //   this.$router.push("/");
           // } else {
           //   this.$q.notify("无SUPER_ADMIN权限！");
           // }
+        })
+        .catch(function(error){
+          console.log(error);
         });
     }
   }
