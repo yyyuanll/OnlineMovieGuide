@@ -173,9 +173,9 @@ export default {
   name: "Login",
   data() {
     return {
-      username: "superadmin",
+      username: "",
       isPwd: true,
-      password: "1234567890"
+      password: ""
     };
   },
  mounted () {

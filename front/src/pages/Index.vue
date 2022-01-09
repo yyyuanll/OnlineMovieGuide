@@ -4,7 +4,7 @@
       <div style="font-size:30px;color:black;font-weight:bolder"> Your Online Movie Guide</div>
       <div class="cs1" style="color:black;font-size:20px;font-weight:bolder">Start your movie journal with us</div>
       <div class="q-pa-md q-gutter-sm">
-          <router-link to="page1" >
+          <router-link to="/register" >
             <q-btn  rounded color="white" text-color="black" style="font-size:15px">
               <div>
                 Start

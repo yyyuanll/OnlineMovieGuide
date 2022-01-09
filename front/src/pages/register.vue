@@ -4,14 +4,14 @@
       <header>
         <el-avatar icon="el-icon-user-solid" shape="circle"></el-avatar>
         <span class="login">
-          <em class="bold">Already have an account?</em>
+          <em class="bold">Already have an account?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em>
           <a href="#/login">
             <el-button type="primary" size="small">login</el-button>
           </a>
         </span>
       </header>
     </article>
-    <el-steps :active="active" finish-status="success">
+    <el-steps :active="active" finish-status="success" align-center>
       <el-step title="Step 1"></el-step>
       <el-step title="Step 2"></el-step>
     </el-steps>
@@ -63,7 +63,7 @@
             <el-button size="mini" round @click="sendMsg">send certification</el-button>
             <span class="status">{{ statusMsg }}</span>
           </el-form-item>
-          <el-form-item label="vertification" prop="code">
+          <el-form-item label="verification" prop="code">
             <el-input v-model="ruleForm.code" maxlength="6" />
           </el-form-item>
           <el-form-item label="password" prop="pwd">
@@ -112,7 +112,7 @@ export default {
       formdata: new FormData(),
       imageUrl: "",
       ruleForm: {
-        textarea: 'please read the protical',
+        textarea: 'please read the protical\nThe product is protected by Copyright Law. OMG retains the title to and ownership of the Product. You are licensed to use this Product on the following terms and conditions:\nLICENSE - The licensee is defined as the individual or company utilizing the Software Product. OMG hereby grants the licensee a nonexclusive license authorizing the licensee to use the enclosed Product on one computer at a time. The licensee is also permitted to distribute this product to one, and only one web server to host the Program. Please contact OMG if you require additional licenses. Use of this product by more than one individual or by anyone other than the licensee terminates, without notification, this license and the right to use this product.\nYOU MAY NOT: Distribute, rent, sub-license or otherwise make available to others the software or documentation or copies thereof, except as expressly permitted in this License without prior written consent from OMG. In the case of an authorized transfer, the transferee must agree to be bound by the terms and conditions of this License Agreement.\nRESTRICTIONS: - You may use this Product in your business as long as:\nThe software serial number and user must be registered with OMG in order to receive support or distribution rights.\nYou may not remove any proprietary notices, labels, trademarks on the software or documentation.\nYou may not modify, de-compile, disassemble, reverse engineer or translate the software.\nTERM - You may terminate your License and this Agreement at anytime by destroying all copies of the Product and Product Documentation. They will also terminate automatically if you fail to comply with any term or condition in this Agreement.\nLIMITED WARRANTY - This software and documentation are sold "as is" without any warranty as to their performance, merchantability or fitness for any particular purpose. The licensee assumes the entire risk as to the quality and performance of the software. OMG warrants that the diskettes on which the Program is furnished will be free from any defects in materials. Exclusive remedy in the event of a defect is expressly limited to the replacement of diskettes. In no event shall OMG or anyone else who has been involved in the creation, development, production, or delivery of this software be liable for any direct, incidental or consequential damages, such as, but not limited to, loss of anticipated profits, benefits, use, or data resulting from the use of this software, or arising out of any breach of warranty.',
         agreed: false,
         name: '',
         code: '',
@@ -137,6 +137,12 @@ export default {
           required: true,
           type: 'string',
           message: 'enter username',
+          trigger: 'blur'
+        }],
+        code: [{
+          required: true,
+          type: 'string',
+          message: 'enter certification',
           trigger: 'blur'
         }],
         email: [{

@@ -241,8 +241,7 @@ import { dom } from 'quasar';
         methods: {
             Refresh:function(){
                 this.getImdbID();
-                this.userRating = null;
-                this.userLike = 'el-icon-star-off'
+                
                 Axios
                     .get("http://127.0.0.1:8000/movie_detail/", {
                         params:{
@@ -250,7 +249,14 @@ import { dom } from 'quasar';
                             username: this.username
                         }
                     })
-                    .then(response => (this.movieDetailes = response.data))
+                    .then(response => {
+                        this.movieDetailes = response.data;
+                        this.userRating = this.movieDetailes[12].star;
+                        if(this.movieDetailes[11].isFavorite == true){
+                            this.userLike = 'el-icon-star-on';
+                        }
+                        else this.userLike = 'el-icon-star-off';
+                    })
                     .catch(function(error){
                         console.log(error);
                     });
@@ -293,7 +299,7 @@ import { dom } from 'quasar';
                     data.append('imdbid', this.imdbid);
                     data.append('username', this.username);
                     Axios
-                        .post("http://127.0.0.1:8000/user/remove_fav/")
+                        .post("http://127.0.0.1:8000/user/remove_fav/", data)
                         .then(response=>{
                             if(response.data[0].status == 200){
                                 this.userLike = 'el-icon-star-off'
@@ -308,7 +314,7 @@ import { dom } from 'quasar';
                     data.append('imdbid', this.imdbid);
                     data.append('username', this.username);
                     Axios
-                        .post("http://127.0.0.1:8000/user/add_fav/")
+                        .post("http://127.0.0.1:8000/user/add_fav/", data)
                         .then(response=>{
                             if(response.data[0].status == 200){
                                 this.userLike = 'el-icon-star-on'

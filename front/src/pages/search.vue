@@ -116,14 +116,15 @@ export default {
 
 .search_{
   margin-top: 30px;
-  margin-left: 180px;
+  margin-left: 300px;
   width: 90%;
 }
 
 .input_{
+  margin: 0 auto;
   border-radius:6px;
   border-color:  #eee;
-  width:300px;
+  width:500px;
   height:35px;
 }
 
