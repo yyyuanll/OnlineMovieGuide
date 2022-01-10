@@ -122,8 +122,7 @@ export default {
          async upload(){
           console.log(this.value);
           let data = [];
-        const bar = this.$refs.bar;
-        bar.start();
+        
 
 
           await this.$axios.get("http://127.0.0.1:8000/oscar/",{
@@ -141,7 +140,7 @@ export default {
           this.length = this.tabledata.length;
           console.log(this.length);
           console.log(this.tabledata)
-          this.bar.stop();
+          
           return this.tabledata
         }
     },

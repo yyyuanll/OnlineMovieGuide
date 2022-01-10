@@ -115,8 +115,6 @@ export default {
   methods:{
     //请求数据
     async upload(){ 
-       const bar = this.$refs.bar
-        bar.start();
         let data = [];
         console.log(this.cur);
         console.log(this.Genre);
@@ -140,7 +138,6 @@ export default {
         console.log(data);
         this.all = data[0].page_number;
         this.movielist = data;
-        this.bar.stop();
         return this.movielist;
       },
 
