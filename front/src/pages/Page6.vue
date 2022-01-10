@@ -105,9 +105,7 @@ watch: {
         this.getUsername();
         let data = [];
         console.log(this.username);
-       const bar = this.$refs.bar
-
-        bar.start()
+       
         await this.$axios.get("http://127.0.0.1:8000/user/profile/",{
           params:{
            username:this.$route.query.username
@@ -122,9 +120,7 @@ watch: {
         console.log(data[0].useravatar);
         this.useravatar = data[0].useravatar;
         console.log(this.useravatar);
-        if (this.$refs.bar) {
-          this.$refs.bar.stop()
-        }
+       
         return this.useravatar;
       },
      getUsername:function(){

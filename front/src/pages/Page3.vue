@@ -122,8 +122,7 @@ export default {
         console.log(this.Genre);
         console.log(this.Country);
         console.log(this.IMDBRating);
-        const bar = this.$refs.bar;
-        bar.start();
+       
        
         await this.$axios.get("http://127.0.0.1:8000/new/",{
           params:{
@@ -142,7 +141,7 @@ export default {
         console.log(data);
         this.all = data[0].page_number;
         this.moviesdata = data;
-        this.bar.stop();
+       
         return this.moviedata;
       },
 
