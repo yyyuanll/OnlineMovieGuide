@@ -65,8 +65,7 @@ def favorite(request):
 
 def review(request):
     data = []
-    #user_name = request.GET.get('username', None)
-    user_name = 'test'
+    user_name = request.GET.get('username', None)
     comment = models.Review.objects.filter(username=user_name)
 
     df = pd.read_excel('film.xlsx', usecols=['Title', 'imdbID','Poster'])
@@ -320,7 +319,6 @@ def register(request):
         profile = request.FILES.get("file", None)
         
         stored = models.UserEmailverifyrecord.objects.filter(email = user_email).order_by('-send_time').first()
-        #stored = models.EmailVerifyRecord.objects.filter(email = user_email).order_by('-send_time').first()
 
         sent = stored.send_time.replace(tzinfo=None)
         if (datetime.datetime.now()-sent).seconds > 300:
@@ -331,7 +329,7 @@ def register(request):
             data.append(tmp)
             return HttpResponse(json.dumps(data), content_type='application/json')
         else:
-            if code != stored.code:
+            if code.lower() != stored.code.lower():
                 tmp = {
                 'status': 404,
                 'error': "Your verification code is wrong.",

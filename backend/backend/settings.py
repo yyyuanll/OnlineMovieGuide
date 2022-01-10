@@ -26,8 +26,7 @@ SECRET_KEY = 'django-insecure-dkboige*r2z5dt@+8r%@=pe-(3)14ar=)0=$=n-nd3+1x-3!!4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 # 发送邮箱验证码
 EMAIL_HOST = "smtp.163.com"     # 服务器
 EMAIL_PORT = 25                 # 一般情况下都为25
