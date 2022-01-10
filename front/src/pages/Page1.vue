@@ -1,5 +1,12 @@
 <template>
   <div class="command">
+      <q-ajax-bar
+      ref="bar"
+      position="bottom"
+      color="cyan-2"
+      size="10px"
+      
+    />
     <div class="command_">
       <div class="cf">Genre</div>
       <el-select v-model="Genre" @change="upload()" placeholder="genre..." class="cs">
@@ -112,6 +119,9 @@ export default {
         console.log(this.Genre);
         console.log(this.Country);
         console.log(this.IMDBRating);
+        const bar = this.$refs.bar
+
+        bar.start()
        
         await this.$axios.get("http://127.0.0.1:8000/command/",{
           params:{
@@ -130,6 +140,7 @@ export default {
         console.log(data);
         this.all = data[0].page_number;
         this.movielist = data;
+        this.bar.stop();
         return this.movielist;
       },
 

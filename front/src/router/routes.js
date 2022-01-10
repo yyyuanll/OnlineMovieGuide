@@ -38,7 +38,11 @@ const routes = [
                 component: () => import('pages/favorite.vue')},
                 {
                     path:'chart',
-                    component: () => import('pages/chart.vue')}
+                    component: () => import('pages/chart.vue')},
+                    {
+                        path:'review',
+                        component:() => import('pages/review.vue')
+                    }
             ]
     }
 

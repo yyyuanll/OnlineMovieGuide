@@ -1,6 +1,13 @@
 
 <template>
   <div class="oscar">
+      <q-ajax-bar
+      ref="bar"
+      position="bottom"
+      color="cyan-2"
+      size="10px"
+     
+    />
     <div class="of" style="float:left">Select the year</div>
     <el-form>
         <el-select v-model="value" @change="upload()" placeholder="2020..." class="os">
@@ -114,6 +121,9 @@ export default {
          async upload(){
           console.log(this.value);
           let data = [];
+        const bar = this.$refs.bar;
+        bar.start();
+
 
           await this.$axios.get("http://127.0.0.1:8000/oscar/",{
             params:{
@@ -128,6 +138,7 @@ export default {
           })
           this.tabledata = data;
           console.log(this.tabledata)
+          this.bar.stop();
           return this.tabledata
         }
     },

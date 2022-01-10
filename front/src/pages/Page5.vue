@@ -2,6 +2,13 @@
 <template>
   <div>
     <div class="ALL">
+        <q-ajax-bar
+      ref="bar"
+      position="bottom"
+      color="cyan-2"
+      size="10px"
+      
+    />
     <div class="all">
       <div class="af">Genre</div>
       <el-select v-model="Genre" @change="upload()" placeholder="genre..." class="as">
@@ -171,6 +178,8 @@ export default {
         console.log(this.IMDBRating);
         console.log(this.Released);
         console.log(this.Rated);
+        const bar = this.$refs.bar;
+        this.bar.start();
        
         await this.$axios.get("http://127.0.0.1:8000/movies/",{
           params:{
@@ -193,6 +202,7 @@ export default {
         this.all = data[0].page_number;
         console.log(this.all);
         this.movielist = data;
+        this.bar.stop();
         return this.movielist;
       },
 

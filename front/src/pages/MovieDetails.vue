@@ -1,5 +1,11 @@
 <template>
     <div class="Stage">
+        <q-ajax-bar
+      ref="bar"
+      position="bottom"
+      color="cyan-2"
+      size="10px"
+    />
         <div class="Details">
             <div class="left">
                 <div class="title">
@@ -239,11 +245,12 @@ import { dom } from 'quasar';
             '$route': 'Refresh'
         },
         methods: {
-            Refresh:function(){
+            async Refresh(){
                 this.getImdbID();
+                //const bar = this.$refs.bar;
+                //bar.start();
                 
-                Axios
-                    .get("http://127.0.0.1:8000/movie_detail/", {
+                await this.$axios.get("http://127.0.0.1:8000/movie_detail/", {
                         params:{
                             imdbid: this.imdbid,
                             username: this.username
@@ -256,6 +263,7 @@ import { dom } from 'quasar';
                             this.userLike = 'el-icon-star-on';
                         }
                         else this.userLike = 'el-icon-star-off';
+                       // this.bar.stop();
                     })
                     .catch(function(error){
                         console.log(error);

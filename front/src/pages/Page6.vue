@@ -5,10 +5,9 @@
       position="bottom"
       color="cyan-2"
       size="10px"
-      skip-hijack
+      
     />
 
-    <q-btn color="primary" label="Trigger" @click="trigger" />
 <el-container style="height: 100%; border: 1px solid #eee;">
   <el-aside width="250px"  style="">
       <el-scrollbar>
@@ -106,7 +105,9 @@ watch: {
         this.getUsername();
         let data = [];
         console.log(this.username);
-       
+       const bar = this.$refs.bar
+
+        bar.start()
         await this.$axios.get("http://127.0.0.1:8000/user/profile/",{
           params:{
            username:this.$route.query.username
@@ -121,6 +122,9 @@ watch: {
         console.log(data[0].useravatar);
         this.useravatar = data[0].useravatar;
         console.log(this.useravatar);
+        if (this.$refs.bar) {
+          this.$refs.bar.stop()
+        }
         return this.useravatar;
       },
      getUsername:function(){

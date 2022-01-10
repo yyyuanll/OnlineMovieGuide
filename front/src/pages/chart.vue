@@ -1,7 +1,7 @@
 <template>
 <el-container style="">
     <el-main style="">
-        <div  id="main1" style="width: 100%;height:100%;" @change="trigger"> </div>
+        <div  id="main1" style="width: 100%;height:100%;" > </div>
     </el-main>
 </el-container>
 </template>
@@ -139,6 +139,12 @@ option && myChart.setOption(option);
     mounted(){
       this.chart=this.uchart()
       this.username = this.$route.query.username;
+      document.querySelector("body").style.backgroundImage =
+      "url('https://s2.loli.net/2021/12/17/1atOwnYbEMJGPsc.jpg') ";
+      document.querySelector("body").style.backgroundAttachment= 'fixed';
+      document.querySelector("body").style.backgroundSize= 'cover';
+      document.querySelector("body").style.backgroundPosition= 'center';
+
       //var echarts = require('echarts')
       //var myChart = echarts.init(document.getElementById('main1'))
       //var option

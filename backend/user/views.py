@@ -71,7 +71,7 @@ def favorite(request):
 
 def review(request):
     data = []
-    user_name = request.GET.get('value', None)
+    user_name = request.GET.get('username', None)
     print(user_name)
     comment = models.Review.objects.filter(username=user_name)
 
@@ -80,7 +80,7 @@ def review(request):
             "type": "review",
             "movie": i.movie,
             "review": i.review,
-            "star": i.star/5*10,
+            #"star": i.star/5*10,
         }
         data.append(tmp)
     print(data)
