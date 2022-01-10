@@ -123,7 +123,7 @@ def detail(request):
             }
         data.append(tmp)
     
-    if models.Favorite.objects.filter(username=user,imdbid=_id):
+    if models.Favorite.objects.filter(username=mainuser,imdbid=_id):
         tmp = { "isFavorite": True,}
     else:
         tmp = { "isFavorite": False,}

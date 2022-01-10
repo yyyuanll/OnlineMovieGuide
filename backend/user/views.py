@@ -13,27 +13,22 @@ def profile(request):
     data = []
     user_name = request.GET.get('username', None)
     user_info = models.Username.objects.filter(username=user_name)
-    #print(user_name)
 
     for i in user_info:
-        print(i.username)
         tmp = {
             "useravatar": i.head_portrait,
         }
         data.append(tmp)
-    print(data)
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 def history(request):
     data = []
     user_name = request.GET.get('username', None)
     his = models.History.objects.filter(username=user_name)
-    print('his', user_name)
     for i in his:
         poster = models.Film.objects.filter(imdbid=i.imdbid)
         for j in poster:
             image_url = j.poster
-            print(j.poster)
             if image_url != "N/A":
                 image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+str(j.imdbid)+'.jpg')
             else:
@@ -43,7 +38,6 @@ def history(request):
                 "image": image_url,
                 "imdbid":j.imdbid,
             }
-            print(p_tmp)
             data.append(p_tmp)
     return HttpResponse(json.dumps(data), content_type='application/json')
 
@@ -66,24 +60,26 @@ def favorite(request):
                 "imdbid": j.imdbid,
             }
             data.append(p_tmp)
-    print(data)
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 def review(request):
     data = []
     user_name = request.GET.get('username', None)
-    print(user_name)
+    #user_name = 'test'
     comment = models.Review.objects.filter(username=user_name)
 
     for i in comment:
+        if i.star is None:
+            star = 0
+        else:
+            star = int(i.star)
         tmp = {
-            "type": "review",
-            "movie": i.movie,
+            "count": i.field_id,
+            "movie": i.imdbid,
             "review": i.review,
-            #"star": i.star/5*10,
+            "star" : star,
         }
         data.append(tmp)
-    print(data)
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 def user_genre(request):
@@ -93,14 +89,13 @@ def user_genre(request):
                    "Sci-fi":0,"Music":0,"Animatinon":0,"History":0,
                    "Sport":0,"War":0,"Others":0}
     user_name = request.GET.get('username', None)
-    print('test', user_name)
+    
     data = []
     fav = models.Favorite.objects.filter(username=user_name)
     # 找到用户最喜欢的电影的类别，并计数
     for f in fav:
         genres = models.Genre.objects.filter(imdbid=f.imdbid)
         for i in genres:
-            print(i.genre)
             if i.genre in genre_list:
                 genre_list[i.genre] += 1
             else:
@@ -124,7 +119,7 @@ def user(request):
     fav = models.Favorite.objects.filter(username=user_name)
     his = models.History.objects.filter(username=user_name)
     comment = models.Review.objects.filter(username=user_name)
-    
+
     data = []
     # 找到用户最喜欢的电影的类别，并计数
     for f in fav:
@@ -137,7 +132,6 @@ def user(request):
     data.append(genre_list)
     
     for i in user_info:
-        print(i.username)
         tmp = {
             "username": i.username,
             "useravatar": i.head_portrait,
@@ -162,7 +156,6 @@ def user(request):
     for m in fav:
         poster = models.Film.objects.filter(title=m.imdbid)
         for j in poster:
-            print(j.title)
             image_url = j.poster
             if image_url != "N/A":
                 image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+str(j.imdbid)+'.jpg')
@@ -203,7 +196,6 @@ def add_comment(request):
                 'error': str(e),
             }
             data.append(tmp)
-            print(data)
             return HttpResponse(json.dumps(data), content_type='application/json')
         
     tmp = {
@@ -230,7 +222,6 @@ def add_star(request):
                 'error': str(e),
             }
             data.append(tmp)
-            print(data)
             return HttpResponse(json.dumps(data), content_type='application/json')
         
     tmp = {
@@ -248,7 +239,7 @@ def add_fav(request):
         user = request.POST.get('username', None)
         movie_id= request.POST.get('imdbid', None)
 
-        if models.Favorite.objects.filter(username = user, imdbid = id):
+        if models.Favorite.objects.filter(username = user, imdbid =movie_id):
             tmp = {
                 'status': 200,
                 'error': "The movie is already in the favorite!",
@@ -294,7 +285,6 @@ def remove_fav(request):
                 'error': str(e),
             }
             data.append(tmp)
-            print(data)
             return HttpResponse(json.dumps(data), content_type='application/json')
         
     tmp = {
@@ -376,8 +366,6 @@ def login(request):
     if request.method == "POST":
         user = request.POST.get('username', None)
         psword = request.POST.get('password', None)
-        print("user",user)
-        print("password",psword)
 
         try:
             cursor=connection.cursor()
@@ -414,7 +402,6 @@ def sendEmailCode(request):
     data = []
     if request.method == "POST":
         email = request.POST.get('mail', None)
-        print(email)
         if send_code_email(email):
             tmp = {
                 'status': 200,

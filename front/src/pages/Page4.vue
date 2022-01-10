@@ -19,7 +19,7 @@
           </el-option>
         </el-select>
     </el-form>
-    <div style="background-color:white;width:95%;height:280px;margin-top:30px;display:inline-block">
+    <div v-if="this.length >= 1" style="background-color:white;width:95%;height:280px;margin-top:30px;display:inline-block">
       <div style="float:left;margin-left:10px;margin-top:20px;padding:0 30px">
         <img :src="tabledata[0].url" style="height:240px">
       </div>
@@ -32,7 +32,7 @@
         <div style="margin-top:6px; width:95%"><font size="4"><strong>Introduction</strong>: {{tabledata[0].introduction}}</font></div>
       </div>
     </div>
-    <div style="background-color:white;width:95%;height:280px;margin-top:30px;display:inline-block">
+    <div v-if="this.length >= 2" style="background-color:white;width:95%;height:280px;margin-top:30px;display:inline-block">
       <div style="float:left;margin-left:10px;margin-top:20px;padding:0 30px">
         <img :src="tabledata[1].url" style="height:240px">
       </div>
@@ -45,7 +45,7 @@
         <div style="margin-top:6px; width:95%"><font size="4"><strong>Introduction</strong>: {{tabledata[1].introduction}}</font></div>
       </div>
     </div>
-    <div style="background-color:white;width:95%;height:280px;margin-top:30px;display:inline-block">
+    <div v-if="this.length >= 3" style="background-color:white;width:95%;height:280px;margin-top:30px;display:inline-block">
       <div style="float:left;margin-left:10px;margin-top:20px;padding:0 30px">
         <img :src="tabledata[2].url" style="height:240px">
       </div>
@@ -58,7 +58,7 @@
         <div style="margin-top:6px; width:95%"><font size="4"><strong>Introduction</strong>: {{tabledata[2].introduction}}</font></div>
       </div>
     </div>
-    <div style="background-color:white;width:95%;height:280px;margin-top:30px;display:inline-block">
+    <div v-if="this.length >= 4" style="background-color:white;width:95%;height:280px;margin-top:30px;display:inline-block">
       <div style="float:left;margin-left:10px;margin-top:20px;padding:0 30px">
         <img :src="tabledata[3].url" style="height:240px">
       </div>
@@ -71,7 +71,7 @@
         <div style="margin-top:6px; width:95%"><font size="4"><strong>Introduction</strong>: {{tabledata[3].introduction}}</font></div>
       </div>
     </div>
-    <div style="background-color:white;width:95%;height:280px;margin-top:30px;display:inline-block">
+    <div v-if="this.length >= 5" style="background-color:white;width:95%;height:280px;margin-top:30px;display:inline-block">
       <div style="float:left;margin-left:10px;margin-top:20px;padding:0 30px">
         <img :src="tabledata[4].url" style="height:240px">
       </div>
@@ -115,6 +115,7 @@ export default {
           ],
         value: '2021',
         tabledata:[],
+        length:0
       }
     },
     methods:{
@@ -137,6 +138,8 @@ export default {
               console.log(error)
           })
           this.tabledata = data;
+          this.length = this.tabledata.length;
+          console.log(this.length);
           console.log(this.tabledata)
           this.bar.stop();
           return this.tabledata

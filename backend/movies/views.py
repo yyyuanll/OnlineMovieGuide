@@ -3,6 +3,7 @@ import json
 import os
 from django.db import connection
 import math
+import pandas as pd
 
 def to_tuple(result):
     if isinstance(result[0],tuple):

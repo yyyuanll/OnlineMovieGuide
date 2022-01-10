@@ -2,16 +2,30 @@
 <el-container style="">
     <el-main style="background:none">
     <div class="page-info">
-        123
+        
       <el-col v-for="(data) in reviewlist" :key="data.movie" :value="data.review" :span="5.5" style="background:none">
       <div class="grid-content bg-purple" />
-      <el-card class="box-card" style="margin:10px;padding:0px;background:#ffffff;height:auto;width:320px;border-radius:16px">
-        <div :id="data.id" style="padding: 0px;margin-top:10px;">
-          {{data.movie}}
-
-          {{data.review}}
+         <router-link :to="{name:'MovieDetails',query:{imdbid: data.movie,username:username}}" class="link">
+      <el-card class="box-card" style="margin:10px;padding:16px;background:#ffffff;height:auto;width:320px;border-radius:16px">
+        <div :id="data.id" style="font-weight:bold;margin-bottom:10px">
+          {{data.title}}
         </div>
+    <div v-if="data.star != 0">
+        <el-rate
+  v-model="data.star"
+  disabled
+  show-score
+  text-color="#ff9900"
+  style="margin-bottom:10px"
+  >
+</el-rate>
+</div>
+    <div>
+          {{data.review}}
+    </div>
+        
       </el-card>
+         </router-link>
       </el-col>
     </div>
     </el-main>
@@ -24,7 +38,7 @@
       return {
        username:null,
         reviewlist:[
-        {"movie":'', "star":"","review":""},
+        {"movie":'', title:'',"star":"","review":""},
         
       ],
        
