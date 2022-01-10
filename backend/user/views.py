@@ -195,11 +195,9 @@ def add_comment(request):
         movie_id= request.POST.get('imdbid', None)
         review_txt = request.POST.get('review', None)
 
-        his_size = models.History.objects.values("field_id").count()
         rev_size = models.Review.objects.values("field_id").count()
         
         try:
-            new_his = models.History.objects.create(field_id=his_size+2,username=user,imdbid=movie_id)
             new_review = models.Review.objects.create(field_id=rev_size+2,username=user,imdbid=movie_id,review=review_txt)
         except Exception as e:
             tmp = {
@@ -224,11 +222,9 @@ def add_star(request):
         movie_id= request.POST.get('imdbid', None)
         rating = request.POST.get('star', None)
 
-        his_size = models.History.objects.values("field_id").count()
         rev_size = models.Review.objects.values("field_id").count()
 
         try:
-            new_his = models.History.objects.create(field_id=his_size+2,username=user,imdbid=movie_id)
             new_star = models.Review.objects.create(field_id=rev_size+2,username=user,imdbid=movie_id,star=int(rating))
         except Exception as e:
             tmp = {
@@ -254,11 +250,9 @@ def add_fav(request):
         user = request.POST.get('username', None)
         movie_id= request.POST.get('imdbid', None)
 
-        his_size = models.History.objects.values("field_id").count()
         fav_size = models.Favorite.objects.values("field_id").count()
 
         try:
-            new_his = models.History.objects.create(field_id=his_size+2,username=user,imdbid=movie_id)
             new_fav = models.Favorite.objects.create(field_id=fav_size+2,username=user,imdbid=movie_id)
         except Exception as e:
             tmp = {

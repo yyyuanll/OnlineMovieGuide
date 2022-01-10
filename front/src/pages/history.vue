@@ -31,10 +31,6 @@
       }
     },
 
-watch: {
-  // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
-  '$route': 'getUsername'
-},
     mounted () {
     document.querySelector("body").style.backgroundImage =
       "url('https://s2.loli.net/2021/12/17/1atOwnYbEMJGPsc.jpg') ";
@@ -44,8 +40,13 @@ watch: {
       this.movielist = this.history();
       this.username = this.$route.query.username;
   },
+  watch: {
+  // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
+  '$route': 'history'
+},
    methods: {
        async history(){ 
+           this.getUsername();
         let data = [];
         console.log(this.username);
        

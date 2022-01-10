@@ -65,7 +65,6 @@
 export default {
   data(){
     return{
-      username:null,
       index: 1,
       pagesize:28,
       all: 20, //总页数
@@ -74,6 +73,7 @@ export default {
       Genre:'All',
       Country:'All',
       IMDBRating:'All',
+      username: null,
       options1:[
         {value: 'All'},
         {value: 'Drama'}, {value: 'Comedy'}, {value: 'Action'}, {value: 'Romance'}, {value: 'Crime'},

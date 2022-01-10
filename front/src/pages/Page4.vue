@@ -87,7 +87,7 @@ import { axiosInstance } from 'src/boot/axios';
 export default {
    data() {
       return {
-        username: this.$route.query.username,
+        username: null,
         options: [{value: '2021'},
           {value: '2020'}, {value: '2019'}, {value: '2018'}, {value: '2017'}, {value: '2016'},{value: '2015'}, 
           {value: '2014'}, {value: '2013'}, {value: '2012'}, {value: '2011'}, {value: '2010'},{value: '2009'},
@@ -138,6 +138,7 @@ export default {
       document.querySelector("body").style.backgroundSize= 'cover';
       document.querySelector("body").style.backgroundPosition= 'center';
       this.tabledata = this.upload(this.value)
+      this.username = this.$route.query.username;
   },
 }
 </script>

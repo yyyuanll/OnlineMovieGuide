@@ -20,25 +20,25 @@
     <el-menu
       class="el-menu-vertical-demo"
       default-active="0"
-      router=true
+      router
       style="width:240px;margin-left:5px;border-radius:16px;height:240px">
 
-      <el-menu-item index="/page6/chart"  style="height:0px" :default-active="0" v-on:click="this.index=0">
+      <el-menu-item index="/page6/chart"  style="height:0px"  :route="{path:'/page6/chart',query:{username: username}}" :default-active="0" v-on:click="this.index=0">
           <router-link  :to="{path:'/page6/chart',query:{username: username}}"></router-link>
       </el-menu-item>
       
-      <el-menu-item index="/page6/history"  style="height:80px" v-on:click="this.index=1">
+      <el-menu-item index="/page6/history"  :route="{path:'/page6/history',query:{username: username}}" style="height:80px" v-on:click="this.index=1">
           <router-link :to="{path:'/page6/history',query:{username: username}}" ></router-link>
          
         <i class="el-icon-menu" style="margin-top:20px"></i>
         <span slot="title" style="margin-top:20px;position:relative;top:10px;font-size:16px">History</span>
       </el-menu-item>
-      <el-menu-item index="/page6/favorite" v-on:click="this.index=2" style="height:80px">
+      <el-menu-item index="/page6/favorite" :route="{path:'/page6/favorite',query:{username: username}}" v-on:click="this.index=2" style="height:80px">
         <router-link :to="{path:'/page6/favorite',query:{username: username}}" ></router-link>
         <i class="el-icon-document" style="margin-top:20px"></i>
         <span slot="title" style="margin-top:20px;position:relative;top:10px;font-size:16px">Favorite</span>
       </el-menu-item>
-      <el-menu-item index="/page6/review"  v-on:click="this.index=3" style="height:80px">
+      <el-menu-item index="/page6/review"  :route="{path:'/page6/review',query:{username: username}}" v-on:click="this.index=3" style="height:80px">
         <router-link :to="{path:'/page6/review',query:{username: username}}" ></router-link>
         <i class="el-icon-setting" style="margin-top:20px"></i>
         <span slot="title" style="margin-top:20px;position:relative;top:10px;font-size:16px">Review</span>
@@ -93,16 +93,17 @@ import Axios from 'axios';
       }
     },
 mounted(){
-            //this.getUsername();
+        this.getUsername();
         this.useravatar=this.avatar();
         this.username = this.$route.query.username;
 },
 watch: {
   // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
-  '$route': 'getUsername'
+  '$route': 'avatar'
 },
     methods:{
     async avatar(){ 
+        this.getUsername();
         let data = [];
         console.log(this.username);
        

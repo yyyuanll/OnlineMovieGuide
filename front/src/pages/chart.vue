@@ -47,8 +47,16 @@ echarts.use([
       username:null
       }
     },
+    watch: {
+  // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
+  '$route': 'uchart'
+},
     methods:{
-
+        getUsername:function(){
+                var routerUserName = this.$router.query.username
+                console.log(routerUserName)
+                this.username = routerUserName
+            },
         trigger () {
       const bar = this.$refs.bar
 
@@ -61,6 +69,7 @@ echarts.use([
       }, Math.random() * 3000 + 1000)},
     
          async uchart(){  {
+             this.getUsername();
         let data = [];
         console.log(this.username);
         var chartDom = document.getElementById('main1');

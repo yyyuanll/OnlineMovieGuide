@@ -33,7 +33,7 @@
 
 watch: {
   // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
-  '$route': 'getUsername'
+  '$route': 'favorite'
 },
     mounted () {
     document.querySelector("body").style.backgroundImage =
@@ -46,6 +46,7 @@ watch: {
   },
    methods: {
        async favorite(){ 
+           this.getUsername();
         let data = [];
         console.log(this.username);
        

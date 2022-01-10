@@ -1,11 +1,28 @@
 from django.shortcuts import HttpResponse
+from numpy import add
+from sqlalchemy import true
 from . import models 
 import json
 import os
 from django.db import connection
 
+def add_his(user, id):
+    if models.History.objects.filter(username = user, imdbid = id):
+        return False
+    else:
+        his_size = models.History.objects.values("field_id").count()
+        try:
+            new_his = models.History.objects.create(field_id=his_size+2,username=user,imdbid=id)
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
 def detail(request): 
-    _id = request.GET.get('imdbid')
+    if request.method == 'GET':
+        _id = request.GET.get('imdbid')
+        username = request.GET.get('username')
+        add_his(username, _id)
     with open('Recommend_dictionary.json', 'r', encoding='utf-8') as f:
         movie_dics = json.load(f)
     filmobject = models.Film.objects.filter(imdbid=_id)
@@ -89,7 +106,6 @@ def detail(request):
             i += 1
         data.append(tmp)
 
-    # NOTE:推荐电影待完成
     recommend_list = tuple(movie_dics[_id])
     print(recommend_list)
     cursor = connection.cursor()
