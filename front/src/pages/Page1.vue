@@ -1,5 +1,6 @@
 <template>
   <div class="command">
+      <div>
       <q-ajax-bar
       ref="bar"
       position="bottom"
@@ -53,8 +54,12 @@
       </el-card>
       </el-col>
     </div>
-    <div class="page-bar">
-      <ul>
+    
+  </div>
+  <div>
+    <div class="page-bar" style="width:100%;float:left;margin-bottom:32px;margin-top:32px">
+        <div>
+      <div>
         <li v-if="cur>1"><a v-on:click="cur--,pageClick()">previous page</a></li>
         <li v-if="cur==1"><a class="banclick">previous page</a></li>
         <li v-for="index in indexs"  :key="index" v-bind:class="{ 'active': cur == index}">
@@ -63,7 +68,9 @@
         <li v-if="cur<all"><a v-on:click="cur++,pageClick()">next page</a></li>
         <li v-if="cur == all"><a class="banclick">next page</a></li>
         <li><a>total<i>{{all}}</i>pages</a></li>
-      </ul>
+      </div>
+        </div>
+    </div>
     </div>
   </div>
 </template>
@@ -209,11 +216,6 @@ export default {
   vertical-align:middle;
 }
 
-.page-bar{
-  margin-top: 1300px;
-  margin-left: 50px;
-  vertical-align:middle;
-}
 
 ul,li{
   margin: 0px;

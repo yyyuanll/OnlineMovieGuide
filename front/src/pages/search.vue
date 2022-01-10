@@ -1,20 +1,27 @@
 <template>
   <div>
-    <div class="search_">
-      <input v-model="search_text" class="input_" type="text" placeholder="Please input movie name"/>
-      <button class="button_" @click="upload()">search</button>
+      <q-ajax-bar
+      ref="bar"
+      position="bottom"
+      color="cyan-2"
+      size="10px"
+     
+    />
+    <div class="search_" style="position:relative;right:-2.5%;margin-bottom:16px">
+      <input v-model="search_text" class="input_" type="text" placeholder="Please input movie name" style="padding-left:12px;font-size:16px"/>
+      <button class="button_" @click="upload()" style="margin-left:16px">search</button>
     </div>
     <div class="movie_">
-      <el-col v-for="(data) in movielist" :key="data.label" :value="data.value" :span="5.5" style="background:none">
-        <div class="grid-content bg-purple" />
-        <el-card class="box-card" style="margin-top:20px;padding:0px">
-          <img :src="data.img" class="image" style="height:230px;width:160px">
-          <router-link :to="{name:'MovieDetails',query:{imdbid: data.imdbid, username: username}}" class="link">
-            <div :id="data.id" class="st">  
-              {{data.title}}
-            </div>
-          </router-link>
-        </el-card>
+      <el-col v-for="(data) in movielist.slice(1)" :key="data.label" :value="data.value" :span="5.5" style="background:none">
+      <div class="grid-content bg-purple" />
+      <el-card class="box-card" style="margin:10px;padding:0px;background:#ffffff;height:320px">
+      <router-link :to="{name:'MovieDetails',query:{imdbid: data.imdbid,username: username}}" class="link">
+      <img :src="data.img" class="image" style="height:230px;width:160px">
+        <div :id="data.id" class="ht" style="padding: 0px;margin-top:10px;width:160px">
+          {{data.title}}
+        </div>
+      </router-link>
+      </el-card>
       </el-col>
     </div>
   </div>

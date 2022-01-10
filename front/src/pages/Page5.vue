@@ -91,7 +91,7 @@
         </el-card>
       </el-col>
     </div>
-    <div class="page-bar">
+    <div class="page-bar" style="width:100%;float:left;margin-bottom:32px;margin-top:32px">
       <ul>
         <li v-if="cur>1"><a v-on:click="cur--,pageClick()">previous page</a></li>
         <li v-if="cur==1"><a class="banclick">previous page</a></li>
