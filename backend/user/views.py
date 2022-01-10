@@ -13,7 +13,7 @@ def profile(request):
     data = []
     user_name = request.GET.get('username', None)
     user_info = models.Username.objects.filter(username=user_name)
-    print(user_name)
+    #print(user_name)
 
     for i in user_info:
         print(i.username)
@@ -90,11 +90,11 @@ def user_genre(request):
                    "Sci-fi":0,"Music":0,"Animatinon":0,"History":0,
                    "Sport":0,"War":0,"Others":0}
     user_name = request.GET.get('username', None)
+    
     data = []
     fav = models.Favorite.objects.filter(username=user_name)
     # 找到用户最喜欢的电影的类别，并计数
     for f in fav:
-        print(f.imdbid)
         genres = models.Genre.objects.filter(imdbid=f.imdbid)
         for i in genres:
             print(i.genre)
@@ -247,17 +247,27 @@ def add_fav(request):
         user = request.POST.get('username', None)
         movie_id= request.POST.get('imdbid', None)
 
-        fav_size = models.Favorite.objects.values("field_id").count()
-
-        try:
-            new_fav = models.Favorite.objects.create(field_id=fav_size+2,username=user,imdbid=movie_id)
-        except Exception as e:
+        if models.Favorite.objects.filter(username = user, imdbid = id):
             tmp = {
-                'status': 404,
-                'error': str(e),
+                'status': 200,
+                'error': "The movie is already in the favorite!",
             }
             data.append(tmp)
-            print(data)
+            return HttpResponse(json.dumps(data), content_type='application/json')
+        else:
+            fav_size = models.Favorite.objects.values("field_id").count()
+            try:
+                new_fav = models.Favorite.objects.create(field_id=fav_size+2,username=user,imdbid=movie_id)
+                tmp = {
+                'status': 200,
+                'error': None,
+                }
+            except Exception as e:
+                tmp = {
+                    'status': 404,
+                    'error': str(e),
+                    }
+            data.append(tmp)
             return HttpResponse(json.dumps(data), content_type='application/json')
         
     tmp = {
@@ -265,7 +275,6 @@ def add_fav(request):
         'error': None,
     }
     data.append(tmp)
-    print(data)
     return HttpResponse(json.dumps(data), content_type='application/json')
         
 
@@ -309,8 +318,9 @@ def register(request):
         psword = request.POST.get('password', None)
         user_email = request.POST.get('mail', None)
         profile = request.FILES.get("file", None)
-
-        stored = models.EmailVerifyRecord.objects.filter(email = user_email).order_by('-send_time').first()
+        
+        stored = models.UserEmailverifyrecord.objects.filter(email = user_email).order_by('-send_time').first()
+        #stored = models.EmailVerifyRecord.objects.filter(email = user_email).order_by('-send_time').first()
 
         sent = stored.send_time.replace(tzinfo=None)
         if (datetime.datetime.now()-sent).seconds > 300:
@@ -443,7 +453,8 @@ def send_code_email(email):
     :param send_type: 邮箱类型
     :return: True/False
     """
-    email_record = models.EmailVerifyRecord()
+    email_record = models.UserEmailverifyrecord()
+    #email_record = models.EmailVerifyRecord()
     # 将给用户发的信息保存在数据库中
     code = random_str()
     email_record.code = code

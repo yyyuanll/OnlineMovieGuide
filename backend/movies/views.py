@@ -23,7 +23,7 @@ def search_title(title: str):
         t = str(t)
         if title in t.lower():
             image_url = Posters[i]
-            if image_url != "N/A":
+            if isinstance(image_url, str) :
                 image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+imdbIDs[i]+'.jpg')
             else:
                 image_url = 'http://127.0.0.1:8000/images/none.jpg'
@@ -36,7 +36,7 @@ def search_title(title: str):
     return ids
 
 def search(request):
-    title = request.GET.get('value', None)
+    title = request.GET.get('search', None)
     data = search_title(title)
 
     return HttpResponse(json.dumps(data), content_type='application/json')
