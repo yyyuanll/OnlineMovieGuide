@@ -124,7 +124,7 @@ watch: {
         return this.useravatar;
       },
      getUsername:function(){
-                var routerUserName = this.$router.query.username
+                var routerUserName = this.$route.query.username
                 console.log(routerUserName)
                 this.username = routerUserName
             },

@@ -67,7 +67,7 @@
         return this.movielist;
       },
             getUsername:function(){
-                var routerUserName = this.$router.query.username
+                var routerUserName = this.$route.query.username
                 this.username = routerUserName
             },}
   };

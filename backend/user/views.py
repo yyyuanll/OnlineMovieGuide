@@ -61,7 +61,6 @@ def favorite(request):
             else:
                 image_url = 'http://127.0.0.1:8000/images/none.jpg'
             p_tmp = {
-                "type": "favorites",
                 "title": j.title,
                 "image": image_url,
                 "imdbid": j.imdbid,
@@ -94,11 +93,7 @@ def user_genre(request):
                    "Sci-fi":0,"Music":0,"Animatinon":0,"History":0,
                    "Sport":0,"War":0,"Others":0}
     user_name = request.GET.get('username', None)
-<<<<<<< HEAD
     print('test', user_name)
-=======
-    
->>>>>>> bb807b22e7e5dbb0ece8ef34acdc486c3b25d636
     data = []
     fav = models.Favorite.objects.filter(username=user_name)
     # 找到用户最喜欢的电影的类别，并计数

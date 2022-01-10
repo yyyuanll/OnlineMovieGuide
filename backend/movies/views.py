@@ -13,8 +13,6 @@ def to_tuple(result):
     else:
         return result
 
-<<<<<<< HEAD
-=======
 def search_title(title: str):
     title = title.lower()
     df = pd.read_excel('film.xlsx', usecols=['Title', 'imdbID','Poster'])
@@ -42,7 +40,6 @@ def search(request):
 
     return HttpResponse(json.dumps(data), content_type='application/json')
 
->>>>>>> bb807b22e7e5dbb0ece8ef34acdc486c3b25d636
 def allmovie(request): 
         data = []
         # 如果前端发起了post请求
