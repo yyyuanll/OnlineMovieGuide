@@ -12,67 +12,70 @@
           </el-option>
         </el-select>
     </el-form>
-    <div class="of">
-      <div style="font-weight:bold; font-size:30px">Actor</div>
-      <table class="el-table el-table--fit el-table--border table-detail" :cell-style="{ textAlign: 'center' }" style="width:90%">
-        <thead>
-          <tr>
-            <td>award</td>
-            <td>name</td>
-            <td>image</td>
-            <td>introduction</td>
-            <td>representitive</td>
-            <td>movie_name</td>
-            <td>character_name</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(data) in tabledata" :key="data.label" :value="data.value">
-            <div v-if="data.type !== 'BestPicture'">
-              <td>{{data.award}}</td>
-              <td>{{data.name}}</td>
-              <td>
-                <img :src="data.url">
-              </td>
-              <td>{{data.introduction}}</td>
-              <td>{{data.representitive}}</td>
-              <td>{{data.movie_name}}</td>
-              <td>{{data.character_name}}</td>
-              </div>
-          </tr>
-        </tbody>
-      </table>
+    <div style="background-color:white;width:95%;height:280px;margin-top:30px;display:inline-block">
+      <div style="float:left;margin-left:10px;margin-top:20px;padding:0 30px">
+        <img :src="tabledata[0].url" style="height:240px">
+      </div>
+      <div>
+        <div><font size="6"><strong>{{tabledata[0].award}}</strong></font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Name</strong>: {{tabledata[0].name}}</font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Movie name</strong>: {{tabledata[0].movie_name}}</font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Character name</strong>: {{tabledata[0].character_name}}</font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Representitive</strong>: {{tabledata[0].representitive}}</font></div>
+        <div style="margin-top:6px; width:95%"><font size="4"><strong>Introduction</strong>: {{tabledata[0].introduction}}</font></div>
+      </div>
     </div>
-    <div class="of">
-      <div style="font-weight:bold; font-size:30px">Movie</div>
-      <table class="el-table el-table--fit el-table--border table-detail" style="width:90%">
-        <thead>
-          <tr>
-            <td class="ot">award</td>
-            <td>name</td>
-            <td>image</td>
-            <td>introduction</td>
-            <td>director</td>
-            <td>actors</td>
-            <td>genre</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="data in tabledata" :key="data.label" :value="data.value">
-            <div v-if="data.type == 'BestPicture'">
-              <td>{{data.award}}</td>
-              <td>{{data.title}}</td>
-              <td>
-                <img :src="data.url">
-              </td>
-              <td>{{data.introduction}}</td>
-              <td>{{data.director}}</td>
-              <td>{{data.actors}}</td>
-              <td>{{data.genre}}</td>
-              </div>
-          </tr>
-        </tbody>
-      </table>
+    <div style="background-color:white;width:95%;height:280px;margin-top:30px;display:inline-block">
+      <div style="float:left;margin-left:10px;margin-top:20px;padding:0 30px">
+        <img :src="tabledata[1].url" style="height:240px">
+      </div>
+      <div>
+        <div><font size="6"><strong>{{tabledata[1].award}}</strong></font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Name</strong>: {{tabledata[1].name}}</font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Movie name</strong>: {{tabledata[1].movie_name}}</font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Character name</strong>: {{tabledata[1].character_name}}</font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Representitive</strong>: {{tabledata[1].representitive}}</font></div>
+        <div style="margin-top:6px; width:95%"><font size="4"><strong>Introduction</strong>: {{tabledata[1].introduction}}</font></div>
+      </div>
+    </div>
+    <div style="background-color:white;width:95%;height:280px;margin-top:30px;display:inline-block">
+      <div style="float:left;margin-left:10px;margin-top:20px;padding:0 30px">
+        <img :src="tabledata[2].url" style="height:240px">
+      </div>
+      <div>
+        <div><font size="6"><strong>{{tabledata[2].award}}</strong></font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Name</strong>: {{tabledata[2].name}}</font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Movie name</strong>: {{tabledata[2].movie_name}}</font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Character name</strong>: {{tabledata[2].character_name}}</font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Representitive</strong>: {{tabledata[2].representitive}}</font></div>
+        <div style="margin-top:6px; width:95%"><font size="4"><strong>Introduction</strong>: {{tabledata[2].introduction}}</font></div>
+      </div>
+    </div>
+    <div style="background-color:white;width:95%;height:280px;margin-top:30px;display:inline-block">
+      <div style="float:left;margin-left:10px;margin-top:20px;padding:0 30px">
+        <img :src="tabledata[3].url" style="height:240px">
+      </div>
+      <div>
+        <div><font size="6"><strong>{{tabledata[3].award}}</strong></font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Name</strong>: {{tabledata[3].name}}</font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Movie name</strong>: {{tabledata[3].movie_name}}</font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Character name</strong>: {{tabledata[3].character_name}}</font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Representitive</strong>: {{tabledata[3].representitive}}</font></div>
+        <div style="margin-top:6px; width:95%"><font size="4"><strong>Introduction</strong>: {{tabledata[3].introduction}}</font></div>
+      </div>
+    </div>
+    <div style="background-color:white;width:95%;height:280px;margin-top:30px;display:inline-block">
+      <div style="float:left;margin-left:10px;margin-top:20px;padding:0 30px">
+        <img :src="tabledata[4].url" style="height:240px">
+      </div>
+      <div>
+        <div><font size="6"><strong>{{tabledata[4].award}}</strong></font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Title</strong>: {{tabledata[4].title}}</font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Director</strong>: {{tabledata[4].director}}</font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Actors</strong>: {{tabledata[4].actors}}</font></div>
+        <div style="margin-top:6px"><font size="4"><strong>Genre</strong>: {{tabledata[4].genre}}</font></div>
+        <div style="margin-top:6px; width:95%"><font size="4"><strong>Introduction</strong>: {{tabledata[4].introduction}}</font></div>
+      </div>
     </div>
   </div>
 </template>

@@ -4,10 +4,10 @@
     <div class="page-info">
       <el-col v-for="(data) in movielist" :key="data.label" :value="data.value" :span="5.5" style="background:none">
       <div class="grid-content bg-purple" />
-      <el-card class="box-card" style="margin:10px;padding:0pxbackground:#ffffff">
-      <img :src="data.image" class="image" style="height:230px;width:160px">
-      <router-link to="page-detail" class="link">
-        <div :id="data.id" style="padding: 0px;text-align: center;margin-top:10px">
+      <el-card class="box-card" style="margin:10px;padding:0px;background:#ffffff;height:320px">
+    <router-link :to="{name:'MovieDetails',query:{imdbid: data.imdbid,username:username}}" class="link">
+        <img :src="data.image" class="image" style="height:230px;width:160px">
+        <div :id="data.id" style="padding: 0px;margin-top:10px;width:160px">
           {{data.title}}
         </div>
       </router-link>
@@ -22,7 +22,7 @@
   export default {
     data() {
       return {
-       username:"Lucas Kim",
+       username:null,
         movielist:[
         {"img":'', "title":""},
         
@@ -42,6 +42,7 @@ watch: {
       document.querySelector("body").style.backgroundSize= 'cover';
       document.querySelector("body").style.backgroundPosition= 'center';
       this.movielist = this.favorite();
+      this.username = this.$route.query.username;
   },
    methods: {
        async favorite(){ 
@@ -50,7 +51,7 @@ watch: {
        
         await this.$axios.get("http://127.0.0.1:8000/user/favorite/",{
           params:{
-           username:this.username
+           username:this.$route.query.username
           }
         })
         .then(function(response){

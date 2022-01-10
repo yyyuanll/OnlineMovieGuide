@@ -42,18 +42,18 @@
                     <a v-bind:href="movieDetailes[4].actor_link4">{{movieDetailes[4].actor4}}</a>
                 </div>
                 <div class="recommend">
-                    <el-card><img v-bind:src="movieDetailes[6].img" v-bind:alt="movieDetailes[6].title"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[6].imdbid, username: this.username}}" class="link">{{movieDetailes[6].title}}</router-link></el-card>
-                    <el-card><img v-bind:src="movieDetailes[7].img" v-bind:alt="movieDetailes[7].title"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[7].imdbid, username: this.username}}" class="link">{{movieDetailes[7].title}}</router-link></el-card>
-                    <el-card><img v-bind:src="movieDetailes[8].img" v-bind:alt="movieDetailes[8].title"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[8].imdbid, username: this.username}}" class="link">{{movieDetailes[8].title}}</router-link></el-card>
-                    <el-card><img v-bind:src="movieDetailes[9].img" v-bind:alt="movieDetailes[9].title"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[9].imdbid, username: this.username}}" class="link">{{movieDetailes[9].title}}</router-link></el-card>
-                    <el-card><img v-bind:src="movieDetailes[10].img" v-bind:alt="movieDetailes[10].title"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[10].imdbid, username: this.username}}" class="link">{{movieDetailes[10].title}}</router-link></el-card>
+                    <el-card><img v-bind:src="movieDetailes[6].img" v-bind:alt="movieDetailes[6].title" style="height:230px;width:160px"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[6].imdbid, username: this.username}}" class="link">{{movieDetailes[6].title}}</router-link></el-card>
+                    <el-card><img v-bind:src="movieDetailes[7].img" v-bind:alt="movieDetailes[7].title" style="height:230px;width:160px"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[7].imdbid, username: this.username}}" class="link">{{movieDetailes[7].title}}</router-link></el-card>
+                    <el-card><img v-bind:src="movieDetailes[8].img" v-bind:alt="movieDetailes[8].title" style="height:230px;width:160px"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[8].imdbid, username: this.username}}" class="link">{{movieDetailes[8].title}}</router-link></el-card>
+                    <el-card><img v-bind:src="movieDetailes[9].img" v-bind:alt="movieDetailes[9].title" style="height:230px;width:160px"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[9].imdbid, username: this.username}}" class="link">{{movieDetailes[9].title}}</router-link></el-card>
+                    <el-card><img v-bind:src="movieDetailes[10].img" v-bind:alt="movieDetailes[10].title" style="height:230px;width:160px"><router-link :to="{name:'MovieDetails',query:{imdbid: movieDetailes[10].imdbid, username: this.username}}" class="link">{{movieDetailes[10].title}}</router-link></el-card>
                 </div>
             </div>
             <div class="right">
                 <div class="comment">
-                    <el-card><p>MasterPiece</p></el-card>
-                    <el-card><p>Noob</p></el-card>
-                    <el-card><p>Tiring</p></el-card>
+                    <el-card><p>{{movieDetailes[5].review1}}</p></el-card>
+                    <el-card><p>{{movieDetailes[5].review2}}</p></el-card>
+                    <el-card><p>{{movieDetailes[5].review3}}</p></el-card>
                     <el-card class="commentForm">
                         <el-form ref="form" :model="form">
                             <el-form-item>
@@ -162,12 +162,13 @@
         margin: 10px 0;
     }
     .comment p{
-        height: 76.5px;
+        height: 85px;
+        overflow-y: auto;
     }
     .recommend{
         width: 100%;
         background-color: #f2f2f2;
-        height: 260px;
+        height: 280px;
         float: left;
     }
     .commentForm .el-card__body{
@@ -182,10 +183,10 @@
         width: 100% !important;
         height: 100%;
     }
-    .recommend img{
-        width: 100%;
-        height: auto;
-    }
+    /*.recommend img{
+        /* width: 100%;
+        height: auto; 
+    }*/
 </style>
 
 <script>
@@ -204,68 +205,19 @@ import { dom } from 'quasar';
                         comment: '',
                     },
                 movieDetailes:[
-                    // {
-                    //     "title": "Star Wars: Episode V - The Empire Strikes Back",
-                    //     "image": "http://127.0.0.1:8000/images/tt0080684.jpg",
-                    //     "imdbrating": 8.8,
-                    //     "imdbid": "tt0080684",
-                    //     "metascore": 79,
-                    //     "day": 20,
-                    //     "month": 6,
-                    //     "year": 1980,
-                    //     "runtime": "124 min",
-                    //     "rated": "PG",
-                    //     "award": "Won 1 Oscar. Another 15 wins & 18 nominations.",
-                    //     "director": "Irvin Kershner",
-                    //     "writer": "Leigh Brackett (screenplay), Lawrence Kasdan (screenplay), George Lucas (story)"
-                    // },
-                    // {
-                    //     "genre1": "Action",
-                    //     "genre2": "Adventure",
-                    //     "genre3": "Fantasy"
-                    // },
-                    // {
-                    //     "language1": "English"
-                    // },
-                    // {
-                    //     "country1": "USA"
-                    // },
-                    // {
-                    //     "actor1": "Mark Hamill",
-                    //     "actor_link1": "https://en.wikipedia.org/wiki/Mark_Hamill",
-                    //     "actor2": "Harrison Ford",
-                    //     "actor_link2": "https://en.wikipedia.org/wiki/Harrison_Ford",
-                    //     "actor3": "Carrie Fisher",
-                    //     "actor_link3": "https://en.wikipedia.org/wiki/Carrie_Fisher",
-                    //     "actor4": "Billy Dee Williams",
-                    //     "actor_link4": "https://en.wikipedia.org/wiki/Billy_Dee_Williams"
-                    // },
-                    // {},
-                    // {
-                    //     "imdbid": "tt0082288",
-                    //     "title": "Dragonslayer",
-                    //     "img": "http://127.0.0.1:8000/images/tt0082288.jpg"
-                    // },
-                    // {
-                    //     "imdbid": "tt0084749",
-                    //     "title": "The Sword and the Sorcerer",
-                    //     "img": "http://127.0.0.1:8000/images/tt0084749.jpg"
-                    // },
-                    // {
-                    //     "imdbid": "tt0083630",
-                    //     "title": "The Beastmaster",
-                    //     "img": "http://127.0.0.1:8000/images/tt0083630.jpg"
-                    // },
-                    // {
-                    //     "imdbid": "tt0085811",
-                    //     "title": "Krull",
-                    //     "img": "http://127.0.0.1:8000/images/tt0085811.jpg"
-                    // },
-                    // {
-                    //     "imdbid": "tt0087078",
-                    //     "title": "Conan the Destroyer",
-                    //     "img": "http://127.0.0.1:8000/images/tt0087078.jpg"
-                    // }
+                    // [
+                    //     {"title": "The Cut", "image": "http://127.0.0.1:8000/images/none.jpg", "imdbrating": 0.0, "imdbid": "tt5028408", "metascore": 0, "day": 19, "month": 9, "year": 2015, "runtime": "6 min", "rated": "N/A", "award": "N/A", "director": "Jeroen Pool", "writer": "N/A"}, 
+                    //     {"genre1": "Documentary", "genre2": "Short"}, 
+                    //     {"language1": "English"}, 
+                    //     {"country1": "Netherlands", "country2": "UK", "country3": "N/A"}, 
+                    //     {"actor1": "N/A", "actor_link1": "https://en.wikipedia.org/wiki/N/A"}, 
+                    //     {"user1": "Nichole Crosby", "profile1": "https://a.academia-assets.com/assets/s200_no_pic-a1085ffe81e600887dffbe298fb865081a5861c588a68004201d7eddcfa95db3.png", "review1": "Last week was my third visit to NOCA.Since it was a Thursday, I had the wagyu pastrami sliders.  They were very good.  Thick pieces of meat on nicely toasted bread.  House made chips were great on the side.Good service.  Top-quality restaurant all around.", "star1": 8.0, "user2": "Emmanuel Colon", "profile2": "https://a.academia-assets.com/assets/s200_no_pic-a1085ffe81e600887dffbe298fb865081a5861c588a68004201d7eddcfa95db3.png", "review2": "Threw a friend's baby shower here and it went pretty smoothly. We made reservations well in advance, and it was a small party. I'm not a huge fan of their food but it's always busy so clearly other people don't have my same opinion. The three stars is for the service, they were super attentive and everything was taken care of for our party. I just don't think the cheesecake is that great, I'm sorry! But the apps aren't too bad.", "star2": 6.0, "user3": "Lucas Kim", "profile3": "https://a.academia-assets.com/assets/s200_no_pic-a1085ffe81e600887dffbe298fb865081a5861c588a68004201d7eddcfa95db3.png", "review3": null, "star3": 6.0}, 
+                    //     {"imdbid": "tt1129381", "title": "Lower Learning", "img": "http://127.0.0.1:8000/images/tt1129381.jpg"}, 
+                    //     {"imdbid": "tt1291150", "title": "Teenage Mutant Ninja Turtles", "img": "http://127.0.0.1:8000/images/tt1291150.jpg"}, 
+                    //     {"imdbid": "tt1570989", "title": "Tiny Furniture", "img": "http://127.0.0.1:8000/images/tt1570989.jpg"}, 
+                    //     {"imdbid": "tt2967224", "title": "Hot Pursuit", "img": "http://127.0.0.1:8000/images/tt2967224.jpg"}, 
+                    //     {"imdbid": "tt4819544", "title": "Only You", "img": "http://127.0.0.1:8000/images/tt4819544.jpg"}
+                    // ]
                 ]
                 
             }
@@ -302,23 +254,23 @@ import { dom } from 'quasar';
                 this.username = routerUserName
             },
             UploadComment(){
+                let data = new FormData();
+                data.append('imdbid', this.imdbid);
+                data.append('username', this.username);
+                data.append('review', this.form.comment);
                 Axios
-                    .post("http://127.0.0.1:8000/user/add_comment/", {
-                        imdbid: this.imdbid,
-                        username: this.username,
-                        review: this.form.comment
-                    })
+                    .post("http://127.0.0.1:8000/user/add_comment/", data)
                     .catch(function(error){
                         console.log(error);
                     });
             },
             UploadRating(){
+                let data = new FormData();
+                data.append('imdbid', this.imdbid);
+                data.append('username', this.username);
+                data.append('star', this.userRating);
                 Axios
-                    .post("http://127.0.0.1:8000/user/add_star/", {
-                        imdbid: this.imdbid,
-                        username: this.username,
-                        star: this.userRating
-                    })
+                    .post("http://127.0.0.1:8000/user/add_star/", data)
                     .catch(function(error){
                         console.log(error);
                     });

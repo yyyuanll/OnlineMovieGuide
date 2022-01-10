@@ -1,12 +1,25 @@
 <template>
 <el-container style="">
     <el-main style="">
-        <div  id="main1" style="width: 100%;height:100%;"> </div>
+        <div  id="main1" style="width: 100%;height:100%;" @change="trigger"> </div>
     </el-main>
 </el-container>
 </template>
 
 <script>
+import * as echarts from 'echarts/core';
+import { TooltipComponent, LegendComponent } from 'echarts/components';
+import { PieChart } from 'echarts/charts';
+import { LabelLayout } from 'echarts/features';
+import { CanvasRenderer } from 'echarts/renderers';
+
+echarts.use([
+  TooltipComponent,
+  LegendComponent,
+  PieChart,
+  CanvasRenderer,
+  LabelLayout
+]);
   export default {
     data() {
       return {
@@ -31,17 +44,34 @@
         { value: 231, name: 'War' },
         { value: 253, name: 'Others' }
       ],
-      username:"Lucas Kim"
+      username:null
       }
     },
     methods:{
-       async uchart(){ 
+
+        trigger () {
+      const bar = this.$refs.bar
+
+      bar.start()
+
+      this.timer = setTimeout(() => {
+        if (this.$refs.bar) {
+          this.$refs.bar.stop()
+        }
+      }, Math.random() * 3000 + 1000)},
+    
+         async uchart(){  {
         let data = [];
         console.log(this.username);
+        var chartDom = document.getElementById('main1');
+var myChart = echarts.init(chartDom);
+var option;
+
+
        
         await this.$axios.get("http://127.0.0.1:8000/user/user_genre/",{
           params:{
-           username:this.username
+           username:this.$route.query.username
           }
         })
         .then(function(response){
@@ -52,72 +82,60 @@
         })
         console.log(data);
         this.chart = data;
-        console.log(this.chart);
-        return this.chart;
+        console.log
+        console.log(233,this.chart);
+        option = {
+  tooltip: {
+    trigger: 'item'
+  },
+  legend: {
+    bottom: '0%',
+    left: 'center',
+    type:'scroll'
+  },
+  series: [
+    {
+      name: 'Access From',
+      type: 'pie',
+      radius: ['40%', '70%'],
+      avoidLabelOverlap: false,
+      itemStyle: {
+        borderRadius: 10,
+        borderColor: '#fff',
+        borderWidth: 2
+      },
+      label: {
+        show: false,
+        position: 'center'
+      },
+      emphasis: {
+        label: {
+          show: true,
+          fontSize: '40',
+          fontWeight: 'bold'
+        }
+      },
+      labelLine: {
+        show: true
+      },
+      data: this.chart
+    }
+  ]
+};
+
+option && myChart.setOption(option);
+        return this.chart;}
       },
     },
     mounted(){
       this.chart=this.uchart()
-      var echarts = require('echarts')
-      var myChart = echarts.init(document.getElementById('main1'))
+      this.username = this.$route.query.username;
+      //var echarts = require('echarts')
+      //var myChart = echarts.init(document.getElementById('main1'))
+      //var option
     // 指定图表的配置项和数据
-      var option = {
-            //backgroundColor: 'rgb(238,241,246)',
-  title: {
-    text: 'Favorite Type',
-    left: 'center',
-    top: 20,
-    textStyle: {
-      color: '#ccc'
-    }
-  },
-  tooltip: {
-    trigger: 'item'
-  },
-  visualMap: {
-    show: false,
-    min: 80,
-    max: 600,
-    inRange: {
-      colorLightness: [0, 1]
-    }
-  },
-  series: [
-    {
-      name: 'Film Type',
-      type: 'pie',
-      radius: '55%',
-      center: ['50%', '50%'],
-      data:this.uchart().sort(function (a, b) {
-        return a.value - b.value;
-      }),
-      roseType: 'radius',
-      label: {
-        color: 'rgba(255, 255, 255, 1)'
-      },
-      labelLine: {
-        lineStyle: {
-          color: 'rgba(255, 255, 255, 0.3)'
-        },
-        smooth: 0.2,
-        length: 10,
-        length2: 20
-      },
-      itemStyle: {
-        color: '#c23531',
-        shadowBlur: 200,
-        shadowColor: 'rgba(0, 0, 0, 0.5)'
-      },
-      animationType: 'scale',
-      animationEasing: 'elasticOut',
-      animationDelay: function (idx) {
-        return Math.random() * 200;
-      }
-    }
-  ]
-        };
     // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option)
+    //myChart.setOption(option)
    },
   };
 </script>

@@ -8,7 +8,7 @@ from django.db import connection
 from random import Random  # 用于生成随机码
 from django.core.mail import send_mail  # 发送邮件模块
 from django.conf import settings    # setting.py添加的的配置信息
-
+# 头像 历史 favo 评论 图表 
 def profile(request):
     data = []
     user_name = request.GET.get('username', None)
@@ -21,13 +21,14 @@ def profile(request):
             "useravatar": i.head_portrait,
         }
         data.append(tmp)
+    print(data)
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 def history(request):
     data = []
     user_name = request.GET.get('username', None)
     his = models.History.objects.filter(username=user_name)
-    
+    print('his', user_name)
     for i in his:
         poster = models.Film.objects.filter(imdbid=i.imdbid)
         for j in poster:
@@ -40,9 +41,10 @@ def history(request):
             p_tmp = {
                 "title": j.title,
                 "image": image_url,
+                "imdbid":j.imdbid,
             }
+            print(p_tmp)
             data.append(p_tmp)
-
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 def favorite(request):
@@ -62,14 +64,16 @@ def favorite(request):
                 "type": "favorites",
                 "title": j.title,
                 "image": image_url,
+                "imdbid": j.imdbid,
             }
             data.append(p_tmp)
+    print(data)
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 def review(request):
     data = []
     user_name = request.GET.get('value', None)
-    
+    print(user_name)
     comment = models.Review.objects.filter(username=user_name)
 
     for i in comment:
@@ -80,7 +84,7 @@ def review(request):
             "star": i.star/5*10,
         }
         data.append(tmp)
-    
+    print(data)
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 def user_genre(request):
@@ -90,6 +94,7 @@ def user_genre(request):
                    "Sci-fi":0,"Music":0,"Animatinon":0,"History":0,
                    "Sport":0,"War":0,"Others":0}
     user_name = request.GET.get('username', None)
+    print('test', user_name)
     data = []
     fav = models.Favorite.objects.filter(username=user_name)
     # 找到用户最喜欢的电影的类别，并计数
@@ -102,14 +107,12 @@ def user_genre(request):
                 genre_list[i.genre] += 1
             else:
                 genre_list["Others"] += 1
-
     for i in genre_list:
         tmp = {
             'value': genre_list[i],
             'name': i,
         }
         data.append(tmp)
-
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 def user(request): 

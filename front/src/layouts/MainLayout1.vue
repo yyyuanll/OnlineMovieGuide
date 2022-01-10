@@ -11,12 +11,12 @@
               style="width: 130px; height: 100px; margin-left:20px"
             >
             <q-tabs align="center" class="head_voc">
-              <q-route-tab :to="{path:'/page1',query:{username: this.$route.query.username}}" label="Command" />
-              <q-route-tab :to="{path:'/page2',query:{username: this.$route.query.username}}" label="Hot" />
-              <q-route-tab :to="{path:'/page3',query:{username: this.$route.query.username}}" label="New" />
-              <q-route-tab :to="{path:'/page4',query:{username: this.$route.query.username}}" label="Oscar" />
-              <q-route-tab :to="{path:'/page5',query:{username: this.$route.query.username}}" label="All" />
-              <q-route-tab :to="{path:'/page6',query:{username: this.$route.query.username}}" label="Myself"/>
+              <q-route-tab :to="{path:'/page1',query:{username: username}}" label="Command" />
+              <q-route-tab :to="{path:'/page2',query:{username: username}}" label="Hot" />
+              <q-route-tab :to="{path:'/page3',query:{username: username}}" label="New" />
+              <q-route-tab :to="{path:'/page4',query:{username: username}}" label="Oscar" />
+              <q-route-tab :to="{path:'/page5',query:{username: username}}" label="All" />
+              <q-route-tab :to="{path:'/page6',query:{username: username}}" label="Myself"/>
             </q-tabs>
         </q-toolbar-title>
       </q-toolbar>
@@ -31,12 +31,19 @@
 <script>
 
 export default {
+     data() {
+      return {
+       username:null,
+       
+      }
+    },
     mounted(){
         document.querySelector("body").style.backgroundColor =
       "background:rgb(238,241,246)";
       document.querySelector("body").style.backgroundAttachment= 'fixed';
       document.querySelector("body").style.backgroundSize= 'cover';
       document.querySelector("body").style.backgroundPosition= 'center';
+      this.username = this.$route.query.username;
     }
  
 }

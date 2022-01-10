@@ -37,10 +37,10 @@
     <div class="page-info">
       <el-col v-for="(data) in movielist.slice(1)" :key="data.label" :value="data.value" :span="5.5" style="background:none">
       <div class="grid-content bg-purple" />
-      <el-card class="box-card" style="margin-top:20px;padding:0px">
+      <el-card class="box-card" style="margin:10px;padding:0px;background:#ffffff;height:320px">
+      <router-link :to="{name:'MovieDetails',query:{imdbid: data.imdbid,username: username}}" class="link">
       <img :src="data.img" class="image" style="height:230px;width:160px">
-      <router-link :to="{name:'MovieDetails',query:{imdbid: data.imdbid}}" class="link">
-        <div :id="data.id" class="ht">
+        <div :id="data.id" class="ht" style="padding: 0px;margin-top:10px;width:160px">
           {{data.title}}
         </div>
       </router-link>
@@ -66,7 +66,7 @@
 export default {
   data(){
     return{
-      username: this.$route.query.username,
+      username: null,
       index: 1,
       pagesize:28,
       all: 20, //总页数
@@ -103,6 +103,7 @@ export default {
       document.querySelector("body").style.backgroundSize= 'cover';
       document.querySelector("body").style.backgroundPosition= 'center';
       this.movielist = this.upload();
+      this.username = this.$route.query.username;
   },
   methods:{
     //请求数据

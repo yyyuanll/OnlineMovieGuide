@@ -18,7 +18,7 @@ def detail(request):
         if image_url != "N/A":
             image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+str(f.imdbid)+'.jpg')
         else:
-                image_url = 'http://127.0.0.1:8000/images/none.jpg'
+            image_url = 'http://127.0.0.1:8000/images/none.jpg'
         # 加入数据
         p_tmp = {
             "title": title,
