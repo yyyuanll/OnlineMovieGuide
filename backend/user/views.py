@@ -65,8 +65,8 @@ def favorite(request):
 
 def review(request):
     data = []
-    #user_name = request.GET.get('username', None)
-    user_name = 'test'
+    user_name = request.GET.get('username', None)
+    #user_name = 'test'
     comment = models.Review.objects.filter(username=user_name)
 
     df = pd.read_excel('film.xlsx', usecols=['Title', 'imdbID','Poster'])

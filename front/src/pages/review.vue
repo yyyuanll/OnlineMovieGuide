@@ -3,7 +3,7 @@
     <el-main style="background:none">
     <div class="page-info">
         
-      <el-col v-for="(data) in reviewlist" :key="data.movie" :value="data.review" :span="5.5" style="background:none">
+      <el-col v-for="(data) in reviewlist" :key="data.movie" :value="data.review" :span="5.6" style="background:none;">
       <div class="grid-content bg-purple" />
          <router-link :to="{name:'MovieDetails',query:{imdbid: data.movie,username:username}}" class="link">
       <el-card class="box-card" style="margin:10px;padding:16px;background:#ffffff;height:auto;width:320px;border-radius:16px">
@@ -20,7 +20,7 @@
   >
 </el-rate>
 </div>
-    <div>
+    <div v-if="data.review != null" style="margin-bottom:10px">
           {{data.review}}
     </div>
         
