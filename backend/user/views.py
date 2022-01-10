@@ -8,7 +8,8 @@ from django.db import connection
 from random import Random  # 用于生成随机码
 from django.core.mail import send_mail  # 发送邮件模块
 from django.conf import settings    # setting.py添加的的配置信息
-# 头像 历史 favo 评论 图表 
+import pandas as pd
+
 def profile(request):
     data = []
     user_name = request.GET.get('username', None)
@@ -64,18 +65,26 @@ def favorite(request):
 
 def review(request):
     data = []
-    user_name = request.GET.get('username', None)
-    #user_name = 'test'
+    #user_name = request.GET.get('username', None)
+    user_name = 'test'
     comment = models.Review.objects.filter(username=user_name)
+
+    df = pd.read_excel('film.xlsx', usecols=['Title', 'imdbID','Poster'])
+    titles, imdbIDs= df['Title'].values, df['imdbID'].values
+    
 
     for i in comment:
         if i.star is None:
             star = 0
         else:
             star = int(i.star)
+        for j, tmp in enumerate(imdbIDs):
+            if tmp == i.imdbid:
+                title = titles[j]
         tmp = {
             "count": i.field_id,
             "movie": i.imdbid,
+            "title": title,
             "review": i.review,
             "star" : star,
         }
