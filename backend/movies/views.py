@@ -13,6 +13,36 @@ def to_tuple(result):
     else:
         return result
 
+<<<<<<< HEAD
+=======
+def search_title(title: str):
+    title = title.lower()
+    df = pd.read_excel('film.xlsx', usecols=['Title', 'imdbID','Poster'])
+    titles, imdbIDs, Posters = df['Title'].values, df['imdbID'].values, df['Poster'].values
+    ids = []
+    for i, t in enumerate(titles):
+        t = str(t)
+        if title in t.lower():
+            image_url = Posters[i]
+            if isinstance(image_url, str) :
+                image_url = os.path.join('http://127.0.0.1:8000/', 'images/'+imdbIDs[i]+'.jpg')
+            else:
+                image_url = 'http://127.0.0.1:8000/images/none.jpg'
+            tmp = {
+                "imdbid": imdbIDs[i],
+                "title": titles[i],
+                "img": image_url,
+            }
+            ids.append(tmp)
+    return ids
+
+def search(request):
+    title = request.GET.get('search', None)
+    data = search_title(title)
+
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+>>>>>>> bb807b22e7e5dbb0ece8ef34acdc486c3b25d636
 def allmovie(request): 
         data = []
         # 如果前端发起了post请求

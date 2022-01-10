@@ -1,8 +1,13 @@
-import json
+import pandas as pd
+import os
 
-with open('Recommend_dictionary.json', 'r', encoding='utf-8') as f:
-        movie_dics = json.load(f)
-i = 0
-for key in movie_dics:
-    i += 1
-print(i)
+root_path = r'C:/Users/14472/Desktop/collection/Database/final project/OnlineMovieGuide/backend/images'
+df = pd.read_excel('film.xlsx', usecols=['Title', 'imdbID','Poster'])
+titles, imdbIDs, Posters = df['Title'].values, df['imdbID'].values, df['Poster'].values
+
+for i, t in enumerate(imdbIDs):
+    t = str(t)
+    for root,dirs,files in os.walk(root_path):
+        if t not in files:
+            Posters[i] = 'N/A'
+            print(Posters[i])

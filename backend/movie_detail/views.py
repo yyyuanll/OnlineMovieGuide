@@ -1,6 +1,4 @@
 from django.shortcuts import HttpResponse
-from numpy import add
-from sqlalchemy import true
 from . import models 
 import json
 import os
@@ -21,8 +19,8 @@ def add_his(user, id):
 def detail(request): 
     if request.method == 'GET':
         _id = request.GET.get('imdbid')
-        username = request.GET.get('username')
-        add_his(username, _id)
+        mainuser = request.GET.get('username')
+        add_his(mainuser, _id)
     with open('Recommend_dictionary.json', 'r', encoding='utf-8') as f:
         movie_dics = json.load(f)
     filmobject = models.Film.objects.filter(imdbid=_id)
@@ -79,7 +77,6 @@ def detail(request):
             tmp[f"country{i}"] = c.imdb_country
             i += 1
         data.append(tmp)
-        
         # 获取电影所有的演员
         actors = models.Actor.objects.filter(imdbid=_id)
         tmp = {}
@@ -91,7 +88,7 @@ def detail(request):
         data.append(tmp)
         
         # 获取电影所有的评论
-        comments = models.Review.objects.filter(imdbid=_id)     
+        comments = models.Review.objects.filter(imdbid=_id).order_by('-field_id') 
         i = 1
         tmp = {}
         for c in comments:
@@ -102,12 +99,11 @@ def detail(request):
             tmp[f"user{i}"] = user
             tmp[f"profile{i}"] = p_link
             tmp[f"review{i}"] = c.review
-            tmp[f"star{i}"] = c.star/5*10
+            #tmp[f"star{i}"] = c.star/5*10
             i += 1
         data.append(tmp)
 
     recommend_list = tuple(movie_dics[_id])
-    print(recommend_list)
     cursor = connection.cursor()
     sql = f"select imdbid, Title, Poster from film where imdbid in {recommend_list}"
     cursor.execute(sql)
@@ -126,6 +122,22 @@ def detail(request):
             "img": image_url,
             }
         data.append(tmp)
+    
+    if models.Favorite.objects.filter(username=user,imdbid=_id):
+        tmp = { "isFavorite": True,}
+    else:
+        tmp = { "isFavorite": False,}
+    data.append(tmp)
+    
+    sql = f"select star from review where imdbid = '{_id}' and username = '{mainuser}'"
+    cursor.execute(sql)
+    result2 = cursor.fetchall()
+    if not result2:
+        tmp = { "star": 0,}
+    else:
+        tmp = {"star": result2[0][0],}
+    data.append(tmp)
+
 
     connection.commit()
     cursor.close()

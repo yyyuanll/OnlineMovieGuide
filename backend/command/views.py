@@ -96,7 +96,7 @@ def command(request):
         }
         data.append(tmp)
 
-        sql = f"select imdbid, Title, Poster from film where imdbid in {result3} order by imdbVotes, _year desc limit {from_id},{to_id}"
+        sql = f"select imdbid, Title, Poster from film where imdbid in {result3} order by imdbVotes desc, imdbRating desc limit {from_id},{to_id}"
         cursor.execute(sql)
         result = cursor.fetchall()
         for i in result:

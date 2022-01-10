@@ -22,7 +22,7 @@ class Actor(models.Model):
 
 class BestActor(models.Model):
     field_id = models.IntegerField(db_column='_id', primary_key=True)  # Field renamed because it started with '_'.
-    year = models.IntegerField(blank=True, null=True)
+    year = models.ForeignKey('BestPicture', models.DO_NOTHING, db_column='year', blank=True, null=True)
     name = models.CharField(max_length=255, blank=True, null=True)
     link = models.CharField(max_length=255, blank=True, null=True)
     profile = models.CharField(max_length=255, blank=True, null=True)
@@ -38,7 +38,7 @@ class BestActor(models.Model):
 
 class BestActress(models.Model):
     field_id = models.IntegerField(db_column='_id', primary_key=True)  # Field renamed because it started with '_'.
-    year = models.IntegerField(blank=True, null=True)
+    year = models.ForeignKey('BestPicture', models.DO_NOTHING, db_column='year', blank=True, null=True)
     name = models.CharField(max_length=255, blank=True, null=True)
     link = models.CharField(max_length=255, blank=True, null=True)
     profile = models.CharField(max_length=255, blank=True, null=True)
@@ -78,7 +78,7 @@ class BestPicture(models.Model):
 
 class BestSupportingActor(models.Model):
     field_id = models.IntegerField(db_column='_id', primary_key=True)  # Field renamed because it started with '_'.
-    year = models.IntegerField(blank=True, null=True)
+    year = models.ForeignKey(BestPicture, models.DO_NOTHING, db_column='year', blank=True, null=True)
     name = models.CharField(max_length=255, blank=True, null=True)
     link = models.CharField(max_length=255, blank=True, null=True)
     profile = models.CharField(max_length=255, blank=True, null=True)
@@ -94,7 +94,7 @@ class BestSupportingActor(models.Model):
 
 class BestSupportingActress(models.Model):
     field_id = models.IntegerField(db_column='_id', primary_key=True)  # Field renamed because it started with '_'.
-    year = models.IntegerField(blank=True, null=True)
+    year = models.ForeignKey(BestPicture, models.DO_NOTHING, db_column='year', blank=True, null=True)
     name = models.CharField(max_length=255, blank=True, null=True)
     link = models.CharField(max_length=255, blank=True, null=True)
     profile = models.CharField(max_length=255, blank=True, null=True)
@@ -106,4 +106,3 @@ class BestSupportingActress(models.Model):
     class Meta:
         managed = False
         db_table = 'best_supporting_actress'
-
